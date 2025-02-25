@@ -1,13 +1,11 @@
 CC := gcc
 CFLAGS :=  -std=c11 -Wall -Werror -Wextra
 
-all: clean tetris
+all: tetris
 
 tetris: main.c
-	$(CC) $(CFLAGS) main.c -o tetris 
+	$(CC) $(CFLAGS) -o tetris main.c
 
-clean:
-	rm -rf *.o ./*/*.o *.a
 
 style:
 	cp ../materials/linters/.clang-format ../src/
