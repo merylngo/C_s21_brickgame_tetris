@@ -1,10 +1,11 @@
 CC := gcc
 CFLAGS :=  -std=c11 -Wall -Werror -Wextra
+TETRIS_DIR := ./brick_game/tetris/
 
 all: clean tetris
 
-tetris: main.c
-	$(CC) $(CFLAGS) -o tetris main.c -lncurses
+tetris: $(TETRIS_DIR)main.c
+	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)main.c -lncurses
 
 clean:
 	rm -rf tetris	
