@@ -1,90 +1,13 @@
 #include "main.h"
 
-void init_field(char field[FIELD_SIZE_X + 2][FIELD_SIZE_Y + 2]) {
-  for (int i = 0; i <= FIELD_SIZE_X + 1; i++) {
-    for (int j = 0; j <= FIELD_SIZE_Y + 1; j++) {
-      if (i == 0 || i == FIELD_SIZE_X + 1) {
-        field[i][j] = '|';
-      } else if (j == 0 || j == FIELD_SIZE_Y + 1) {
-        field[i][j] = '-';
-      } else {
-        field[i][j] = ' ';
-      }
-    }
-  }
-}
-
-void print_field_with_x_y(char field[FIELD_SIZE_X + 2][FIELD_SIZE_Y + 2], int y,
-                          int x) {
-  for (int i = 0; i <= FIELD_SIZE_X + 1; i++) {
-    for (int j = 0; j <= FIELD_SIZE_Y + 1; j++) {
-      if (i == 0 || i == FIELD_SIZE_X + 1) {
-        field[i][j] = '|';
-      } else if (j == 0 || j == FIELD_SIZE_Y + 1) {
-        field[i][j] = '-';
-      } else {
-        field[i][j] = ' ';
-      }
-    }
-  }
-
-  for (int i = 0; i <= FIELD_SIZE_X + 1; i++) {
-    for (int j = 0; j <= FIELD_SIZE_Y + 1; j++) {
-      mvaddch(y + j, x + i, field[i][j]);
-    }
-  }
-}
-
-// int main(void) {
-//   int x0 = 10, y0 = 10, x = 15, y = 15;
-//   int command = 0;
-//   // int cols, rows;
-
-//   initscr();
-//   keypad(stdscr, 1);
-//   noecho();
-//   curs_set(0);
-//   timeout(1000);
-//   // getmaxyx(stdscr, rows, cols);
-
-//   char field[FIELD_SIZE_X + 2][FIELD_SIZE_Y + 2];
-
-//   init_field(field);
-
-//   do {
-//     clear();
-//     // printw("rows = %d\ncols=%d\n", rows, cols);
-
-//     print_field_with_x_y(field, y0, x0);
-
-//     if (((command = getch()) && command != 0)) {
-//       if (command == KEY_LEFT && x > x0 + 1) {
-//         x--;
-//       }
-
-//       if (command == KEY_RIGHT && x < x0 + FIELD_SIZE_X) {
-//         x++;
-//       }
-//     } else {
-//       if (y < y0 + FIELD_SIZE_Y) {
-//         y++;
-//       }
-//     }
-
-//     mvaddch(y, x, '@');
-//   } while (command != 27);  // 27 = ESC
-
-//   endwin();
-
-//   return 0;
-// }
-
-int main(void)
-{
+int main(void) {
   initscr();
   keypad(stdscr, TRUE);
   noecho();
   curs_set(0);
+  cbreak();  // Включаем режим немедленного ввода
+  // nodelay(stdscr, TRUE);
+  timeout(1000);
 
   game_loop();
 
@@ -93,7 +16,86 @@ int main(void)
   return 0;
 }
 
-void game_loop()
-{
+void game_loop() {
+  game_state_t game_state;
 
+  init_game_state(&game_state);
+
+  int command = 0;
+
+  do {
+    clear();
+
+    printw("borders: left = %d\nup = %d\nbottom = %d\nright = %d\n",
+           BORDER_LEFT, BORDER_UP, BORDER_BOTTOM, BORDER_RIGHT);
+    printw("block: x = %d  y = %d\n", game_state.block_x, game_state.block_y);
+    game_state.field_matrix[game_state.block_x][game_state.block_y] = 1;
+    print_field(&game_state);
+
+     if (game_state.block_y + BORDER_UP + 2 == BORDER_BOTTOM) {
+      game_state.block_x = FIELD_SIZE_X / 2;
+      game_state.block_y = 0;
+    }
+
+    if (((command = getch()) && command != 0)) {
+      if (command == KEY_LEFT &&
+          game_state.block_x + BORDER_LEFT > BORDER_LEFT + 1) {
+        game_state.field_matrix[game_state.block_x][game_state.block_y] = 0;
+
+        game_state.block_x--;
+      }
+
+      if (command == KEY_RIGHT &&
+          game_state.block_x + BORDER_LEFT + 1 < BORDER_RIGHT) {
+        game_state.field_matrix[game_state.block_x][game_state.block_y] = 0;
+        game_state.block_x++;
+      }
+    }
+    if (game_state.block_y + BORDER_UP + 2 < BORDER_BOTTOM) {
+      game_state.field_matrix[game_state.block_x][game_state.block_y] = 0;
+      game_state.block_y++;
+    }
+  } while (command != 27);  // 27 = ESC
+}
+
+void init_game_state(game_state_t *game_state) {
+  game_state->state = START;
+  // enum block_codes next_block;
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      game_state->field_matrix[i][j] = 0;
+    }
+  }
+
+  // next_block = generate_next_block() + 1;
+
+  game_state->block_x = FIELD_SIZE_X / 2;
+  game_state->block_y = BORDER_UP + 1;
+}
+
+enum block_codes generate_next_block() { return SQUARE; }
+
+void print_field(game_state_t *game_state) {
+  for (int i = 0; i < FIELD_SIZE_X; i++) {
+    mvaddch(BORDER_UP, i + BORDER_LEFT, '-');
+  }
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    mvaddch(i + 1 + BORDER_UP, BORDER_LEFT, '|');
+
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      if (game_state->field_matrix[i][j]) {
+        mvaddch(j + 1 + BORDER_UP, i + BORDER_LEFT, '@');
+      } else {
+        mvaddch(j + 1 + BORDER_UP, i + BORDER_LEFT, ' ');
+      }
+
+      mvaddch(i + 1 + BORDER_UP, BORDER_RIGHT, '|');
+    }
+
+    for (int i = 0; i < FIELD_SIZE_X; i++) {
+      mvaddch(BORDER_BOTTOM, i + 1 + BORDER_LEFT, '-');
+    }
+  }
 }

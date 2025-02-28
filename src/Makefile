@@ -12,10 +12,8 @@ clean:
 
 style:
 	cp ../materials/linters/.clang-format ../src/
-	clang-format -i *.c
-	clang-format -i *.h
-	clang-format -i tests/*.c
-	clang-format -i tests/*.h
+	clang-format -i $(TETRIS_DIR)*.c
+	clang-format -i $(TETRIS_DIR)*.h
 
 check:
 	cp ../materials/linters/.clang-format ../src/
