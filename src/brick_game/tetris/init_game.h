@@ -6,6 +6,6 @@ typedef enum {
   MEMORY_ERROR,
 } matrix_memory_status;
 
-
 int init_game(GameInfo_t *game_state);
 matrix_memory_status create_field_matrix(GameInfo_t *game_state);
+void init_current_block(GameInfo_t *game_state, current_block_t *figure);

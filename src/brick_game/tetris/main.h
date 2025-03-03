@@ -12,15 +12,14 @@
 
 enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
 
-typedef enum
-{
-    MOVE_DOWN,
-    MOVE_RIGHT,
-    MOVE_LEFT,
-    ESCAPE,
-    ENTER,
-    PAUSE,
-    END
+typedef enum {
+  MOVE_DOWN,
+  MOVE_RIGHT,
+  MOVE_LEFT,
+  ESCAPE,
+  ENTER,
+  PAUSE,
+  END
 } commands;
 
 enum block_codes { SQUARE };
@@ -45,13 +44,18 @@ typedef enum {
 
 typedef struct {
   int **field;
-  int **next;
+  char next_block;
   // int score;
   // int high_score;
   // int level;
   // int speed;
   // int pause;
 } GameInfo_t;
+
+typedef struct {
+  char figure_m;
+  int x, y;
+} current_block_t;
 
 void game_loop();
 
@@ -61,4 +65,6 @@ void get_user_command(game_state_t *game_state);
 
 enum block_codes generate_next_block();
 
-void print_field(game_state_t *game_state);
+void print_field_2(game_state_t *game_state);
+
+void print_field(current_block_t *figure, GameInfo_t *game_state);

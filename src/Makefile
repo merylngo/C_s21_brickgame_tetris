@@ -4,8 +4,8 @@ TETRIS_DIR := ./brick_game/tetris/
 
 all: clean tetris
 
-tetris: $(TETRIS_DIR)main.c
-	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)main.c -lncurses
+tetris: $(TETRIS_DIR)main1.c
+	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)main1.c -lncurses
 
 clean:
 	rm -rf tetris	
