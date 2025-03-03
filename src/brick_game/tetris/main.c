@@ -7,7 +7,7 @@ int main(void) {
   curs_set(0);
   cbreak();  // Включаем режим немедленного ввода
   // nodelay(stdscr, TRUE);
-  timeout(1000);
+  timeout(100);
 
   game_loop();
 
@@ -32,7 +32,7 @@ void game_loop() {
     game_state.field_matrix[game_state.block_x][game_state.block_y] = 1;
     print_field(&game_state);
 
-     if (game_state.block_y + BORDER_UP + 2 == BORDER_BOTTOM) {
+    if (game_state.block_y + BORDER_UP + 2 == BORDER_BOTTOM) {
       game_state.block_x = FIELD_SIZE_X / 2;
       game_state.block_y = 0;
     }
