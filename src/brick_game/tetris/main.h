@@ -12,11 +12,16 @@
 
 enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
 
-enum matrix_memory_status {
-  NORM,
-  INCORRECT_MATRIX,  // Ошибка, некорректная матрица
-  MEMORY_ERROR,
-};
+typedef enum
+{
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    ESCAPE,
+    ENTER,
+    PAUSE,
+    END
+} commands;
 
 enum block_codes { SQUARE };
 

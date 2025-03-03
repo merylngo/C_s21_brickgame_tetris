@@ -1,11 +1,13 @@
 #include "init_game.h"
 
 int init_game(GameInfo_t *game_state) {
-    enum matrix_memory_status field_status = create_field_matrix(game_state);
+    matrix_memory_status field_status = create_field_matrix(game_state);
+
+    return 0;
 }
 
-enum matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
-  enum matrix_memory_status status = NORM;
+matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
+  matrix_memory_status status = NORM;
 
   game_state->field = (int *)malloc(FIELD_SIZE_Y * sizeof(int *));
 
