@@ -38,3 +38,7 @@ void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->x = FIELD_SIZE_X / 2;
   figure->y = BORDER_UP + 1;
 }
+
+enum block_codes generate_next_block() { 
+  return (enum block_codes)(rand() % 7);
+}

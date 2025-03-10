@@ -65,6 +65,4 @@ void get_user_command(game_state_t *game_state);
 
 enum block_codes generate_next_block();
 
-void print_field_2(game_state_t *game_state);
-
-void print_field(current_block_t *figure, GameInfo_t *game_state);
+void print_field_2(WINDOW *win, game_state_t *game_state);

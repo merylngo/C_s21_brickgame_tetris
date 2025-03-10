@@ -21,38 +21,48 @@ void game_loop() {
 
   init_game_state(&game_state);
 
+  WINDOW *win = newwin(FIELD_SIZE_Y + 2, FIELD_SIZE_X + 2, 5, 5);
+  refresh();
+  box(win, 0, 0);
+  wrefresh(win); 
+
   int command = 0;
 
   do {
-    clear();
+    //clear();
 
-    printw("borders: left = %d\nup = %d\nbottom = %d\nright = %d\n",
-           BORDER_LEFT, BORDER_UP, BORDER_BOTTOM, BORDER_RIGHT);
-    printw("block: x = %d  y = %d\n", game_state.block_x, game_state.block_y);
+    // printw("borders: left = %d\nup = %d\nbottom = %d\nright = %d\n",
+    //        BORDER_LEFT, BORDER_UP, BORDER_BOTTOM, BORDER_RIGHT);
+    // printw("block: x = %d  y = %d\n", game_state.block_x, game_state.block_y);
     game_state.field_matrix[game_state.block_x][game_state.block_y] = 1;
-    print_field_2(&game_state);
+     
+    box(win, 0, 0);
+    wrefresh(win); 
+    print_field_2(win, &game_state);
+    wrefresh(win); 
 
-    if (game_state.block_y + BORDER_UP + 2 == BORDER_BOTTOM) {
+
+    if (game_state.block_y == 1) {
       game_state.block_x = FIELD_SIZE_X / 2;
-      game_state.block_y = 0;
+      game_state.block_y = 1;
     }
 
     if (((command = getch()) && command != 0)) {
       if (command == KEY_LEFT &&
-          game_state.block_x + BORDER_LEFT > BORDER_LEFT + 1) {
+          game_state.block_x >= 1) {
         game_state.field_matrix[game_state.block_x][game_state.block_y] = 0;
 
         game_state.block_x--;
       }
 
       if (command == KEY_RIGHT &&
-          game_state.block_x + BORDER_LEFT + 1 < BORDER_RIGHT) {
+          game_state.block_x <= FIELD_SIZE_X) {
         game_state.field_matrix[game_state.block_x][game_state.block_y] = 0;
         game_state.block_x++;
       }
     }
 
-    if (game_state.block_y + BORDER_UP + 2 < BORDER_BOTTOM) {
+    if (game_state.block_y < FIELD_SIZE_Y) {
       game_state.field_matrix[game_state.block_x][game_state.block_y] = 0;
       game_state.block_y++;
     }
@@ -77,26 +87,14 @@ void init_game_state(game_state_t *game_state) {
 
 enum block_codes generate_next_block() { return SQUARE; }
 
-void print_field_2(game_state_t *game_state) {
-  for (int i = 0; i < FIELD_SIZE_X; i++) {
-    mvaddch(BORDER_UP, i + BORDER_LEFT, '-');
-  }
-
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    mvaddch(i + 1 + BORDER_UP, BORDER_LEFT, '|');
-
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state->field_matrix[i][j]) {
-        mvaddch(j + 1 + BORDER_UP, i + BORDER_LEFT, '@');
+void print_field_2(WINDOW *win, game_state_t *game_state){
+  for (int i = 1; i <= FIELD_SIZE_Y; i++) {
+    for (int j = 1; j <= FIELD_SIZE_X; j++) {
+      if (game_state->field_matrix[i - 1][j - 1]) {
+        mvwaddch(win, j, i, '@');
       } else {
-        mvaddch(j + 1 + BORDER_UP, i + BORDER_LEFT, ' ');
+        mvwaddch(win, j, i, '.');
       }
-
-      mvaddch(i + 1 + BORDER_UP, BORDER_RIGHT, '|');
-    }
-
-    for (int i = 0; i < FIELD_SIZE_X; i++) {
-      mvaddch(BORDER_BOTTOM, i + 1 + BORDER_LEFT, '-');
     }
   }
 }
