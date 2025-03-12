@@ -20,7 +20,7 @@ void initCli() {
   curs_set(0);
   cbreak();  // Включаем режим немедленного ввода
   // nodelay(stdscr, TRUE);
-  timeout(100);
+  timeout(300);
 }
 
 void playGame() {
@@ -39,9 +39,6 @@ void playGame() {
     
     init_current_block(&game_state, &figure);
 
-    box(win, 0, 0);
-    wrefresh(win);
-
     print_field(win, &figure, &game_state);
 
     box(win, 0, 0);
@@ -49,9 +46,13 @@ void playGame() {
 
     if (((command_code = getch()) && command_code != 0)) {
       do_users_command(command_code, &figure);
-    } else if (figure.y + BORDER_UP + 2 < BORDER_BOTTOM) {
-      figure.y++;
     }
+    
+    if (figure.y < FIELD_SIZE_Y) {
+      (figure.y)++;
+    }
+
+     printw("block: x = %d  y = %d\n", figure.x, figure.y);
 
   } while (command_code != 27);  // 27 = ESC
 }

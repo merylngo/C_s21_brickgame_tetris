@@ -1,13 +1,13 @@
 #include "gameplay.h"
 
 void move_left(current_block_t *figure) {
-  if (figure->x + BORDER_LEFT > BORDER_LEFT + 1) {
-    figure->x--;
+  if (figure->x > 1) {
+    (figure->x)--;
   }
 }
 void move_right(current_block_t *figure) {
-  if (figure->x + BORDER_LEFT + 1 < BORDER_RIGHT) {
-    figure->x++;
+  if (figure->x < FIELD_SIZE_X) {
+    (figure->x)++;
   }
 }
 

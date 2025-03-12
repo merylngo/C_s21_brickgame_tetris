@@ -36,7 +36,7 @@ matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
 void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->figure_m = game_state->next_block;
   figure->x = FIELD_SIZE_X / 2;
-  figure->y = BORDER_UP + 1;
+  figure->y = 1;
 }
 
 enum block_codes generate_next_block() {
