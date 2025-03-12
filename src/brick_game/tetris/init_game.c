@@ -1,7 +1,7 @@
 #include "init_game.h"
 
 int init_game(GameInfo_t *game_state) {
-  matrix_memory_status field_status = create_field_matrix(game_state);
+  create_field_matrix(game_state);
 
   game_state->next_block = '@';
 
@@ -11,7 +11,7 @@ int init_game(GameInfo_t *game_state) {
 matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
   matrix_memory_status status = NORM;
 
-  game_state->field = (int *)malloc(FIELD_SIZE_Y * sizeof(int *));
+  game_state->field = (int **)malloc(FIELD_SIZE_Y * sizeof(int *));
 
   if (status == NORM) {
     for (int i = 0; (i < FIELD_SIZE_Y) && (status == NORM); i++) {
@@ -39,6 +39,6 @@ void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->y = BORDER_UP + 1;
 }
 
-enum block_codes generate_next_block() { 
+enum block_codes generate_next_block() {
   return (enum block_codes)(rand() % 7);
 }

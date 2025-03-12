@@ -4,8 +4,8 @@ TETRIS_DIR := ./brick_game/tetris/
 
 all: clean tetris
 
-tetris: $(TETRIS_DIR)main1.c
-	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)main1.c -lncurses
+tetris: $(TETRIS_DIR)*.c
+	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)*.c -lncurses
 
 clean:
 	rm -rf tetris	
@@ -19,5 +19,3 @@ check:
 	cp ../materials/linters/.clang-format ../src/
 	clang-format -n *.c
 	clang-format -n *.h
-	clang-format -n tests/*.c
-	clang-format -n tests/*.h

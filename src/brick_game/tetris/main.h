@@ -1,3 +1,7 @@
+#ifndef S21_MATRIX_H
+#define S21_MATRIX_H
+
+
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
@@ -24,12 +28,6 @@ typedef enum {
 
 enum block_codes { SQUARE };
 
-typedef struct game_state_t {
-  enum fsm_states state;
-  int field_matrix[FIELD_SIZE_X][FIELD_SIZE_Y];
-  enum block_codes current_block_code;
-  int block_x, block_y;
-} game_state_t;
 
 typedef enum {
   Start,
@@ -57,12 +55,9 @@ typedef struct {
   int x, y;
 } current_block_t;
 
-void game_loop();
 
-void init_game_state(game_state_t *game_state);
+void initCli();
+void  playGame();
 
-void get_user_command(game_state_t *game_state);
 
-enum block_codes generate_next_block();
-
-void print_field_2(WINDOW *win, game_state_t *game_state);
+#endif
