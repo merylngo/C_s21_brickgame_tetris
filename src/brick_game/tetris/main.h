@@ -1,6 +1,5 @@
-#ifndef S21_MATRIX_H
-#define S21_MATRIX_H
-
+#ifndef S21_MAIN_H
+#define S21_MAIN_H
 
 #include <ncurses.h>
 #include <stdlib.h>
@@ -28,7 +27,6 @@ typedef enum {
 
 enum block_codes { SQUARE };
 
-
 typedef enum {
   Start,
   Pause,
@@ -55,9 +53,7 @@ typedef struct {
   int x, y;
 } current_block_t;
 
-
 void initCli();
-void  playGame();
-
+void playGame();
 
 #endif
