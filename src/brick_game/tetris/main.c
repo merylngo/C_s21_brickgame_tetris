@@ -28,35 +28,44 @@ void playGame() {
   GameInfo_t game_state;
   current_block_t figure;
 
-  //WINDOW *win = newwin(FIELD_SIZE_Y + 2, FIELD_SIZE_X + 2, 5, 5);
+  // WINDOW *win = newwin(FIELD_SIZE_Y + 2, FIELD_SIZE_X + 2, 5, 5);
 
   init_game(&game_state);
 
-  int command_code = 0;
+  char command_code = 0;
 
   do {
+    // clear();
+
     init_current_block(&game_state, &figure);
 
-    // print_field(win, &figure, &game_state);
+    do {
+      print_matrix(&figure, &game_state);
 
-    clear();
-    printw("block: x = %d, y = %d\n\n", figure.x, figure.y);
-    print_matrix(&figure, &game_state);
-    refresh();
-
-    if ((command_code = getch())) {
-      printw("$");
-      do_users_command(command_code, &figure);
-    }
-      if (figure.y < FIELD_SIZE_Y) {
-        (figure.y)++;
-
-        printw("$$");
+      if ((command_code = getch()) && (command_code != 0)) {
+        do_users_command(command_code, &figure);
       }
 
-    printw("$$$");
+      if (figure.y < FIELD_SIZE_Y) {
+        (figure.y)++;
+      }
+
+      if (figure.y == FIELD_SIZE_Y) {
+        game_state.field[figure.y - 1][figure.x - 1] = 1;
+      }
+
+      mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code, figure.x, figure.y);
+
+    } while (able_to_move(&figure, &game_state) && command_code != 27);
 
   } while (command_code != 27);
 
-  //delwin(win);
+  remove_matrix(game_state.field, FIELD_SIZE_Y);
+
+  // delwin(win);
 }
+
+// GameInfo_t *get_game_info() {
+//   static GameInfo_t game_info = {0};
+//   return &game_info;
+// }

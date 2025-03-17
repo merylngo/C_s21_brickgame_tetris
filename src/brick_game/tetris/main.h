@@ -56,4 +56,8 @@ typedef struct {
 void initCli();
 void playGame();
 
+// void userInput(UserAction_t action, bool hold);
+
+// GameInfo_t updateCurrentState();
+
 #endif

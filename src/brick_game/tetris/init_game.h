@@ -14,4 +14,6 @@ matrix_memory_status create_field_matrix(GameInfo_t *game_state);
 void init_current_block(GameInfo_t *game_state, current_block_t *figure);
 enum block_codes generate_next_block();
 
+void remove_matrix(int **matrix, int rows);
+
 #endif

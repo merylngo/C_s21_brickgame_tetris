@@ -42,3 +42,22 @@ void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
 enum block_codes generate_next_block() {
   return (enum block_codes)(rand() % 7);
 }
+
+void remove_matrix(int **matrix, int rows) {
+  if (matrix) {
+    for (int i = 0; i < rows; i++) {
+      if (matrix[i]) {
+        free(matrix[i]);
+      }
+    }
+
+    free(matrix);
+  }
+
+  matrix = NULL;
+}
+
+// GameInfo_t *get_game_info() {
+//   static GameInfo_t game_info = {0};
+//   return &game_info;
+// }

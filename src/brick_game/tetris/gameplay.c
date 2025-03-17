@@ -13,14 +13,21 @@ void move_right(current_block_t *figure) {
 
 void do_users_command(int command_code, current_block_t *figure) {
   switch (command_code) {
-    case KEY_LEFT:
+    case 4:
       move_left(figure);
+      //mvprintw(25, 25, "$");
       break;
-    case KEY_RIGHT:
+    case 5:
       move_right(figure);
+      //mvprintw(25, 25, "$$");
       break;
 
     default:
       break;
   }
+}
+
+int able_to_move(current_block_t *figure, GameInfo_t *game_state) {
+  return figure->x >= 1 && figure->x <= FIELD_SIZE_X && figure->y < FIELD_SIZE_Y &&
+         game_state->field[figure->x % FIELD_SIZE_X][figure->y % FIELD_SIZE_Y] == 0;
 }

@@ -17,7 +17,7 @@
 void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state->field[j][i] == 1) {
+      if (game_state->field[i][j] == 1) {
         mvaddch(i + 1, j + 1, '#');
       } else {
         mvaddch(i + 1, j + 1, '-');
