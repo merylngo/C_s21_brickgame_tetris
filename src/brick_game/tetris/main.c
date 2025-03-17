@@ -21,7 +21,7 @@ void initCli() {
   curs_set(0);
   cbreak();
   // nodelay(stdscr, TRUE);
-  timeout(100);
+  timeout(200);
 }
 
 void playGame() {
