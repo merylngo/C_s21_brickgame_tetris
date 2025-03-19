@@ -3,9 +3,9 @@
 
 #include "main.h"
 
-void move_left(current_block_t *figure);
-void move_right(current_block_t *figure);
-void do_users_command(int command_code, current_block_t *figure);
+void move_left(current_block_t *figure, GameInfo_t *game_state);
+void move_right(current_block_t *figure, GameInfo_t *game_state);
+void do_users_command(int command_code, current_block_t *figure, GameInfo_t *game_state);
 
 int able_to_move(current_block_t *figure, GameInfo_t *game_state);
 

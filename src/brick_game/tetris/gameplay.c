@@ -1,24 +1,24 @@
 #include "gameplay.h"
 
-void move_left(current_block_t *figure) {
-  if (figure->x > 1) {
+void move_left(current_block_t *figure, GameInfo_t *game_state) {
+  if (figure->x > 1 && game_state->field[figure->y - 1][figure->x - 2] == 0) {
     (figure->x)--;
   }
 }
-void move_right(current_block_t *figure) {
-  if (figure->x < FIELD_SIZE_X) {
+void move_right(current_block_t *figure, GameInfo_t *game_state) {
+  if (figure->x < FIELD_SIZE_X && game_state->field[figure->y - 1][figure->x] == 0) {
     (figure->x)++;
   }
 }
 
-void do_users_command(int command_code, current_block_t *figure) {
+void do_users_command(int command_code, current_block_t *figure, GameInfo_t *game_state) {
   switch (command_code) {
     case 4:
-      move_left(figure);
+      move_left(figure, game_state);
       //mvprintw(25, 25, "$");
       break;
     case 5:
-      move_right(figure);
+      move_right(figure, game_state);
       //mvprintw(25, 25, "$$");
       break;
 

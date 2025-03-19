@@ -43,7 +43,7 @@ void playGame() {
       print_matrix(&figure, &game_state);
 
       if ((command_code = getch()) && (command_code != 0)) {
-        do_users_command(command_code, &figure);
+        do_users_command(command_code, &figure, &game_state);
       }
 
       if (figure.y < FIELD_SIZE_Y) {
