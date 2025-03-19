@@ -46,6 +46,10 @@ void playGame() {
         do_users_command(command_code, &figure, &game_state);
       }
 
+      if (figure.y == FIELD_SIZE_Y || game_state.field[figure.y][figure.x - 1] == 1) {
+        game_state.field[figure.y - 1][figure.x - 1] = 1;
+      }
+
       if (figure.y < FIELD_SIZE_Y) {
         (figure.y)++;
       }
