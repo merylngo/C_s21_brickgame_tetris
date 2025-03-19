@@ -28,6 +28,7 @@ void do_users_command(int command_code, current_block_t *figure) {
 }
 
 int able_to_move(current_block_t *figure, GameInfo_t *game_state) {
-  return figure->x >= 1 && figure->x <= FIELD_SIZE_X && figure->y < FIELD_SIZE_Y &&
-         game_state->field[(figure->y - 1) % FIELD_SIZE_Y][(figure->x - 1) % FIELD_SIZE_X] == 0;
+  return (figure->x >= 1 && figure->x <= FIELD_SIZE_X && figure->y < FIELD_SIZE_Y) &&
+         game_state->field[(figure->y - 1) % FIELD_SIZE_Y][(figure->x - 1) % FIELD_SIZE_X] == 0 &&
+         game_state->field[(figure->y) % FIELD_SIZE_Y][(figure->x - 1) % FIELD_SIZE_X] == 0;
 }

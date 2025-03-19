@@ -50,7 +50,7 @@ void playGame() {
         (figure.y)++;
       }
 
-      if (figure.y == FIELD_SIZE_Y) {
+      if (figure.y == FIELD_SIZE_Y || game_state.field[figure.y][figure.x - 1] == 1) {
         game_state.field[figure.y - 1][figure.x - 1] = 1;
       }
 
