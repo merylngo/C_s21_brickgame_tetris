@@ -46,7 +46,8 @@ void playGame() {
         do_users_command(command_code, &figure, &game_state);
       }
 
-      if (figure.y == FIELD_SIZE_Y || game_state.field[figure.y][figure.x - 1] == 1) {
+      if (figure.y == FIELD_SIZE_Y ||
+          game_state.field[figure.y][figure.x - 1] == 1) {
         game_state.field[figure.y - 1][figure.x - 1] = 1;
       }
 
@@ -54,13 +55,17 @@ void playGame() {
         (figure.y)++;
       }
 
-      if (figure.y == FIELD_SIZE_Y || game_state.field[figure.y][figure.x - 1] == 1) {
+      if (figure.y == FIELD_SIZE_Y ||
+          game_state.field[figure.y][figure.x - 1] == 1) {
         game_state.field[figure.y - 1][figure.x - 1] = 1;
       }
 
-      mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code, figure.x, figure.y);
+      mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
+               figure.x, figure.y);
 
     } while (able_to_move(&figure, &game_state) && command_code != 27);
+
+    remove_full_layers(&game_state);
 
   } while (command_code != 27);
 
