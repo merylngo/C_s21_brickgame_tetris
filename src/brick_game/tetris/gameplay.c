@@ -34,14 +34,12 @@ void do_users_command(int command_code, current_block_t *figure,
   switch (command_code) {
     case 3:
       turn_left_matrix(figure);
-
+      break;
     case 4:
       move_left(figure, game_state);
-      // mvprintw(25, 25, "$");
       break;
     case 5:
       move_right(figure, game_state);
-      // mvprintw(25, 25, "$$");
       break;
 
     default:
