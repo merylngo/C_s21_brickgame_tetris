@@ -2,6 +2,9 @@
 
 int init_game(GameInfo_t *game_state) {
   create_field_matrix(game_state);
+  create_block_matrix(game_state);
+
+  enum block_codes next_block_num = generate_next_block();
 
   game_state->next_block = '@';
 
@@ -33,14 +36,35 @@ matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
   return status;
 }
 
+matrix_memory_status create_block_matrix(GameInfo_t *game_state) {
+  matrix_memory_status status = NORM;
+
+  game_state->next_block = (int **)malloc(BLOCK_SIZE * sizeof(int *));
+
+  if (status == NORM) {
+    for (int i = 0; (i < BLOCK_SIZE) && (status == NORM); i++) {
+      game_state->next_block[i] = (int *)malloc(BLOCK_SIZE * sizeof(int));
+      status = (game_state->next_block) ? NORM : MEMORY_ERROR;
+    }
+  } else {
+    status = MEMORY_ERROR;
+  }
+
+  if (status == NORM) {
+    for (int i = 0; i < FIELD_SIZE_Y; i++) {
+      for (int j = 0; j < FIELD_SIZE_Y; j++) {
+        game_state->field[i][j] = 0;
+      }
+    }
+  }
+
+  return status;
+}
+
 void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->figure_m = game_state->next_block;
   figure->x = FIELD_SIZE_X / 2;
   figure->y = 1;
-}
-
-enum block_codes generate_next_block() {
-  return (enum block_codes)(rand() % 7);
 }
 
 void remove_matrix(int **matrix, int rows) {
@@ -57,7 +81,6 @@ void remove_matrix(int **matrix, int rows) {
   matrix = NULL;
 }
 
-// GameInfo_t *get_game_info() {
-//   static GameInfo_t game_info = {0};
-//   return &game_info;
-// }
+enum block_codes generate_next_block() {
+  return (enum block_codes)(rand() % 7);
+}

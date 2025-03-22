@@ -40,7 +40,7 @@ typedef enum {
 
 typedef struct {
   int **field;
-  char next_block;
+  int **next_block;
   // int score;
   // int high_score;
   // int level;

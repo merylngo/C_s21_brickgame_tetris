@@ -28,15 +28,11 @@ void playGame() {
   GameInfo_t game_state;
   current_block_t figure;
 
-  // WINDOW *win = newwin(FIELD_SIZE_Y + 2, FIELD_SIZE_X + 2, 5, 5);
-
   init_game(&game_state);
 
   char command_code = 0;
 
   do {
-    // clear();
-
     init_current_block(&game_state, &figure);
 
     do {
@@ -70,8 +66,7 @@ void playGame() {
   } while (command_code != 27);
 
   remove_matrix(game_state.field, FIELD_SIZE_Y);
-
-  // delwin(win);
+  remove_matrix(game_state.next_block, BLOCK_SIZE);
 }
 
 // GameInfo_t *get_game_info() {
