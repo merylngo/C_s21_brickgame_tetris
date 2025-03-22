@@ -13,18 +13,18 @@ void move_right(current_block_t *figure, GameInfo_t *game_state) {
   }
 }
 
-void turn_left_matrix(int **matrix) {
+void turn_left_matrix(current_block_t *figure) {
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
-      left_matrix[j][i] = matrix[i][j];
+      left_matrix[j][i] = figure->matrix[i][j];
     }
   }
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
-      matrix[i][j] = left_matrix[i][j];
+      figure->matrix[i][j] = left_matrix[i][j];
     }
   }
 }
@@ -91,7 +91,7 @@ void remove_full_layers(GameInfo_t *game_state) {
   }
 }
 
-void copy_matrix(int *src[], int **dest) {
+void copy_matrix(int src[][BLOCK_SIZE], int **dest) {
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       dest[i][j] = src[i][j];
@@ -99,10 +99,34 @@ void copy_matrix(int *src[], int **dest) {
   }
 }
 
-void get_block(enum block_codes block_code, int **block) {}
+void get_block(enum block_codes block_code, int **block) {
+  if (block_code == SQUARE) {
+    int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
+        {1, 1, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    copy_matrix(block_src, block);
+  }
+
+  if (block_code == LINE) {
+    int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
+        {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    copy_matrix(block_src, block);
+  }
+
+  if (block_code == RIGHT_ANGLE) {
+    int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
+        {1, 1, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    copy_matrix(block_src, block);
+  }
+
+  if (block_code == LEFT_ANGLE) {
+    int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
+        {1, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    copy_matrix(block_src, block);
+  }
+}
 
 enum block_codes generate_next_block() {
-  return (enum block_codes)(rand() % 7);
+  return (enum block_codes)(rand() % 4);
 }
 
 void get_next_block(GameInfo_t *game_state) {

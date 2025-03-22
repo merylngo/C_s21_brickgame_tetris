@@ -24,7 +24,11 @@ void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
       }
 
       if (figure->y == i + 1 && figure->x == j + 1) {
-        mvaddch(i + 1, j + 1, '@');
+        for (int m = 0; m < BLOCK_SIZE; m++)
+          for (int n = 0; n < BLOCK_SIZE; n++)
+            if (figure->matrix[m][n]) {
+              mvaddch(i + m + 1, j + n + 1, '@');
+            }
       }
     }
   }

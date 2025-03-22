@@ -9,7 +9,7 @@ void move_right(current_block_t *figure, GameInfo_t *game_state);
 void do_users_command(int command_code, current_block_t *figure,
                       GameInfo_t *game_state);
 
-void turn_left_matrix(int **matrix);
+void turn_left_matrix(current_block_t *figure);
 
 int able_to_move(current_block_t *figure, GameInfo_t *game_state);
 
@@ -18,7 +18,7 @@ void remove_full_layers(GameInfo_t *game_state);
 
 void init_current_block(GameInfo_t *game_state, current_block_t *figure);
 
-void copy_matrix(int *src[], int **dest);
+void copy_matrix(int src[][BLOCK_SIZE], int **dest);
 enum block_codes generate_next_block();
 void get_block(enum block_codes block_code, int **block);
 void get_next_block(GameInfo_t *game_state);

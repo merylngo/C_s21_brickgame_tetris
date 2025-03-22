@@ -32,14 +32,27 @@ GameInfo_t *get_game_state() {
 void playGame() {
   GameInfo_t *game_state = get_game_state();
   current_block_t figure;
-  enum fsm_states fsm_status = START;
+  // enum fsm_states fsm_status = START;
 
   get_memory_for_game(game_state);
+  get_next_block(game_state);
 
   char command_code = 0;
 
+  int p = 40;
+
   do {
     init_current_block(game_state, &figure);
+
+    get_next_block(game_state);
+
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      for (int j = 0; j < BLOCK_SIZE; j++) {
+        if (game_state->next_block[i][j]) mvaddch(15 + i, p + j, '@');
+      }
+    }
+
+    p += 10;
 
     do {
       print_matrix(&figure, game_state);
@@ -68,9 +81,17 @@ void playGame() {
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
                figure.x, figure.y);
 
-    } while (able_to_move(&figure, &game_state) && command_code != 27);
+    } while (able_to_move(&figure, game_state) && command_code != 27);
 
-    remove_full_layers(&game_state);
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      for (int j = 0; j < BLOCK_SIZE; j++) {
+        if (game_state->next_block[i][j]) mvaddch(15 + i, p + j, '@');
+      }
+    }
+
+    p += 10;
+
+    remove_full_layers(game_state);
 
   } while (command_code != 27);
 
