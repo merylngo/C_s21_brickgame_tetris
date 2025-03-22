@@ -6,8 +6,6 @@ int init_game(GameInfo_t *game_state) {
 
   enum block_codes next_block_num = generate_next_block();
 
-  game_state->next_block = '@';
-
   return 0;
 }
 

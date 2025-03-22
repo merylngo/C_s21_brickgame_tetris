@@ -10,7 +10,6 @@ void do_users_command(int command_code, current_block_t *figure,
 
 void turn_left_matrix(int **matrix);
 
-
 int able_to_move(current_block_t *figure, GameInfo_t *game_state);
 
 void copy_top_layers(int layer_number, GameInfo_t *game_state);

@@ -38,15 +38,18 @@ void playGame() {
     do {
       print_matrix(&figure, &game_state);
 
+      // выполнение команды пользователя
       if ((command_code = getch()) && (command_code != 0)) {
         do_users_command(command_code, &figure, &game_state);
       }
 
+      // присоединение фигурки - фиксация на поле
       if (figure.y == FIELD_SIZE_Y ||
           game_state.field[figure.y][figure.x - 1] == 1) {
         game_state.field[figure.y - 1][figure.x - 1] = 1;
       }
 
+      // падение фигуры на 1 шаг
       if (figure.y < FIELD_SIZE_Y) {
         (figure.y)++;
       }
