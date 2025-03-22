@@ -90,3 +90,28 @@ void remove_full_layers(GameInfo_t *game_state) {
     }
   }
 }
+
+void copy_matrix(int *src[], int **dest) {
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      dest[i][j] = src[i][j];
+    }
+  }
+}
+
+void get_block(enum block_codes block_code, int **block) {}
+
+enum block_codes generate_next_block() {
+  return (enum block_codes)(rand() % 7);
+}
+
+void get_next_block(GameInfo_t *game_state) {
+  get_block(generate_next_block(), game_state->next_block);
+}
+
+void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
+  figure->matrix = game_state->next_block;
+
+  figure->x = FIELD_SIZE_X / 2;
+  figure->y = 1;
+}

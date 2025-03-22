@@ -41,20 +41,22 @@ typedef enum {
 typedef struct {
   int **field;
   int **next_block;
-  // int score;
+  int score;
   // int high_score;
-  // int level;
+  int level;
   // int speed;
   // int pause;
 } GameInfo_t;
 
 typedef struct {
-  char figure_m;
+  int **matrix;
   int x, y;
 } current_block_t;
 
 void initCli();
 void playGame();
+
+GameInfo_t *get_game_state();
 
 // void userInput(UserAction_t action, bool hold);
 

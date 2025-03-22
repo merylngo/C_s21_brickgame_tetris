@@ -1,12 +1,10 @@
 #include "init_game.h"
 
-int init_game(GameInfo_t *game_state) {
-  create_field_matrix(game_state);
-  create_block_matrix(game_state);
+int get_memory_for_game(GameInfo_t *game_state) {
+  matrix_memory_status field_status = create_field_matrix(game_state);
+  matrix_memory_status block_status = create_block_matrix(game_state);
 
-  enum block_codes next_block_num = generate_next_block();
-
-  return 0;
+  return field_status + block_status;
 }
 
 matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
@@ -59,12 +57,6 @@ matrix_memory_status create_block_matrix(GameInfo_t *game_state) {
   return status;
 }
 
-void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
-  figure->figure_m = game_state->next_block;
-  figure->x = FIELD_SIZE_X / 2;
-  figure->y = 1;
-}
-
 void remove_matrix(int **matrix, int rows) {
   if (matrix) {
     for (int i = 0; i < rows; i++) {
@@ -77,8 +69,4 @@ void remove_matrix(int **matrix, int rows) {
   }
 
   matrix = NULL;
-}
-
-enum block_codes generate_next_block() {
-  return (enum block_codes)(rand() % 7);
 }

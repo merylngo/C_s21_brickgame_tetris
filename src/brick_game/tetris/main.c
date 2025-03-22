@@ -24,29 +24,35 @@ void initCli() {
   timeout(200);
 }
 
-void playGame() {
-  GameInfo_t game_state;
-  current_block_t figure;
+GameInfo_t *get_game_state() {
+  static GameInfo_t game_state = {0};
+  return &game_state;
+}
 
-  init_game(&game_state);
+void playGame() {
+  GameInfo_t *game_state = get_game_state();
+  current_block_t figure;
+  enum fsm_states fsm_status = START;
+
+  get_memory_for_game(game_state);
 
   char command_code = 0;
 
   do {
-    init_current_block(&game_state, &figure);
+    init_current_block(game_state, &figure);
 
     do {
-      print_matrix(&figure, &game_state);
+      print_matrix(&figure, game_state);
 
       // выполнение команды пользователя
       if ((command_code = getch()) && (command_code != 0)) {
-        do_users_command(command_code, &figure, &game_state);
+        do_users_command(command_code, &figure, game_state);
       }
 
       // присоединение фигурки - фиксация на поле
       if (figure.y == FIELD_SIZE_Y ||
-          game_state.field[figure.y][figure.x - 1] == 1) {
-        game_state.field[figure.y - 1][figure.x - 1] = 1;
+          game_state->field[figure.y][figure.x - 1] == 1) {
+        game_state->field[figure.y - 1][figure.x - 1] = 1;
       }
 
       // падение фигуры на 1 шаг
@@ -55,8 +61,8 @@ void playGame() {
       }
 
       if (figure.y == FIELD_SIZE_Y ||
-          game_state.field[figure.y][figure.x - 1] == 1) {
-        game_state.field[figure.y - 1][figure.x - 1] = 1;
+          game_state->field[figure.y][figure.x - 1] == 1) {
+        game_state->field[figure.y - 1][figure.x - 1] = 1;
       }
 
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
@@ -68,11 +74,6 @@ void playGame() {
 
   } while (command_code != 27);
 
-  remove_matrix(game_state.field, FIELD_SIZE_Y);
-  remove_matrix(game_state.next_block, BLOCK_SIZE);
+  remove_matrix(game_state->field, FIELD_SIZE_Y);
+  remove_matrix(game_state->next_block, BLOCK_SIZE);
 }
-
-// GameInfo_t *get_game_info() {
-//   static GameInfo_t game_info = {0};
-//   return &game_info;
-// }
