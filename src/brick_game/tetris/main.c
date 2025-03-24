@@ -39,20 +39,12 @@ void playGame() {
 
   char command_code = 0;
 
-  //int p = 40;
+  // int p = 40;
 
   do {
     init_current_block(game_state, &figure);
 
     get_next_block(game_state);
-
-    // for (int i = 0; i < BLOCK_SIZE; i++) {
-    //   for (int j = 0; j < BLOCK_SIZE; j++) {
-    //     if (figure.matrix[i][j]) mvaddch(15 + i, p + j, '@');
-    //   }
-    // }
-
-    // p += 10;
 
     do {
       print_matrix(&figure, game_state);
@@ -69,8 +61,8 @@ void playGame() {
       }
 
       // падение фигуры на 1 шаг
-      if (figure.y < FIELD_SIZE_Y) {
-        (figure.y)++;
+      if (able_to_move_down(&figure, game_state)) {
+        move_down(&figure);
       }
 
       if (figure.y == FIELD_SIZE_Y ||
