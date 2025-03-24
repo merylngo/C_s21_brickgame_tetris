@@ -48,7 +48,7 @@ void playGame() {
 
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (game_state->next_block[i][j]) mvaddch(15 + i, p + j, '@');
+        if (figure.matrix[i][j]) mvaddch(15 + i, p + j, '@');
       }
     }
 

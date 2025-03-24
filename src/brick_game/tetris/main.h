@@ -25,7 +25,7 @@ typedef enum {
   END
 } commands;
 
-enum block_codes { SQUARE, LINE, LEFT_ANGLE, RIGHT_ANGLE };
+enum block_codes { SQUARE, LINE, LEFT_ANGLE, RIGHT_ANGLE, ZET, TURNED_ZET, TURNED_T };
 
 typedef enum {
   Start,
