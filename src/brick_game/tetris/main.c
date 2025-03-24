@@ -39,20 +39,20 @@ void playGame() {
 
   char command_code = 0;
 
-  int p = 40;
+  //int p = 40;
 
   do {
     init_current_block(game_state, &figure);
 
     get_next_block(game_state);
 
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure.matrix[i][j]) mvaddch(15 + i, p + j, '@');
-      }
-    }
+    // for (int i = 0; i < BLOCK_SIZE; i++) {
+    //   for (int j = 0; j < BLOCK_SIZE; j++) {
+    //     if (figure.matrix[i][j]) mvaddch(15 + i, p + j, '@');
+    //   }
+    // }
 
-    p += 10;
+    // p += 10;
 
     do {
       print_matrix(&figure, game_state);
@@ -83,13 +83,13 @@ void playGame() {
 
     } while (able_to_move(&figure, game_state) && command_code != 27);
 
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (game_state->next_block[i][j]) mvaddch(15 + i, p + j, '@');
-      }
-    }
+    // for (int i = 0; i < BLOCK_SIZE; i++) {
+    //   for (int j = 0; j < BLOCK_SIZE; j++) {
+    //     if (figure.matrix[i][j]) mvaddch(15 + i, p + j, '@');
+    //   }
+    // }
 
-    p += 10;
+    // p += 10;
 
     remove_full_layers(game_state);
 

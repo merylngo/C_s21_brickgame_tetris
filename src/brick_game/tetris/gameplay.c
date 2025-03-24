@@ -124,7 +124,7 @@ void get_block(enum block_codes block_code, int **block) {
     copy_matrix(block_src, block);
   }
 
-   if (block_code == ZET) {
+  if (block_code == ZET) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
     copy_matrix(block_src, block);
