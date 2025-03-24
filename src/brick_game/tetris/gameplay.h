@@ -12,10 +12,10 @@ void do_users_command(int command_code, current_block_t *figure,
 
 void turn_left_matrix(current_block_t *figure);
 
+int able_to_turn(current_block_t *figure, GameInfo_t *game_state);
 int able_to_move_left(current_block_t *figure, GameInfo_t *game_state);
 int able_to_move_right(current_block_t *figure, GameInfo_t *game_state);
 int able_to_move_down(current_block_t *figure, GameInfo_t *game_state);
-int able_to_move(current_block_t *figure, GameInfo_t *game_state);
 
 void copy_top_layers(int layer_number, GameInfo_t *game_state);
 void remove_full_layers(GameInfo_t *game_state);

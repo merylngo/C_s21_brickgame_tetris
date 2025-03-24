@@ -1,55 +1,5 @@
 #include "gameplay.h"
 
-void move_left(current_block_t *figure, GameInfo_t *game_state) {
-  if (figure->x > 1 && game_state->field[figure->y - 1][figure->x - 2] == 0) {
-    (figure->x)--;
-  }
-}
-
-void move_right(current_block_t *figure, GameInfo_t *game_state) {
-  if (figure->x < FIELD_SIZE_X &&
-      game_state->field[figure->y - 1][figure->x] == 0) {
-    (figure->x)++;
-  }
-}
-
-void turn_left_matrix(current_block_t *figure) {
-  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      left_matrix[BLOCK_SIZE - j - 1][i] = figure->matrix[i][j];
-    }
-  }
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      figure->matrix[i][j] = left_matrix[i][j];
-    }
-  }
-}
-
-void do_users_command(int command_code, current_block_t *figure,
-                      GameInfo_t *game_state) {
-  switch (command_code) {
-    case 3:
-      turn_left_matrix(figure);
-      break;
-    case 4:
-      move_left(figure, game_state);
-      break;
-    case 5:
-      move_right(figure, game_state);
-      break;
-
-    default:
-      break;
-  }
-}
-
-int able_to_move(current_block_t *figure, GameInfo_t *game_state) {
-  return able_to_move_down(figure, game_state);
-}
 
 void copy_top_layers(int layer_number, GameInfo_t *game_state) {
   for (int i = layer_number; i > 0; i--) {
@@ -149,8 +99,8 @@ void get_next_block(GameInfo_t *game_state) {
 void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->matrix = game_state->next_block;
 
-  figure->x = FIELD_SIZE_X / 2;
-  figure->y = 1;
+  figure->x = 0;
+  figure->y = 0;
 }
 
 void move_down(current_block_t *figure) { figure->y++; }
@@ -174,7 +124,7 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
 
 
   if (figure->y + last_i < FIELD_SIZE_Y + 1) {
-    int coord_y = figure->y + 1 + last_i;  // координата y нижней непустой строки фигурки на поле
+    int coord_y = figure->y + 1 + last_i + 1;  // координата y нижней непустой строки фигурки на поле
 
     mvprintw(12, 40, "last_i = %d, coord_y = %d\n", last_i, coord_y);
 
@@ -191,4 +141,51 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
   }
 
   return flag;
+}
+
+void move_left(current_block_t *figure, GameInfo_t *game_state) {
+  if (figure->x > 1 && game_state->field[figure->y - 1][figure->x - 2] == 0) {
+    (figure->x)--;
+  }
+}
+
+void move_right(current_block_t *figure, GameInfo_t *game_state) {
+  if (figure->x < FIELD_SIZE_X &&
+      game_state->field[figure->y - 1][figure->x] == 0) {
+    (figure->x)++;
+  }
+}
+
+void turn_left_matrix(current_block_t *figure) {
+  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      left_matrix[BLOCK_SIZE - j - 1][i] = figure->matrix[i][j];
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      figure->matrix[i][j] = left_matrix[i][j];
+    }
+  }
+}
+
+void do_users_command(int command_code, current_block_t *figure,
+                      GameInfo_t *game_state) {
+  switch (command_code) {
+    case 3:
+      turn_left_matrix(figure);
+      break;
+    case 4:
+      move_left(figure, game_state);
+      break;
+    case 5:
+      move_right(figure, game_state);
+      break;
+
+    default:
+      break;
+  }
 }

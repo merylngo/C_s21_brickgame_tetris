@@ -73,7 +73,7 @@ void playGame() {
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
                figure.x, figure.y);
 
-    } while (able_to_move(&figure, game_state) && command_code != 27);
+    } while (able_to_move_down(&figure, game_state) && command_code != 27);
 
     // for (int i = 0; i < BLOCK_SIZE; i++) {
     //   for (int j = 0; j < BLOCK_SIZE; j++) {
