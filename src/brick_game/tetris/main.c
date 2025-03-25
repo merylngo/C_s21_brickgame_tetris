@@ -45,7 +45,9 @@ void play_game() {
     do {
       print_matrix(&figure, game_state);
 
-      if ((command_code = getch()) && (command_code != 0)) {
+      flag = able_to_move_down(&figure, game_state);
+
+      if (flag && (command_code = getch()) && (command_code != 0)) {
         do_users_command(command_code, &figure, game_state);
       }
 

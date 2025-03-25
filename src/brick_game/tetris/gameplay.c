@@ -88,7 +88,7 @@ void get_block(enum block_codes block_code, int **block) {
 }
 
 enum block_codes generate_next_block() {
-  return (enum block_codes)(rand() % 2);
+  return (enum block_codes)(rand() % 7);
 }
 
 void get_next_block(GameInfo_t *game_state) {
