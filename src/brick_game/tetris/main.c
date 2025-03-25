@@ -6,9 +6,7 @@
 
 int main(void) {
   init_cli();
-
   play_game();
-
   endwin();
 
   return 0;
@@ -47,17 +45,15 @@ void play_game() {
     do {
       print_matrix(&figure, game_state);
 
-      // выполнение команды пользователя
       if ((command_code = getch()) && (command_code != 0)) {
         do_users_command(command_code, &figure, game_state);
       }
 
       flag = able_to_move_down(&figure, game_state);
+
       if (flag) {
-        // падение фигуры на 1 шаг
         move_down(&figure);
       } else {
-        // присоединение фигурки - фиксация на поле
         attach_block_on_field(&figure, game_state);
       }
 
