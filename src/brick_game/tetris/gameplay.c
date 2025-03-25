@@ -1,6 +1,5 @@
 #include "gameplay.h"
 
-
 void copy_top_layers(int layer_number, GameInfo_t *game_state) {
   for (int i = layer_number; i > 0; i--) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
@@ -89,7 +88,7 @@ void get_block(enum block_codes block_code, int **block) {
 }
 
 enum block_codes generate_next_block() {
-  return (enum block_codes)(rand() % 7);
+  return (enum block_codes)(rand() % 2);
 }
 
 void get_next_block(GameInfo_t *game_state) {
@@ -99,7 +98,7 @@ void get_next_block(GameInfo_t *game_state) {
 void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->matrix = game_state->next_block;
 
-  figure->x = 0;
+  figure->x = FIELD_SIZE_X / 2 - 1;
   figure->y = 0;
 }
 
@@ -122,15 +121,18 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
     }
   }
 
+  flag = 1;
 
-  if (figure->y + last_i < FIELD_SIZE_Y + 1) {
-    int coord_y = figure->y + 1 + last_i + 1;  // координата y нижней непустой строки фигурки на поле
+  if (figure->y + last_i < FIELD_SIZE_Y - 1) {
+    int coord_y = figure->y + last_i;  // координата под нижней непустой строкой фигурки на поле
 
-    mvprintw(12, 40, "last_i = %d, coord_y = %d\n", last_i, coord_y);
+    mvprintw(12, 40, "last_i = %d\n", last_i);
 
-    for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int i = last_i; i >= 0; i--) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure->matrix[i][j] + game_state->field[(coord_y + i % (last_i + 1)) % FIELD_SIZE_Y][(figure->x + j + 1) % FIELD_SIZE_X] == 2) {
+        if (figure->matrix[i][j] +
+                game_state->field[coord_y]
+                                 [figure->x + j] == 2) {
           flag = 0;
           break;
         }
@@ -139,6 +141,8 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
   } else {
     flag = 0;
   }
+
+  mvprintw(13, 40, "flag = %d\n", flag);
 
   return flag;
 }
@@ -158,6 +162,7 @@ void move_right(current_block_t *figure, GameInfo_t *game_state) {
 
 void turn_left_matrix(current_block_t *figure) {
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
+  int first_layer_block = 0;
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -168,6 +173,35 @@ void turn_left_matrix(current_block_t *figure) {
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       figure->matrix[i][j] = left_matrix[i][j];
+    }
+  }
+
+  for (int j = 0; j < BLOCK_SIZE; j++)
+  {
+    first_layer_block += figure->matrix[0][j];
+  }
+
+  if (first_layer_block == 0)
+  {
+    for (int i = 1; i < BLOCK_SIZE; i++) {
+      for (int j = 0; j < BLOCK_SIZE; j++) {
+        figure->matrix[i - 1][j] = figure->matrix[i][j];
+      }
+    }
+
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      figure->matrix[BLOCK_SIZE - 1][j] = 0;
+    }
+  }
+}
+
+void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state) {
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      if (figure->matrix[i][j])
+      {
+        game_state->field[figure->y + i][figure->x + j] = 1;
+      }
     }
   }
 }

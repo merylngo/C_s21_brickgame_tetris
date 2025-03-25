@@ -17,6 +17,8 @@ int able_to_move_left(current_block_t *figure, GameInfo_t *game_state);
 int able_to_move_right(current_block_t *figure, GameInfo_t *game_state);
 int able_to_move_down(current_block_t *figure, GameInfo_t *game_state);
 
+void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state);
+
 void copy_top_layers(int layer_number, GameInfo_t *game_state);
 void remove_full_layers(GameInfo_t *game_state);
 

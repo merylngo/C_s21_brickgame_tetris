@@ -61,8 +61,8 @@ typedef struct {
   int x, y;
 } current_block_t;
 
-void initCli();
-void playGame();
+void init_cli();
+void play_game();
 
 GameInfo_t *get_game_state();
 

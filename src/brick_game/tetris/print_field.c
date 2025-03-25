@@ -1,33 +1,22 @@
 #include "print_field.h"
 
-// void print_field(WINDOW *win, current_block_t *figure, GameInfo_t
-// *game_state) {
-//   for (int i = 0; i < FIELD_SIZE_Y; i++) {
-//     for (int j = 0; j < FIELD_SIZE_X; j++) {
-//       if ((figure->y == i + 1 && figure->x == j + 1) ||
-//       (game_state->field[i][j] == 1 && game_state->field[i][j] == 0)) {
-//         mvwaddch(win, i + 1, j + 1, '@');
-//       } else {
-//         mvwaddch(win, i + 1, j + 1, ' ');
-//       }
-//     }
-//   }
-// }
-
 void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state->field[i][j] == 1) {
-        mvaddch(i + 1, j + 1, '#');
+      if (game_state->field[i][j]) {
+        mvaddch(i, j, '#');
       } else {
-        mvaddch(i + 1, j + 1, '-');
+        mvaddch(i, j, '-');
       }
     }
+
+    printw("%d", i);
   }
 
-  for (int m = 0; m < BLOCK_SIZE; m++)
-    for (int n = 0; n < BLOCK_SIZE; n++)
-      if (figure->matrix[m][n]) {
-        mvaddch(figure->y + m + 1, figure->x + n + 1, '@');
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++)
+      if (figure->matrix[i][j]) {
+        mvaddch(figure->y + i, figure->x + j, '@');
       }
+  }
 }

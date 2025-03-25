@@ -5,16 +5,16 @@
 #include "print_field.h"
 
 int main(void) {
-  initCli();
+  init_cli();
 
-  playGame();
+  play_game();
 
   endwin();
 
   return 0;
 }
 
-void initCli() {
+void init_cli() {
   initscr();
   keypad(stdscr, TRUE);
   noecho();
@@ -29,17 +29,15 @@ GameInfo_t *get_game_state() {
   return &game_state;
 }
 
-void playGame() {
+void play_game() {
   GameInfo_t *game_state = get_game_state();
   current_block_t figure;
+  char command_code = 0;
+  int flag = 0;
   // enum fsm_states fsm_status = START;
 
   get_memory_for_game(game_state);
   get_next_block(game_state);
-
-  char command_code = 0;
-
-  // int p = 40;
 
   do {
     init_current_block(game_state, &figure);
@@ -54,34 +52,19 @@ void playGame() {
         do_users_command(command_code, &figure, game_state);
       }
 
-      // присоединение фигурки - фиксация на поле
-      if (figure.y == FIELD_SIZE_Y ||
-          game_state->field[figure.y][figure.x - 1] == 1) {
-        game_state->field[figure.y - 1][figure.x - 1] = 1;
-      }
-
-      // падение фигуры на 1 шаг
-      if (able_to_move_down(&figure, game_state)) {
+      flag = able_to_move_down(&figure, game_state);
+      if (flag) {
+        // падение фигуры на 1 шаг
         move_down(&figure);
-      }
-
-      if (figure.y == FIELD_SIZE_Y ||
-          game_state->field[figure.y][figure.x - 1] == 1) {
-        game_state->field[figure.y - 1][figure.x - 1] = 1;
+      } else {
+        // присоединение фигурки - фиксация на поле
+        attach_block_on_field(&figure, game_state);
       }
 
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
                figure.x, figure.y);
 
-    } while (able_to_move_down(&figure, game_state) && command_code != 27);
-
-    // for (int i = 0; i < BLOCK_SIZE; i++) {
-    //   for (int j = 0; j < BLOCK_SIZE; j++) {
-    //     if (figure.matrix[i][j]) mvaddch(15 + i, p + j, '@');
-    //   }
-    // }
-
-    // p += 10;
+    } while (flag && command_code != 27);
 
     remove_full_layers(game_state);
 
