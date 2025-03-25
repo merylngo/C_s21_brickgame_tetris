@@ -124,14 +124,12 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
   flag = 1;
 
   if (figure->y + last_i < FIELD_SIZE_Y - 1) {
-    int coord_y = figure->y + last_i;  // координата под нижней непустой строкой фигурки на поле
-
     mvprintw(12, 40, "last_i = %d\n", last_i);
 
     for (int i = last_i; i >= 0; i--) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
         if (figure->matrix[i][j] +
-                game_state->field[coord_y]
+                game_state->field[figure->y + i + 1]
                                  [figure->x + j] == 2) {
           flag = 0;
           break;
