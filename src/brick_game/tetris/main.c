@@ -19,7 +19,7 @@ void init_cli() {
   curs_set(0);
   cbreak();
   // nodelay(stdscr, TRUE);
-  timeout(200);
+  timeout(300);
 }
 
 GameInfo_t *get_game_state() {

@@ -151,8 +151,8 @@ int able_to_move_left(current_block_t *figure, GameInfo_t *game_state) {
   } else {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure->matrix[j][i] +
-                game_state->field[figure->y + j][figure->x + i - 1] ==
+        if (figure->matrix[i][j] +
+                game_state->field[figure->x + i - 1][figure->y + j] ==
             2) {
           res = 0;
           break;
