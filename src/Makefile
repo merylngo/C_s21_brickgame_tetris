@@ -5,7 +5,9 @@ TETRIS_DIR := ./brick_game/tetris/
 all: clean tetris
 
 tetris: $(TETRIS_DIR)*.c
-	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)*.c -lncurses
+	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)*.c -lncurses 
+	
+# -g -fsanitize=address
 
 clean:
 	rm -rf tetris	

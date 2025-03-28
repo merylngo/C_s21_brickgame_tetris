@@ -127,7 +127,8 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
     for (int i = last_i; i >= 0; i--) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
         if (figure->matrix[i][j] +
-                game_state->field[figure->y + i + 1][figure->x + j] ==
+                game_state->field[(figure->y + i + 1) % FIELD_SIZE_Y]
+                                 [(figure->x + j) % FIELD_SIZE_X] ==
             2) {
           flag = 0;
           break;
@@ -152,7 +153,8 @@ int able_to_move_left(current_block_t *figure, GameInfo_t *game_state) {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
         if (figure->matrix[i][j] +
-                game_state->field[figure->x + i - 1][figure->y + j] ==
+                game_state->field[(figure->x + i - 1) % FIELD_SIZE_Y]
+                                 [(figure->y + j) % FIELD_SIZE_X] ==
             2) {
           res = 0;
           break;
@@ -191,7 +193,9 @@ int able_to_move_right(current_block_t *figure, GameInfo_t *game_state) {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < last_j; j++) {
         if (figure->matrix[i][j] +
-                game_state->field[figure->y + i][figure->x + last_j + j + 1] ==
+                game_state
+                    ->field[(figure->y + i) % FIELD_SIZE_Y]
+                           [(figure->x + last_j + j + 1) % FIELD_SIZE_X] ==
             2) {
           flag = 0;
           break;
@@ -264,8 +268,44 @@ void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state) {
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (figure->matrix[i][j]) {
-        game_state->field[figure->y + i][figure->x + j] = 1;
+        game_state->field[(figure->y + i) % FIELD_SIZE_Y]
+                         [(figure->x + j) % FIELD_SIZE_X] = 1;
       }
     }
   }
+}
+
+int game_is_over(current_block_t *figure, GameInfo_t *game_state) {
+  int last_i;
+  int cnt_empty_strings = 0;
+
+  for (last_i = BLOCK_SIZE - 1; last_i > 0; last_i--) {
+    int j;
+
+    for (j = 0; j < BLOCK_SIZE; j++) {
+      if (figure->matrix[last_i][j]) {
+        break;
+      }
+    }
+
+    if (figure->matrix[last_i][j]) {
+      break;
+    }
+  }
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    int cnt = 0;
+
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      cnt += game_state->field[i][j];
+    }
+
+    if (cnt == 0) {
+      cnt_empty_strings++;
+    } else {
+      break;
+    }
+  }
+
+  return cnt_empty_strings >= last_i + 1;
 }

@@ -28,4 +28,6 @@ enum block_codes generate_next_block();
 void get_block(enum block_codes block_code, int **block);
 void get_next_block(GameInfo_t *game_state);
 
+int game_is_over(current_block_t *figure, GameInfo_t *game_state);
+
 #endif

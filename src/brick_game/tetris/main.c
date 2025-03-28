@@ -59,14 +59,15 @@ void play_game() {
         attach_block_on_field(&figure, game_state);
       }
 
+      mvprintw(9, 40, "flag = %d\n", flag);
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
                figure.x, figure.y);
 
-    } while (flag && command_code != 27);
+    } while (flag && command_code != 27 && game_is_over(&figure, game_state));
 
     remove_full_layers(game_state);
 
-  } while (command_code != 27);
+  } while (command_code != 27 && game_is_over(&figure, game_state));
 
   remove_matrix(game_state->field, FIELD_SIZE_Y);
   remove_matrix(game_state->next_block, BLOCK_SIZE);
