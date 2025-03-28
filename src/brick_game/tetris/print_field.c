@@ -16,7 +16,7 @@ void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++)
       if (figure->matrix[i][j]) {
-        mvaddch(figure->y + i, figure->x + j, '@');
+        mvaddch(figure->y + i, figure->x + j, 'o');
       }
   }
 }
