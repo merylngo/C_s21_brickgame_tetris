@@ -6,7 +6,7 @@
 #include <time.h>
 
 #define FIELD_SIZE_Y 20
-#define FIELD_SIZE_X 20
+#define FIELD_SIZE_X 10
 #define BORDER_LEFT 5
 #define BORDER_UP 5
 #define BORDER_RIGHT (BORDER_LEFT + FIELD_SIZE_X)

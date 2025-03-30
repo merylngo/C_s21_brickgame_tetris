@@ -2,7 +2,7 @@
 
 #include "../../brick_game/tetris/gameplay.h"
 #include "../../brick_game/tetris/init_game.h"
-#include "../../brick_game/tetris/print_field.h"
+#include "print_field.h"
 
 int main(void) {
   init_cli();

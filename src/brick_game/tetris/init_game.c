@@ -23,7 +23,7 @@ matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
 
   if (status == NORM) {
     for (int i = 0; i < FIELD_SIZE_Y; i++) {
-      for (int j = 0; j < FIELD_SIZE_Y; j++) {
+      for (int j = 0; j < FIELD_SIZE_X; j++) {
         game_state->field[i][j] = 0;
       }
     }
@@ -48,7 +48,7 @@ matrix_memory_status create_block_matrix(GameInfo_t *game_state) {
 
   if (status == NORM) {
     for (int i = 0; i < FIELD_SIZE_Y; i++) {
-      for (int j = 0; j < FIELD_SIZE_Y; j++) {
+      for (int j = 0; j < FIELD_SIZE_X; j++) {
         game_state->field[i][j] = 0;
       }
     }
