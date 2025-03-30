@@ -1,7 +1,7 @@
 #ifndef INIT_GAME_H
 #define INIT_GAME_H
 
-#include "main.h"
+#include "../../gui/cli/main.h"
 
 typedef enum { NORM, MEMORY_ERROR } matrix_memory_status;
 

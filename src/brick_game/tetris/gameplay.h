@@ -1,7 +1,7 @@
 #ifndef GAMEPLAY_H
 #define GAMEPLAY_H
 
-#include "main.h"
+#include "../../gui/cli/main.h"
 
 void turn_left_matrix(current_block_t *figure);
 void move_left(current_block_t *figure);

@@ -1,8 +1,8 @@
 #include "main.h"
 
-#include "gameplay.h"
-#include "init_game.h"
-#include "print_field.h"
+#include "../../brick_game/tetris/gameplay.h"
+#include "../../brick_game/tetris/init_game.h"
+#include "../../brick_game/tetris/print_field.h"
 
 int main(void) {
   init_cli();
@@ -11,6 +11,39 @@ int main(void) {
 
   return 0;
 }
+
+// void show_start_screen();
+
+// void init_game();
+
+// int game_over();
+
+// int main (void)
+// {
+//     for (;;)
+//     {
+//         init_game();
+//         show_start_screen();
+
+//         while (!game_over())
+//         {
+//             int ch = getch();
+
+//             switch (ch)
+//             {
+//             case 's':
+
+//                 break;
+
+//             default:
+//                 break;
+//             }
+//         }
+
+//     }
+
+//     return 0;
+// }
 
 void init_cli() {
   initscr();

@@ -1,11 +1,12 @@
 CC := gcc
 CFLAGS :=  -std=c11 -Wall -Werror -Wextra
-TETRIS_DIR := ./brick_game/tetris/
+TETRIS_DIR_BACK := ./brick_game/tetris/
+TETRIS_DIR_MAIN := ./gui/cli/
 
 all: clean tetris
 
-tetris: $(TETRIS_DIR)*.c
-	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR)*.c -lncurses 
+tetris: $(TETRIS_DIR_BACK)*.c $(TETRIS_DIR_MAIN)*.c
+	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR_BACK)*.c $(TETRIS_DIR_MAIN)*.c -lncurses 
 	
 # -g -fsanitize=address
 
@@ -14,8 +15,8 @@ clean:
 
 style:
 	cp ../materials/linters/.clang-format ../src/
-	clang-format -i $(TETRIS_DIR)*.c
-	clang-format -i $(TETRIS_DIR)*.h
+	clang-format -i $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c
+	clang-format -i $(TETRIS_DIR_MAIN)*.h $(TETRIS_DIR_BACK)*.h
 
 check:
 	cp ../materials/linters/.clang-format ../src/
