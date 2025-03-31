@@ -12,7 +12,17 @@ int main(void) {
   return 0;
 }
 
-// #if 0
+void init_cli() {
+  initscr();
+  keypad(stdscr, TRUE);
+  noecho();
+  curs_set(0);
+  cbreak();
+  // nodelay(stdscr, TRUE);
+  timeout(300);
+}
+
+#if 0
 
 void init_game();
 
@@ -45,6 +55,9 @@ void play_game() {
         case 'KEY_DOWN':
           UserInput(Down, false);
           break;
+        case 'KEY_UP':
+          UserInput(Action, false);
+          break;
 
         default:
           break;
@@ -53,22 +66,16 @@ void play_game() {
       UpdateCurrentState();
       print_matrix(&figure, game_state);
     }
+
+    remove_matrix(game_state->field, FIELD_SIZE_Y);
+    remove_matrix(game_state->next_block, BLOCK_SIZE);
   }
 
   return 0;
 }
 
-// #endif
+#endif
 
-void init_cli() {
-  initscr();
-  keypad(stdscr, TRUE);
-  noecho();
-  curs_set(0);
-  cbreak();
-  // nodelay(stdscr, TRUE);
-  timeout(300);
-}
 
 GameInfo_t *get_game_state() {
   static GameInfo_t game_state = {0};
