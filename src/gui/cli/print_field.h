@@ -4,6 +4,7 @@
 #include "main.h"
 
 void show_start_screen();
+void show_pause_screen();
 
 void print_field(WINDOW *win, current_block_t *figure, GameInfo_t *game_state);
 

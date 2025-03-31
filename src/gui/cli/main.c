@@ -12,38 +12,53 @@ int main(void) {
   return 0;
 }
 
-// void show_start_screen();
+// #if 0
 
-// void init_game();
+void init_game();
 
-// int game_over();
+int game_over();
 
-// int main (void)
-// {
-//     for (;;)
-//     {
-//         init_game();
-//         show_start_screen();
+void play_game() {
+  GameInfo_t *game_state = get_game_state();
+  current_block_t figure;
 
-//         while (!game_over())
-//         {
-//             int ch = getch();
+  for (;;) {
+    init_game();
+    show_start_screen();
 
-//             switch (ch)
-//             {
-//             case 's':
+    while (!game_over()) {
+      int ch = getch();
 
-//                 break;
+      switch (ch) {
+        case 's':
+          UserInput(Start, false);
+          break;
+        case 'p':
+          UserInput(Pause, false);
+          break;
+        case 'KEY_LEFT':
+          UserInput(Left, false);
+          break;
+        case 'KEY_RIGHT':
+          UserInput(Right, false);
+          break;
+        case 'KEY_DOWN':
+          UserInput(Down, false);
+          break;
 
-//             default:
-//                 break;
-//             }
-//         }
+        default:
+          break;
+      }
 
-//     }
+      UpdateCurrentState();
+      print_matrix(&figure, game_state);
+    }
+  }
 
-//     return 0;
-// }
+  return 0;
+}
+
+// #endif
 
 void init_cli() {
   initscr();

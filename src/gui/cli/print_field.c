@@ -21,7 +21,4 @@ void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
   }
 }
 
-void show_start_screen()
-{
-   mvprintw(10, 10, "press any button to start\n");
-}
+void show_start_screen() { mvprintw(10, 10, "press any button to start\n"); }

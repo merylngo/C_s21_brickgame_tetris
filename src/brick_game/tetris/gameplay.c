@@ -242,27 +242,6 @@ void turn_left_matrix(current_block_t *figure) {
   }
 }
 
-void do_users_command(int command_code, current_block_t *figure,
-                      GameInfo_t *game_state) {
-  switch (command_code) {
-    case 3:
-      turn_left_matrix(figure);
-      break;
-    case 4:
-      if (able_to_move_left(figure, game_state)) {
-        move_left(figure);
-      }
-      break;
-    case 5:
-      if (able_to_move_right(figure, game_state)) {
-        move_right(figure);
-      }
-      break;
-
-    default:
-      break;
-  }
-}
 
 void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state) {
   for (int i = 0; i < BLOCK_SIZE; i++) {
@@ -309,3 +288,50 @@ int game_is_over(current_block_t *figure, GameInfo_t *game_state) {
 
   return cnt_empty_strings >= last_i + 1;
 }
+
+
+
+void do_users_command(int command_code, current_block_t *figure,
+                      GameInfo_t *game_state) {
+  switch (command_code) {
+    case 3:
+      turn_left_matrix(figure);
+      break;
+    case 4:
+      if (able_to_move_left(figure, game_state)) {
+        move_left(figure);
+      }
+      break;
+    case 5:
+      if (able_to_move_right(figure, game_state)) {
+        move_right(figure);
+      }
+      break;
+
+    default:
+      break;
+  }
+}
+
+#if 0
+
+void userInput(UserAction_t action, bool hold){
+  (void)hold;
+
+  switch (action) {
+    case Left:
+      if (able_to_move_left(figure, game_state)) {
+        move_left(figure);
+      }
+      break;
+    case Right:
+       if (able_to_move_right(figure, game_state)) {
+        move_right(figure);
+      }
+    //case Down:
+
+
+  }
+}
+
+#endif

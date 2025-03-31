@@ -30,4 +30,6 @@ void get_next_block(GameInfo_t *game_state);
 
 int game_is_over(current_block_t *figure, GameInfo_t *game_state);
 
+void userInput(UserAction_t action, bool hold);
+
 #endif
