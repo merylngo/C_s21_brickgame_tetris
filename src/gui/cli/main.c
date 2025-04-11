@@ -26,6 +26,13 @@ void init_cli() {
 
 void init_game();
 
+
+void init_game()
+{
+    get_memory_for_game(game_state);
+    get_next_block(game_state);
+}
+
 int game_over();
 
 void play_game() {
@@ -75,7 +82,6 @@ void play_game() {
 }
 
 #endif
-
 
 GameInfo_t *get_game_state() {
   static GameInfo_t game_state = {0};

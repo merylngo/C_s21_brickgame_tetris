@@ -209,9 +209,9 @@ int able_to_move_right(current_block_t *figure, GameInfo_t *game_state) {
   return flag;
 }
 
-void turn_left_matrix(current_block_t *figure) {
+int able_to_turn(current_block_t *figure, GameInfo_t *game_state) {
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
-  int first_layer_block = 0;
+  int res = 0;
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -221,9 +221,18 @@ void turn_left_matrix(current_block_t *figure) {
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
-      figure->matrix[i][j] = left_matrix[i][j];
+      if (left_matrix[i][j] && (i + figure->x < FIELD_SIZE_X) &&
+          (j + figure->y < FIELD_SIZE_Y)) {
+        if (game_state->field[j + figure->y][i + figure->x] == 0) res = 1;
+      }
     }
   }
+
+  return res;
+}
+
+void normalize_matrix(current_block_t *figure) {
+  int first_layer_block = 0;
 
   for (int j = 0; j < BLOCK_SIZE; j++) {
     first_layer_block += figure->matrix[0][j];
@@ -240,8 +249,41 @@ void turn_left_matrix(current_block_t *figure) {
       figure->matrix[BLOCK_SIZE - 1][j] = 0;
     }
   }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    first_layer_block += figure->matrix[i][0];
+  }
+
+  if (first_layer_block == 0) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      for (int j = 1; j < BLOCK_SIZE; j++) {
+        figure->matrix[i][j - 1] = figure->matrix[i][j];
+      }
+    }
+
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      figure->matrix[i][BLOCK_SIZE - 1] = 0;
+    }
+  }
 }
 
+void turn_left_matrix(current_block_t *figure) {
+  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      left_matrix[BLOCK_SIZE - j - 1][i] = figure->matrix[i][j];
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      figure->matrix[i][j] = left_matrix[i][j];
+    }
+  }
+
+  normalize_matrix(figure);
+}
 
 void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state) {
   for (int i = 0; i < BLOCK_SIZE; i++) {
@@ -289,13 +331,13 @@ int game_is_over(current_block_t *figure, GameInfo_t *game_state) {
   return cnt_empty_strings >= last_i + 1;
 }
 
-
-
 void do_users_command(int command_code, current_block_t *figure,
                       GameInfo_t *game_state) {
   switch (command_code) {
     case 3:
-      turn_left_matrix(figure);
+      if (able_to_turn(figure, game_state)) {
+        turn_left_matrix(figure);
+      }
       break;
     case 4:
       if (able_to_move_left(figure, game_state)) {

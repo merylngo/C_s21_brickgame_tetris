@@ -3,6 +3,7 @@
 
 #include "../../gui/cli/main.h"
 
+void normalize_matrix(current_block_t *figure);
 void turn_left_matrix(current_block_t *figure);
 void move_left(current_block_t *figure);
 void move_right(current_block_t *figure);
