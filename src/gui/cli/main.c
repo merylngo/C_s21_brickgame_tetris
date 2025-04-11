@@ -40,20 +40,43 @@ void play_game() {
   current_block_t figure;
 
   for (;;) {
-    init_game();
     show_start_screen();
+    char key;
+
+    if (key != 'ENTER') {
+      break;
+    }
+
+    init_game();
 
     while (!game_over()) {
-      int ch = getch();
 
-      switch (ch) {
+      // SPAWN
+      
+      init_current_block(game_state, &figure);
+      get_next_block(game_state);
+
+      // MOVING + SHIFTING
+
+      do {
+      
+      } while (able_to_move)
+
+      // ATTACHING
+
+      attach_block_on_field(&figure, game_state);
+
+
+      char command = getch();
+
+      switch (command) {
         case 's':
           UserInput(Start, false);
           break;
         case 'p':
           UserInput(Pause, false);
           break;
-        case 'KEY_LEFT':
+        case 'KEY_LEFT':  
           UserInput(Left, false);
           break;
         case 'KEY_RIGHT':
@@ -70,7 +93,7 @@ void play_game() {
           break;
       }
 
-      UpdateCurrentState();
+      *game_state = UpdateCurrentState();
       print_matrix(&figure, game_state);
     }
 
