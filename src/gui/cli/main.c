@@ -59,39 +59,42 @@ void play_game() {
       // MOVING + SHIFTING
 
       do {
-      
-      } while (able_to_move)
+        char command = getch();
+        UserAction_t action;
+
+        switch (command) {
+          case 's':
+            action = Start;
+            break;
+          case 'p':
+            action = Pause;
+            break;
+          case 'KEY_LEFT':  
+            action = Left;
+            break;
+          case 'KEY_RIGHT':
+            action = Right;
+            break;
+          case 'KEY_DOWN':
+            action = Down;
+            break;
+          case 'KEY_UP':
+            action = Action;
+            break;
+
+          default:
+            break;
+        }
+
+        UserInput(action, false);
+        *game_state = UpdateCurrentState();
+        print_matrix(&figure, game_state);
+      } while (able_to_move_down(&figure, game_state))
 
       // ATTACHING
 
       attach_block_on_field(&figure, game_state);
-
-
-      char command = getch();
-
-      switch (command) {
-        case 's':
-          UserInput(Start, false);
-          break;
-        case 'p':
-          UserInput(Pause, false);
-          break;
-        case 'KEY_LEFT':  
-          UserInput(Left, false);
-          break;
-        case 'KEY_RIGHT':
-          UserInput(Right, false);
-          break;
-        case 'KEY_DOWN':
-          UserInput(Down, false);
-          break;
-        case 'KEY_UP':
-          UserInput(Action, false);
-          break;
-
-        default:
-          break;
-      }
+      remove_full_layers(game_state);
 
       *game_state = UpdateCurrentState();
       print_matrix(&figure, game_state);
@@ -100,6 +103,7 @@ void play_game() {
     remove_matrix(game_state->field, FIELD_SIZE_Y);
     remove_matrix(game_state->next_block, BLOCK_SIZE);
   }
+
 
   return 0;
 }
@@ -139,9 +143,9 @@ void play_game() {
 
       if (flag) {
         move_down(&figure);
-      } else {
+      } /* else {
         attach_block_on_field(&figure, game_state);
-      }
+      } */
 
       mvprintw(9, 40, "flag = %d\n", flag);
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
@@ -149,6 +153,7 @@ void play_game() {
 
     } while (flag && command_code != 27 && game_is_over(&figure, game_state));
 
+    attach_block_on_field(&figure, game_state);
     remove_full_layers(game_state);
 
   } while (command_code != 27 && game_is_over(&figure, game_state));
