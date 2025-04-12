@@ -29,8 +29,17 @@ void init_game();
 
 void init_game()
 {
-    get_memory_for_game(game_state);
-    get_next_block(game_state);
+  init_back(); - инициализировать матрицы для игры
+    /*
+      get_memory_for_game(game_state);
+      get_next_block(game_state);
+    */
+  init_front(); - инициализировать окна win_field и win_info 
+    /*
+      clear();
+      win_field = ..
+      win_info =
+    */
 }
 
 int game_over();
@@ -43,7 +52,7 @@ void play_game() {
     show_start_screen();
     char key;
 
-    if (key != 'ENTER') {
+    if (key != '\n') {
       break;
     }
 
@@ -59,6 +68,8 @@ void play_game() {
       // MOVING + SHIFTING
 
       do {
+        print_matrix(&figure, game_state);
+
         char command = getch();
         UserAction_t action;
 
@@ -88,7 +99,7 @@ void play_game() {
 
         UserInput(action, false);
         *game_state = UpdateCurrentState();
-        print_matrix(&figure, game_state);
+
       } while (able_to_move_down(&figure, game_state))
 
       // ATTACHING
@@ -153,7 +164,7 @@ void play_game() {
 
     } while (flag && command_code != 27 && game_is_over(&figure, game_state));
 
-    attach_block_on_field(&figure, game_state);
+     attach_block_on_field(&figure, game_state);
     remove_full_layers(game_state);
 
   } while (command_code != 27 && game_is_over(&figure, game_state));
