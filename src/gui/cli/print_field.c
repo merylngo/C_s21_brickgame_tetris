@@ -21,7 +21,9 @@ void print_cell(int color_code, int x, int y, char sign) {
   }
 }
 
-void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
+void print_matrix(current_block_t *figure) {
+  GameInfo_t *game_state = get_game_state();
+
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {

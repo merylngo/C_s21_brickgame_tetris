@@ -151,7 +151,7 @@ void play_game() {
     get_next_block(game_state);
 
     do {
-      print_matrix(&figure, game_state);
+      print_matrix(&figure);
 
       flag = able_to_move_down(&figure, game_state);
 
@@ -167,9 +167,10 @@ void play_game() {
         attach_block_on_field(&figure, game_state);
       } */
 
-      mvprintw(9, 40, "flag = %d\n", flag);
+     /* mvprintw(9, 40, "flag = %d\n", flag);
       mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
                figure.x, figure.y);
+      */
 
     } while (flag && command_code != 27 && game_is_over(&figure, game_state));
 
