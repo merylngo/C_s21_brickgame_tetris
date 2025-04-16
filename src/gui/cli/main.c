@@ -45,6 +45,39 @@ void init_game()
 
 int game_over();
 
+UserAction_t get_action(char command);
+UserAction_t get_action(char command)
+{
+  UserAction_t action;
+
+        switch (command) {
+          case 's':
+            action = Start;
+            break;
+          case 'p':
+            action = Pause;
+            break;
+          case 'KEY_LEFT':  
+            action = Left;
+            break;
+          case 'KEY_RIGHT':
+            action = Right;
+            break;
+          case 'KEY_DOWN':
+            action = Down;
+            break;
+          case 'KEY_UP':
+            action = Action;
+            break;
+
+          default:
+            break;
+        }
+    
+    return action;
+}
+
+
 void play_game() {
   GameInfo_t *game_state = get_game_state();
   current_block_t figure;
@@ -72,32 +105,7 @@ void play_game() {
         print_matrix(&figure, game_state);
 
         char command = getch();
-        UserAction_t action;
-
-        switch (command) {
-          case 's':
-            action = Start;
-            break;
-          case 'p':
-            action = Pause;
-            break;
-          case 'KEY_LEFT':  
-            action = Left;
-            break;
-          case 'KEY_RIGHT':
-            action = Right;
-            break;
-          case 'KEY_DOWN':
-            action = Down;
-            break;
-          case 'KEY_UP':
-            action = Action;
-            break;
-
-          default:
-            break;
-        }
-
+        UserAction_t action = get_action(command);
         UserInput(action, false);
         *game_state = UpdateCurrentState();
 
@@ -169,6 +177,12 @@ void play_game() {
     remove_full_layers(game_state);
 
   } while (command_code != 27 && game_is_over(&figure, game_state));
+
+  print_final_screen();
+
+  while ((command_code = getch()) && command_code != 27) {
+    ;
+  }
 
   remove_matrix(game_state->field, FIELD_SIZE_Y);
   remove_matrix(game_state->next_block, BLOCK_SIZE);
