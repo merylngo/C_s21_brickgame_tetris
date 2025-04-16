@@ -16,8 +16,8 @@ void print_matrix(current_block_t *figure, GameInfo_t *game_state) {
         // mvaddch(i, j * 2, '#');
         // mvaddch(i, j * 2 + 1, '#');
 
-        print_cell(game_state->field[i][j], i, j * 2, '#');
-        print_cell(game_state->field[i][j], i, j * 2 + 1, '#');
+        print_cell(game_state->field[i][j], i, j * 2, '[');
+        print_cell(game_state->field[i][j], i, j * 2 + 1, ']');
       } else {
         // mvaddch(i, j * 2, '-');
         // mvaddch(i, j * 2 + 1, '-');

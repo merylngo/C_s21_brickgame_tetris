@@ -19,7 +19,9 @@ void remove_full_layers(GameInfo_t *game_state) {
     int sum_in_layer = 0;
 
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      sum_in_layer += game_state->field[i][j];
+      if (game_state->field[i][j]) {
+        sum_in_layer++;
+      }
     }
 
     if (sum_in_layer == FIELD_SIZE_X) {
@@ -91,9 +93,7 @@ enum block_codes generate_next_block() {
   return (enum block_codes)(rand() % 7);
 }
 
-color_codes generate_color_code() {
-  return (color_codes)(rand() % 5 + 1);
-}
+color_codes generate_color_code() { return (color_codes)(rand() % 5 + 1); }
 
 void get_next_block(GameInfo_t *game_state) {
   get_block(generate_next_block(), game_state->next_block);
@@ -132,10 +132,9 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
   if (figure->y + last_i < FIELD_SIZE_Y - 1) {
     for (int i = last_i; i >= 0; i--) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure->matrix[i][j] +
-                game_state->field[(figure->y + i + 1) % FIELD_SIZE_Y]
-                                 [(figure->x + j) % FIELD_SIZE_X] ==
-            2) {
+        if (figure->matrix[i][j] &&
+            game_state->field[(figure->y + i + 1) % FIELD_SIZE_Y]
+                             [(figure->x + j) % FIELD_SIZE_X]) {
           flag = 0;
           break;
         }
@@ -148,6 +147,12 @@ int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
   return flag;
 }
 
+void fall_down(current_block_t *figure, GameInfo_t *game_state) {
+  while (able_to_move_down(figure, game_state)) {
+    move_down(figure);
+  }
+}
+
 void move_left(current_block_t *figure) { (figure->x)--; }
 
 int able_to_move_left(current_block_t *figure, GameInfo_t *game_state) {
@@ -158,10 +163,9 @@ int able_to_move_left(current_block_t *figure, GameInfo_t *game_state) {
   } else {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure->matrix[i][j] +
-                game_state->field[(figure->x + i - 1) % FIELD_SIZE_Y]
-                                 [(figure->y + j) % FIELD_SIZE_X] ==
-            2) {
+        if (figure->matrix[i][j] &&
+            game_state->field[(figure->x + i - 1) % FIELD_SIZE_Y]
+                             [(figure->y + j) % FIELD_SIZE_X]) {
           res = 0;
           break;
         }
@@ -198,11 +202,9 @@ int able_to_move_right(current_block_t *figure, GameInfo_t *game_state) {
   if (figure->x + last_j < FIELD_SIZE_X - 1) {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < last_j; j++) {
-        if (figure->matrix[i][j] +
-                game_state
-                    ->field[(figure->y + i) % FIELD_SIZE_Y]
-                           [(figure->x + last_j + j + 1) % FIELD_SIZE_X] ==
-            2) {
+        if (figure->matrix[i][j] &&
+            game_state->field[(figure->y + i) % FIELD_SIZE_Y]
+                             [(figure->x + last_j + j + 1) % FIELD_SIZE_X]) {
           flag = 0;
           break;
         }
@@ -355,6 +357,8 @@ void do_users_command(int command_code, current_block_t *figure,
         move_right(figure);
       }
       break;
+    case 32:
+      fall_down(figure, game_state);
 
     default:
       break;

@@ -8,6 +8,7 @@ void turn_left_matrix(current_block_t *figure);
 void move_left(current_block_t *figure);
 void move_right(current_block_t *figure);
 void move_down(current_block_t *figure);
+void fall_down(current_block_t *figure, GameInfo_t *game_state);
 
 int able_to_turn(current_block_t *figure, GameInfo_t *game_state);
 int able_to_move_left(current_block_t *figure, GameInfo_t *game_state);
