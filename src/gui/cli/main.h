@@ -46,6 +46,8 @@ typedef enum {
   Action
 } UserAction_t;
 
+typedef enum { RED = 1, GREEN, WHITE, YELLOW, BLUE } color_codes;
+
 typedef struct {
   int **field;
   int **next_block;
@@ -59,14 +61,13 @@ typedef struct {
 typedef struct {
   int **matrix;
   int x, y;
+  color_codes color;
 } current_block_t;
 
 void init_cli();
 void play_game();
 
 GameInfo_t *get_game_state();
-
-// void userInput(UserAction_t action, bool hold);
 
 // GameInfo_t updateCurrentState();
 

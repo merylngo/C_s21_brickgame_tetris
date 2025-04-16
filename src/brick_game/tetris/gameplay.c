@@ -91,6 +91,10 @@ enum block_codes generate_next_block() {
   return (enum block_codes)(rand() % 7);
 }
 
+color_codes generate_color_code() {
+  return (color_codes)(rand() % 5 + 1);
+}
+
 void get_next_block(GameInfo_t *game_state) {
   get_block(generate_next_block(), game_state->next_block);
 }
@@ -100,6 +104,8 @@ void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
 
   figure->x = FIELD_SIZE_X / 2 - 1;
   figure->y = 0;
+
+  figure->color = generate_color_code();
 }
 
 void move_down(current_block_t *figure) { figure->y++; }
@@ -290,7 +296,7 @@ void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (figure->matrix[i][j]) {
         game_state->field[(figure->y + i) % FIELD_SIZE_Y]
-                         [(figure->x + j) % FIELD_SIZE_X] = 1;
+                         [(figure->x + j) % FIELD_SIZE_X] = (int)figure->color;
       }
     }
   }

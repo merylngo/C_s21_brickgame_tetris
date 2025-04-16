@@ -18,6 +18,7 @@ void init_cli() {
   noecho();
   curs_set(0);
   cbreak();
+  init_colors();
   // nodelay(stdscr, TRUE);
   timeout(300);
 }
@@ -164,7 +165,7 @@ void play_game() {
 
     } while (flag && command_code != 27 && game_is_over(&figure, game_state));
 
-     attach_block_on_field(&figure, game_state);
+    attach_block_on_field(&figure, game_state);
     remove_full_layers(game_state);
 
   } while (command_code != 27 && game_is_over(&figure, game_state));
