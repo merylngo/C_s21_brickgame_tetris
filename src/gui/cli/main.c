@@ -26,8 +26,6 @@ void init_cli() {
 #if 0
 
 void init_game();
-
-
 void init_game()
 {
   init_back(); - инициализировать матрицы для игры
@@ -83,8 +81,8 @@ void play_game() {
   current_block_t figure;
 
   for (;;) {
-    show_start_screen();
-    char key;
+    print_start_screen();
+    char key = getch();
 
     if (key != '\n') {
       break;
@@ -120,6 +118,12 @@ void play_game() {
       print_matrix(&figure, game_state);
     }
 
+    print_final_screen();
+
+    while ((command_code = getch()) && command_code != 27) {
+      ;
+    }
+
     remove_matrix(game_state->field, FIELD_SIZE_Y);
     remove_matrix(game_state->next_block, BLOCK_SIZE);
   }
@@ -145,6 +149,15 @@ void play_game() {
   get_memory_for_game(game_state);
   get_next_block(game_state);
 
+   char key;
+
+    while ((key = getch()) && key != '\n')
+    {
+      print_start_screen();
+    }
+
+    clear();
+
   do {
     init_current_block(game_state, &figure);
 
@@ -163,14 +176,7 @@ void play_game() {
 
       if (flag) {
         move_down(&figure);
-      } /* else {
-        attach_block_on_field(&figure, game_state);
-      } */
-
-     /* mvprintw(9, 40, "flag = %d\n", flag);
-      mvprintw(10, 40, "code = %d block: x = %d, y = %d\n\n", command_code,
-               figure.x, figure.y);
-      */
+      }
 
     } while (flag && command_code != 27 && game_is_over(&figure, game_state));
 
@@ -181,9 +187,7 @@ void play_game() {
 
   print_final_screen();
 
-  while ((command_code = getch()) && command_code != 27) {
-    ;
-  }
+  while ((command_code = getch()) && command_code != 27)
 
   remove_matrix(game_state->field, FIELD_SIZE_Y);
   remove_matrix(game_state->next_block, BLOCK_SIZE);

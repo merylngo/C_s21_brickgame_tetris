@@ -48,7 +48,8 @@ void print_matrix(current_block_t *figure) {
 }
 
 void print_start_screen() {
-  mvprintw(10, 10, "Press ENTER button to start\nPress any other key to end\n");
+  mvprintw(10, 10, "Press ENTER button to start\n");
+  mvprintw(11, 10, "Press any other key to end\n");
 }
 
 void print_pause_screen() {
