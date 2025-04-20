@@ -13,11 +13,11 @@ void print_cell(int color_code, int x, int y, char sign) {
   if (color_code) {
     attron(COLOR_PAIR(color_code));
 
-    mvaddch(x, y, sign);
+    mvaddch(BORDER_LEFT + x, BORDER_UP + y, sign);
 
     attroff(COLOR_PAIR(color_code));
   } else {
-    mvaddch(x, y, sign);
+    mvaddch(BORDER_LEFT + x, BORDER_UP + y, sign);
   }
 }
 

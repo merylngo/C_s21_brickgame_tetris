@@ -149,14 +149,13 @@ void play_game() {
   get_memory_for_game(game_state);
   get_next_block(game_state);
 
-   char key;
+  char key;
 
-    while ((key = getch()) && key != '\n')
-    {
-      print_start_screen();
-    }
+  while ((key = getch()) && key != '\n') {
+    print_start_screen();
+  }
 
-    clear();
+  clear();
 
   do {
     init_current_block(game_state, &figure);
