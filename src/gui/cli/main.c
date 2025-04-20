@@ -187,8 +187,8 @@ void play_game() {
 
   print_final_screen();
 
-  while ((command_code = getch()) && command_code != 27)
-
   remove_matrix(game_state->field, FIELD_SIZE_Y);
   remove_matrix(game_state->next_block, BLOCK_SIZE);
+
+  while ((command_code = getch()) && command_code != 27);
 }
