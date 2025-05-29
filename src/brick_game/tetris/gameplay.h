@@ -33,16 +33,6 @@ typedef struct {
   // int pause;
 } BackGameInfo_t;
 
-typedef struct {
-  int **field;
-  int **next_block;
-  int score;
-  // int high_score;
-  int level;
-  // int speed;
-  // int pause;
-} GameInfo_t;
-
 BackGameInfo_t *get_game_state();
 
 void normalize_matrix(current_block_t *figure);

@@ -1,4 +1,4 @@
-#include "print_field.h"
+#include "print_screen.h"
 
 void init_colors() {
   start_color();
@@ -21,7 +21,7 @@ void print_cell(int color_code, int x, int y, char sign) {
   }
 }
 
-void print_matrix(GameInfo_t *game_state) {
+void print_field(GameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {
@@ -98,4 +98,10 @@ void print_final_screen(GameInfo_t *game_state) {
       }
     }
   }
+}
+
+void print_current_state(GameInfo_t *game_state) {
+    clear();
+    print_field(&game_state);
+    print_info_screen(&game_state);
 }

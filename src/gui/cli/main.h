@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "../../brick_game/tetris/front_functions.h"
+#include "../../brick_game/tetris/init_game.h"
+#include "print_screen.h"
+
 #define FIELD_SIZE_Y 20
 #define FIELD_SIZE_X 10
 #define BORDER_LEFT 10

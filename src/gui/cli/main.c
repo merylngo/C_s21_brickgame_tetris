@@ -1,10 +1,5 @@
 #include "main.h"
 
-#include "../../brick_game/tetris/front_functions.h"
-#include "../../brick_game/tetris/gameplay.h"
-#include "../../brick_game/tetris/init_game.h"
-#include "print_field.h"
-
 int main(void) {
   init_cli();
   play_game();
@@ -70,9 +65,7 @@ void play_game() {
 
     game_state = updateCurrentState();
 
-    clear();
-    print_matrix(&game_state);
-    print_info_screen(&game_state);
+    print_current_state(&game_state);
   } while (game_not_over(&game_state));
 
   char finish_key;
