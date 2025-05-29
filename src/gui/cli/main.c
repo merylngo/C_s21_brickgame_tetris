@@ -163,7 +163,9 @@ void play_game() {
     get_next_block(game_state);
 
     do {
+      clear();
       print_matrix(&figure);
+      print_info_screen();
 
       flag = able_to_move_down(&figure, game_state);
 

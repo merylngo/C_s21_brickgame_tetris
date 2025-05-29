@@ -47,6 +47,23 @@ void print_matrix(current_block_t *figure) {
   }
 }
 
+void print_info_screen() {
+  GameInfo_t *game_state = get_game_state();
+
+  mvprintw(BORDER_UP, BORDER_RIGHT * 2, "info:");
+  mvprintw(BORDER_UP + 1, BORDER_RIGHT * 2, "score: %d", game_state->score);
+  mvprintw(BORDER_UP + 2, BORDER_RIGHT * 2, "next_block:");
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      if (game_state->next_block[i][j]) {
+        mvaddch(BORDER_UP + 3 + i, BORDER_RIGHT * 2 + j, '[');
+        mvaddch(BORDER_UP + 3 + i, BORDER_RIGHT * 2 + j + 1, ']');
+      }
+    }
+  }
+}
+
 void print_start_screen() {
   mvprintw(10, 10, "Press ENTER button to start\n");
   mvprintw(11, 10, "Press any other key to end\n");

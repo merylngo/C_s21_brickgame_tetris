@@ -12,6 +12,7 @@ void print_cell(int color_code, int x, int y, char sign);
 void print_matrix(current_block_t *figure);
 
 void print_start_screen();
+void print_info_screen();
 void print_pause_screen();
 void print_final_screen();
 
