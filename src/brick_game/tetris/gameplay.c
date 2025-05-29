@@ -102,7 +102,6 @@ void get_next_block(GameInfo_t *game_state) {
 void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->matrix = game_state->next_block;
 
-
   figure->x = FIELD_SIZE_X / 2 - 1;
   figure->y = 0;
 
@@ -366,25 +365,7 @@ void do_users_command(int command_code, current_block_t *figure,
   }
 }
 
-#if 0
-
-void userInput(UserAction_t action, bool hold){
-  (void)hold;
-
-  switch (action) {
-    case Left:
-      if (able_to_move_left(figure, game_state)) {
-        move_left(figure);
-      }
-      break;
-    case Right:
-       if (able_to_move_right(figure, game_state)) {
-        move_right(figure);
-      }
-    //case Down:
-
-
-  }
+BackGameInfo_t *get_game_state() {
+  static BackGameInfo_t game_state = {0};
+  return &game_state;
 }
-
-#endif

@@ -13,8 +13,6 @@
 #define BORDER_BOTTOM (BORDER_UP + FIELD_SIZE_Y)
 #define BLOCK_SIZE 4
 
-enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
-
 typedef enum {
   MOVE_DOWN,
   MOVE_RIGHT,
@@ -24,16 +22,6 @@ typedef enum {
   PAUSE,
   END
 } commands;
-
-enum block_codes {
-  SQUARE,
-  LINE,
-  LEFT_ANGLE,
-  RIGHT_ANGLE,
-  ZET,
-  TURNED_ZET,
-  TURNED_T
-};
 
 typedef enum {
   Start,
@@ -46,16 +34,7 @@ typedef enum {
   Action
 } UserAction_t;
 
-typedef enum { RED = 1, GREEN, WHITE, YELLOW, BLUE } color_codes;
-
 typedef struct {
-  int **matrix;
-  int x, y;
-  color_codes color;
-} current_block_t;
-
-typedef struct {
-  current_block_t figure;
   int **field;
   int **next_block;
   int score;
@@ -65,11 +44,13 @@ typedef struct {
   // int pause;
 } GameInfo_t;
 
+typedef enum { RED = 1, GREEN, WHITE, YELLOW, BLUE } color_codes;
+
 void init_cli();
 void play_game();
 
-GameInfo_t *get_game_state();
+int game_not_over(GameInfo_t *game_state);
 
-GameInfo_t updateCurrentState();
+UserAction_t get_action(char command);
 
 #endif

@@ -21,9 +21,7 @@ void print_cell(int color_code, int x, int y, char sign) {
   }
 }
 
-void print_matrix() {
-  GameInfo_t *game_state = get_game_state();
-
+void print_matrix(GameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {
@@ -38,24 +36,24 @@ void print_matrix() {
     // printw("%d", i);
   }
 
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++)
-      if (game_state->figure.matrix[i][j]) {
-        print_cell(game_state->figure.color, game_state->figure.y + i, (game_state->figure.x + j) * 2, '[');
-        print_cell(game_state->figure.color, game_state->figure.y + i, (game_state->figure.x + j) * 2 + 1, ']');
-      }
-  }
+  /*
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      for (int j = 0; j < BLOCK_SIZE; j++)
+        if (game_state->matrix[i][j]) {
+          print_cell(game_state->figure.color, game_state->figure.y + i,
+    (game_state->figure.x + j) * 2, '['); print_cell(game_state->figure.color,
+    game_state->figure.y + i, (game_state->figure.x + j) * 2 + 1, ']');
+        }
+    }
+  */
 }
 
-void print_info_screen() {
-  GameInfo_t *game_state = get_game_state();
-
-  for (int i = 0; i < FIELD_SIZE_Y; i++)
-  {
+void print_info_screen(GameInfo_t *game_state) {
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
     mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
   }
 
-  mvprintw(BORDER_UP+ 1, BORDER_RIGHT * 2 + 1, "info:");
+  mvprintw(BORDER_UP + 1, BORDER_RIGHT * 2 + 1, "info:");
   mvprintw(BORDER_UP + 2, BORDER_RIGHT * 2 + 1, "score: %d", game_state->score);
   mvprintw(BORDER_UP + 3, BORDER_RIGHT * 2 + 1, "next_block:");
 
@@ -74,9 +72,7 @@ void print_start_screen() {
   mvprintw(11, 10, "Press any other key to end\n");
 }
 
-void print_pause_screen() {
-  GameInfo_t *game_state = get_game_state();
-
+void print_pause_screen(GameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {
@@ -90,9 +86,7 @@ void print_pause_screen() {
   }
 }
 
-void print_final_screen() {
-  GameInfo_t *game_state = get_game_state();
-
+void print_final_screen(GameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {

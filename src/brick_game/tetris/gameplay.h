@@ -3,6 +3,48 @@
 
 #include "../../gui/cli/main.h"
 
+enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
+
+enum block_codes {
+  SQUARE,
+  LINE,
+  LEFT_ANGLE,
+  RIGHT_ANGLE,
+  ZET,
+  TURNED_ZET,
+  TURNED_T
+};
+
+typedef struct {
+  int **matrix;
+  int x, y;
+  color_codes color;
+} current_block_t;
+
+typedef struct {
+  current_block_t figure;
+  enum fsm_states current_state;
+  int **field;
+  int **next_block;
+  int score;
+  // int high_score;
+  int level;
+  // int speed;
+  // int pause;
+} BackGameInfo_t;
+
+typedef struct {
+  int **field;
+  int **next_block;
+  int score;
+  // int high_score;
+  int level;
+  // int speed;
+  // int pause;
+} GameInfo_t;
+
+BackGameInfo_t *get_game_state();
+
 void normalize_matrix(current_block_t *figure);
 void turn_left_matrix(current_block_t *figure);
 void move_left(current_block_t *figure);
@@ -32,7 +74,5 @@ void get_block(enum block_codes block_code, int **block);
 void get_next_block(GameInfo_t *game_state);
 
 int game_is_over(current_block_t *figure, GameInfo_t *game_state);
-
-void userInput(UserAction_t action, bool hold);
 
 #endif

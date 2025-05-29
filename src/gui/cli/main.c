@@ -1,5 +1,6 @@
 #include "main.h"
 
+#include "../../brick_game/tetris/front_functions.h"
 #include "../../brick_game/tetris/gameplay.h"
 #include "../../brick_game/tetris/init_game.h"
 #include "print_field.h"
@@ -23,83 +24,65 @@ void init_cli() {
   timeout(300);
 }
 
-void play_game() {
-  char key;
+UserAction_t get_action(char command) {
+  UserAction_t action;
 
-  while ((key = getch()) && key != '\n') {
+  switch (command) {
+    case 's':
+      action = Start;
+      break;
+    case 'p':
+      action = Pause;
+      break;
+    case 'KEY_LEFT':
+      action = Left;
+      break;
+    case 'KEY_RIGHT':
+      action = Right;
+      break;
+    case 'KEY_DOWN':
+      action = Down;
+      break;
+    case 'KEY_UP':
+      action = Action;
+      break;
+
+    default:
+      break;
+  }
+
+  return action;
+}
+
+void play_game() {
+  char start_key;
+
+  while ((start_key = getch()) && start_key != '\n') {
     print_start_screen();
   }
 
-  clear();
+  GameInfo_t game_state = {0};
 
-  GameInfo_t *game_state = get_game_state();
-  current_block_t figure;
-
-  for (;;) {
+  do {
     char command = getch();
     UserAction_t action = get_action(command);
     UserInput(action, false);
-    game_state = UpdateCurrentState();
+
+    game_state = updateCurrentState();
 
     clear();
-    print_matrix(&figure);
-    print_info_screen();
-  }
+    print_matrix(&game_state);
+    print_info_screen(&game_state);
+  } while (game_not_over(&game_state));
 
+  char finish_key;
+
+  while ((finish_key = getch()) && finish_key != 27) {
+    print_final_screen(&game_state);
+  }
 }
 
 #if 0
-
-void init_game();
-void init_game()
-{
-  init_back(); - инициализировать матрицы для игры
-    /*
-      get_memory_for_game(game_state);
-      get_next_block(game_state);
-    */
-  init_front(); - инициализировать окна win_field и win_info 
-    /*
-      clear();
-      win_field = ..
-      win_info =
-    */
-}
-
-int game_over();
-
-UserAction_t get_action(char command);
-UserAction_t get_action(char command)
-{
-  UserAction_t action;
-
-        switch (command) {
-          case 's':
-            action = Start;
-            break;
-          case 'p':
-            action = Pause;
-            break;
-          case 'KEY_LEFT':  
-            action = Left;
-            break;
-          case 'KEY_RIGHT':
-            action = Right;
-            break;
-          case 'KEY_DOWN':
-            action = Down;
-            break;
-          case 'KEY_UP':
-            action = Action;
-            break;
-
-          default:
-            break;
-        }
-    
-    return action;
-}
-
 
 void play_game() {
   GameInfo_t *game_state = get_game_state();
@@ -157,12 +140,6 @@ void play_game() {
   return 0;
 }
 
-
-GameInfo_t *get_game_state() {
-  static GameInfo_t game_state = {0};
-  return &game_state;
-}
-
 void play_game() {
   GameInfo_t *game_state = get_game_state();
   current_block_t figure;
@@ -216,6 +193,5 @@ void play_game() {
 
   while ((command_code = getch()) && command_code != 27);
 }
-
 
 #endif
