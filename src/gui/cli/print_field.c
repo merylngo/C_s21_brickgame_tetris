@@ -21,7 +21,7 @@ void print_cell(int color_code, int x, int y, char sign) {
   }
 }
 
-void print_matrix(current_block_t *figure) {
+void print_matrix() {
   GameInfo_t *game_state = get_game_state();
 
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
@@ -40,9 +40,9 @@ void print_matrix(current_block_t *figure) {
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++)
-      if (figure->matrix[i][j]) {
-        print_cell(figure->color, figure->y + i, (figure->x + j) * 2, '[');
-        print_cell(figure->color, figure->y + i, (figure->x + j) * 2 + 1, ']');
+      if (game_state->figure.matrix[i][j]) {
+        print_cell(game_state->figure.color, game_state->figure.y + i, (game_state->figure.x + j) * 2, '[');
+        print_cell(game_state->figure.color, game_state->figure.y + i, (game_state->figure.x + j) * 2 + 1, ']');
       }
   }
 }
@@ -50,15 +50,20 @@ void print_matrix(current_block_t *figure) {
 void print_info_screen() {
   GameInfo_t *game_state = get_game_state();
 
-  mvprintw(BORDER_UP, BORDER_RIGHT * 2, "info:");
-  mvprintw(BORDER_UP + 1, BORDER_RIGHT * 2, "score: %d", game_state->score);
-  mvprintw(BORDER_UP + 2, BORDER_RIGHT * 2, "next_block:");
+  for (int i = 0; i < FIELD_SIZE_Y; i++)
+  {
+    mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
+  }
+
+  mvprintw(BORDER_UP+ 1, BORDER_RIGHT * 2 + 1, "info:");
+  mvprintw(BORDER_UP + 2, BORDER_RIGHT * 2 + 1, "score: %d", game_state->score);
+  mvprintw(BORDER_UP + 3, BORDER_RIGHT * 2 + 1, "next_block:");
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state->next_block[i][j]) {
-        mvaddch(BORDER_UP + 3 + i, BORDER_RIGHT * 2 + j, '[');
-        mvaddch(BORDER_UP + 3 + i, BORDER_RIGHT * 2 + j + 1, ']');
+        mvaddch(BORDER_UP + 4 + i, (BORDER_RIGHT + j) * 2 + 1, '[');
+        mvaddch(BORDER_UP + 4 + i, (BORDER_RIGHT + j) * 2 + 2, ']');
       }
     }
   }

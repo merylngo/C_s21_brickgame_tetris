@@ -102,6 +102,7 @@ void get_next_block(GameInfo_t *game_state) {
 void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->matrix = game_state->next_block;
 
+
   figure->x = FIELD_SIZE_X / 2 - 1;
   figure->y = 0;
 

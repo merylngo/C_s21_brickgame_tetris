@@ -49,6 +49,13 @@ typedef enum {
 typedef enum { RED = 1, GREEN, WHITE, YELLOW, BLUE } color_codes;
 
 typedef struct {
+  int **matrix;
+  int x, y;
+  color_codes color;
+} current_block_t;
+
+typedef struct {
+  current_block_t figure;
   int **field;
   int **next_block;
   int score;
@@ -58,17 +65,11 @@ typedef struct {
   // int pause;
 } GameInfo_t;
 
-typedef struct {
-  int **matrix;
-  int x, y;
-  color_codes color;
-} current_block_t;
-
 void init_cli();
 void play_game();
 
 GameInfo_t *get_game_state();
 
-// GameInfo_t updateCurrentState();
+GameInfo_t updateCurrentState();
 
 #endif

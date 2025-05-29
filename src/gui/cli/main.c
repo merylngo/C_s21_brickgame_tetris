@@ -23,6 +23,31 @@ void init_cli() {
   timeout(300);
 }
 
+void play_game() {
+  char key;
+
+  while ((key = getch()) && key != '\n') {
+    print_start_screen();
+  }
+
+  clear();
+
+  GameInfo_t *game_state = get_game_state();
+  current_block_t figure;
+
+  for (;;) {
+    char command = getch();
+    UserAction_t action = get_action(command);
+    UserInput(action, false);
+    game_state = UpdateCurrentState();
+
+    clear();
+    print_matrix(&figure);
+    print_info_screen();
+  }
+
+}
+
 #if 0
 
 void init_game();
@@ -132,7 +157,6 @@ void play_game() {
   return 0;
 }
 
-#endif
 
 GameInfo_t *get_game_state() {
   static GameInfo_t game_state = {0};
@@ -159,7 +183,6 @@ void play_game() {
 
   do {
     init_current_block(game_state, &figure);
-
     get_next_block(game_state);
 
     do {
@@ -193,3 +216,6 @@ void play_game() {
 
   while ((command_code = getch()) && command_code != 27);
 }
+
+
+#endif
