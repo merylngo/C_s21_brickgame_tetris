@@ -1,35 +1,5 @@
 #include "front_functions.h"
 
-UserAction_t get_action(char command) {
-  UserAction_t action;
-
-  switch (command) {
-    case '\n':
-      action = Start;
-      break;
-    case 'p':
-      action = Pause;
-      break;
-    case 'KEY_LEFT':
-      action = Left;
-      break;
-    case 'KEY_RIGHT':
-      action = Right;
-      break;
-    case 'KEY_DOWN':
-      action = Down;
-      break;
-    case 'KEY_UP':
-      action = Action;
-      break;
-
-    default:
-      break;
-  }
-
-  return action;
-}
-
 void userInput(UserAction_t action, int hold) {
   (void)hold;
   BackGameInfo_t *game_state = get_game_state();
@@ -53,7 +23,12 @@ void userInput(UserAction_t action, int hold) {
 
     case Down:
       if (game_state->fsm_state == MOVING) {
-        move_down();
+        fall_down();
+      }
+
+    case Action:
+      if (game_state->fsm_state == MOVING) {
+        turn_left();
       }
 
       break;

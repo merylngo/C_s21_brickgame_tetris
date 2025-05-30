@@ -122,7 +122,7 @@ void fall_down() {
   }
 }
 
-void turn_left_matrix() {
+void turn_left() {
   BackGameInfo_t *game_state = get_game_state();
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
 

@@ -13,7 +13,7 @@ void move_down();
 void fall_down();
 int able_to_move_down();
 
-void turn_left_matrix();
+void turn_left();
 int able_to_turn_left();
 
 #endif

@@ -102,6 +102,6 @@ void print_final_screen(GameInfo_t *game_state) {
 
 void print_current_state(GameInfo_t *game_state) {
   clear();
-  print_field(&game_state);
-  print_info_screen(&game_state);
+  print_field(game_state);
+  print_info_screen(game_state);
 }

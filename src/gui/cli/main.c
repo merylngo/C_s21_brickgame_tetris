@@ -27,12 +27,12 @@ void play_game() {
   }
 
   userInput(Start, false);
-  GameInfo_t game_state;
+  GameInfo_t game_state = {0};
 
   do {
     char command = getch();
     UserAction_t action = get_action(command);
-    UserInput(action, false);
+    userInput(action, false);
 
     game_state = updateCurrentState();
 
@@ -46,47 +46,37 @@ void play_game() {
   }
 }
 
-#if 0
+UserAction_t get_action(char command) {
+  UserAction_t action = 0;
 
-void play_game() {
-  GameInfo_t *game_state = get_game_state();
-  current_block_t figure;
+  switch (command) {
+    case '\n':
+      action = Start;
+      break;
+    case 'p':
+      action = Pause;
+      break;
+    case KEY_LEFT:
+      action = Left;
+      break;
+    case KEY_RIGHT:
+      action = Right;
+      break;
+    case KEY_DOWN:
+      action = Down;
+      break;
+    case KEY_UP:
+      action = Action;
+      break;
 
-  for (;;) {
-    init_game();
-
-    while (!game_over()) {
-
-      // SPAWN
-      
-      init_current_block(game_state, &figure);
-      get_next_block(game_state);
-
-      // MOVING + SHIFTING
-
-      do {
-        print_matrix(&figure, game_state);
-
-        char command = getch();
-        UserAction_t action = get_action(command);
-        UserInput(action, false);
-        *game_state = UpdateCurrentState();
-
-      } while (able_to_move_down(&figure, game_state))
-
-      // ATTACHING
-
-      attach_block_on_field(&figure, game_state);
-      remove_full_layers(game_state);
-
-      *game_state = UpdateCurrentState();
-      print_matrix(&figure, game_state);
-    }
+    default:
+      break;
   }
 
-
-  return 0;
+  return action;
 }
+
+#if 0
 
 void play_game() {
   GameInfo_t *game_state = get_game_state();

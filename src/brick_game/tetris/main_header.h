@@ -59,20 +59,30 @@ typedef enum {
   Terminate,
   Left,
   Right,
-  Up,
   Down,
   Action
 } UserAction_t;
-
 
 typedef enum {
   MOVE_DOWN,
   MOVE_RIGHT,
   MOVE_LEFT,
+  TURN,
   ESCAPE,
   ENTER,
   PAUSE,
   END
 } commands;
+
+BackGameInfo_t *get_game_state();
+void normalize_matrix(int **matrix);
+void copy_matrix(int src[][BLOCK_SIZE], int **dest);
+
+void attach_block_on_field();
+
+void copy_top_layers(int layer_number);
+void remove_full_layers();
+
+int game_is_over();
 
 #endif
