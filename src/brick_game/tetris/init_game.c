@@ -1,14 +1,13 @@
 #include "init_game.h"
 
-int get_memory_for_game(GameInfo_t *game_state) {
-  matrix_memory_status field_status = create_field_matrix(game_state);
-  matrix_memory_status block_status = create_block_matrix(game_state);
-
-  return field_status + block_status;
+BackGameInfo_t *get_game_state() {
+  static BackGameInfo_t game_state = {0};
+  return &game_state;
 }
 
-matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
+matrix_memory_status get_field_memory() {
   matrix_memory_status status = NORM;
+  BackGameInfo_t *game_state = get_game_state();
 
   game_state->field = (int **)malloc(FIELD_SIZE_Y * sizeof(int *));
 
@@ -32,7 +31,8 @@ matrix_memory_status create_field_matrix(GameInfo_t *game_state) {
   return status;
 }
 
-matrix_memory_status create_block_matrix(GameInfo_t *game_state) {
+matrix_memory_status get_next_block_memory() {
+  BackGameInfo_t *game_state = get_game_state();
   matrix_memory_status status = NORM;
 
   game_state->next_block = (int **)malloc(BLOCK_SIZE * sizeof(int *));
@@ -49,7 +49,7 @@ matrix_memory_status create_block_matrix(GameInfo_t *game_state) {
   if (status == NORM) {
     for (int i = 0; i < FIELD_SIZE_Y; i++) {
       for (int j = 0; j < FIELD_SIZE_X; j++) {
-        game_state->field[i][j] = 0;
+        game_state->next_block[i][j] = 0;
       }
     }
   }
@@ -57,16 +57,38 @@ matrix_memory_status create_block_matrix(GameInfo_t *game_state) {
   return status;
 }
 
-void remove_matrix(int **matrix, int rows) {
-  if (matrix) {
-    for (int i = 0; i < rows; i++) {
-      if (matrix[i]) {
-        free(matrix[i]);
-      }
-    }
+matrix_memory_status get_current_block_memory() {
+  BackGameInfo_t *game_state = get_game_state();
+  matrix_memory_status status = NORM;
 
-    free(matrix);
+  game_state->figure.matrix = (int **)malloc(BLOCK_SIZE * sizeof(int *));
+
+  if (status == NORM) {
+    for (int i = 0; (i < BLOCK_SIZE) && (status == NORM); i++) {
+      game_state->figure.matrix[i] = (int *)malloc(BLOCK_SIZE * sizeof(int));
+      status = (game_state->figure.matrix) ? NORM : MEMORY_ERROR;
+    }
+  } else {
+    status = MEMORY_ERROR;
   }
 
-  matrix = NULL;
+  if (status == NORM) {
+    for (int i = 0; i < FIELD_SIZE_Y; i++) {
+      for (int j = 0; j < FIELD_SIZE_X; j++) {
+        game_state->figure.matrix = 0;
+      }
+    }
+  }
+
+  return status;
 }
+
+int get_memory_for_game() {
+  matrix_memory_status field_status = get_field_memory();
+  matrix_memory_status next_block_status = get_next_block_memory();
+  matrix_memory_status current_block_status = get_current_block_memory();
+
+  return field_status + next_block_status + current_block_status;
+}
+
+void init_game() { get_memory_for_game(); }

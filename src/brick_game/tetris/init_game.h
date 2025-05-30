@@ -1,15 +1,16 @@
 #ifndef INIT_GAME_H
 #define INIT_GAME_H
 
-#include "../../gui/cli/main.h"
+#include "main_header.h"
 
 typedef enum { NORM, MEMORY_ERROR } matrix_memory_status;
 
-int get_memory_for_game(GameInfo_t *game_state);
+matrix_memory_status get_field_memory();
+matrix_memory_status get_next_block_memory();
+matrix_memory_status get_current_block_memory();
 
-matrix_memory_status create_field_matrix(GameInfo_t *game_state);
-matrix_memory_status create_block_matrix(GameInfo_t *game_state);
-
-void remove_matrix(int **matrix, int rows);
+BackGameInfo_t *get_game_state();
+int get_memory_for_game();
+void init_game();
 
 #endif

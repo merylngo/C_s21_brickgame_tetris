@@ -108,189 +108,40 @@ void init_current_block(GameInfo_t *game_state, current_block_t *figure) {
   figure->color = generate_color_code();
 }
 
-void move_down(current_block_t *figure) { figure->y++; }
-
-int able_to_move_down(current_block_t *figure, GameInfo_t *game_state) {
-  int last_i;
-  int flag = 0;
-
-  for (last_i = BLOCK_SIZE - 1; last_i > 0; last_i--) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      if (figure->matrix[last_i][j] == 1) {
-        flag = 1;
-        break;
-      }
-    }
-
-    if (flag) {
-      break;
-    }
-  }
-
-  flag = 1;
-
-  if (figure->y + last_i < FIELD_SIZE_Y - 1) {
-    for (int i = last_i; i >= 0; i--) {
-      for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure->matrix[i][j] &&
-            game_state->field[(figure->y + i + 1) % FIELD_SIZE_Y]
-                             [(figure->x + j) % FIELD_SIZE_X]) {
-          flag = 0;
-          break;
-        }
-      }
-    }
-  } else {
-    flag = 0;
-  }
-
-  return flag;
-}
-
-void fall_down(current_block_t *figure, GameInfo_t *game_state) {
-  while (able_to_move_down(figure, game_state)) {
-    move_down(figure);
-  }
-}
-
-void move_left(current_block_t *figure) { (figure->x)--; }
-
-int able_to_move_left(current_block_t *figure, GameInfo_t *game_state) {
-  int res = 1;
-
-  if (figure->x == 0) {
-    res = 0;
-  } else {
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (figure->matrix[i][j] &&
-            game_state->field[(figure->x + i - 1) % FIELD_SIZE_Y]
-                             [(figure->y + j) % FIELD_SIZE_X]) {
-          res = 0;
-          break;
-        }
-      }
-
-      if (res == 0) {
-        break;
-      }
-    }
-  }
-
-  return res;
-}
-
-void move_right(current_block_t *figure) { (figure->x)++; }
-
-int able_to_move_right(current_block_t *figure, GameInfo_t *game_state) {
-  int last_j;
-  int flag = 0;
-
-  for (last_j = BLOCK_SIZE - 1; last_j > 0; last_j--) {
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      if (figure->matrix[i][last_j]) {
-        flag = 1;
-        break;
-      }
-    }
-
-    if (flag) break;
-  }
-
-  flag = 1;
-
-  if (figure->x + last_j < FIELD_SIZE_X - 1) {
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < last_j; j++) {
-        if (figure->matrix[i][j] &&
-            game_state->field[(figure->y + i) % FIELD_SIZE_Y]
-                             [(figure->x + last_j + j + 1) % FIELD_SIZE_X]) {
-          flag = 0;
-          break;
-        }
-      }
-    }
-  } else {
-    flag = 0;
-  }
-
-  return flag;
-}
-
-int able_to_turn(current_block_t *figure, GameInfo_t *game_state) {
-  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
-  int res = 0;
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      left_matrix[BLOCK_SIZE - j - 1][i] = figure->matrix[i][j];
-    }
-  }
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      if (left_matrix[i][j] && (i + figure->x < FIELD_SIZE_X) &&
-          (j + figure->y < FIELD_SIZE_Y)) {
-        if (game_state->field[j + figure->y][i + figure->x] == 0) res = 1;
-      }
-    }
-  }
-
-  return res;
-}
-
-void normalize_matrix(current_block_t *figure) {
+void normalize_matrix(int **matrix) {
   int first_layer_block = 0;
 
   for (int j = 0; j < BLOCK_SIZE; j++) {
-    first_layer_block += figure->matrix[0][j];
+    first_layer_block += matrix[0][j];
   }
 
   if (first_layer_block == 0) {
     for (int i = 1; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        figure->matrix[i - 1][j] = figure->matrix[i][j];
+        matrix[i - 1][j] = matrix[i][j];
       }
     }
 
     for (int j = 0; j < BLOCK_SIZE; j++) {
-      figure->matrix[BLOCK_SIZE - 1][j] = 0;
+      matrix[BLOCK_SIZE - 1][j] = 0;
     }
   }
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
-    first_layer_block += figure->matrix[i][0];
+    first_layer_block += matrix[i][0];
   }
 
   if (first_layer_block == 0) {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 1; j < BLOCK_SIZE; j++) {
-        figure->matrix[i][j - 1] = figure->matrix[i][j];
+        matrix[i][j - 1] = matrix[i][j];
       }
     }
 
     for (int i = 0; i < BLOCK_SIZE; i++) {
-      figure->matrix[i][BLOCK_SIZE - 1] = 0;
+      matrix[i][BLOCK_SIZE - 1] = 0;
     }
   }
-}
-
-void turn_left_matrix(current_block_t *figure) {
-  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      left_matrix[BLOCK_SIZE - j - 1][i] = figure->matrix[i][j];
-    }
-  }
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      figure->matrix[i][j] = left_matrix[i][j];
-    }
-  }
-
-  normalize_matrix(figure);
 }
 
 void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state) {
@@ -337,35 +188,4 @@ int game_is_over(current_block_t *figure, GameInfo_t *game_state) {
   }
 
   return cnt_empty_strings >= last_i + 1;
-}
-
-void do_users_command(int command_code, current_block_t *figure,
-                      GameInfo_t *game_state) {
-  switch (command_code) {
-    case 3:
-      if (able_to_turn(figure, game_state)) {
-        turn_left_matrix(figure);
-      }
-      break;
-    case 4:
-      if (able_to_move_left(figure, game_state)) {
-        move_left(figure);
-      }
-      break;
-    case 5:
-      if (able_to_move_right(figure, game_state)) {
-        move_right(figure);
-      }
-      break;
-    case 32:
-      fall_down(figure, game_state);
-
-    default:
-      break;
-  }
-}
-
-BackGameInfo_t *get_game_state() {
-  static BackGameInfo_t game_state = {0};
-  return &game_state;
 }

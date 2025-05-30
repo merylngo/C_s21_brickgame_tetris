@@ -19,36 +19,6 @@ void init_cli() {
   timeout(300);
 }
 
-UserAction_t get_action(char command) {
-  UserAction_t action;
-
-  switch (command) {
-    case 's':
-      action = Start;
-      break;
-    case 'p':
-      action = Pause;
-      break;
-    case 'KEY_LEFT':
-      action = Left;
-      break;
-    case 'KEY_RIGHT':
-      action = Right;
-      break;
-    case 'KEY_DOWN':
-      action = Down;
-      break;
-    case 'KEY_UP':
-      action = Action;
-      break;
-
-    default:
-      break;
-  }
-
-  return action;
-}
-
 void play_game() {
   char start_key;
 
@@ -56,7 +26,8 @@ void play_game() {
     print_start_screen();
   }
 
-  GameInfo_t game_state = {0};
+  userInput(Start, false);
+  GameInfo_t game_state;
 
   do {
     char command = getch();
@@ -82,13 +53,6 @@ void play_game() {
   current_block_t figure;
 
   for (;;) {
-    print_start_screen();
-    char key = getch();
-
-    if (key != '\n') {
-      break;
-    }
-
     init_game();
 
     while (!game_over()) {
@@ -118,15 +82,6 @@ void play_game() {
       *game_state = UpdateCurrentState();
       print_matrix(&figure, game_state);
     }
-
-    print_final_screen();
-
-    while ((command_code = getch()) && command_code != 27) {
-      ;
-    }
-
-    remove_matrix(game_state->field, FIELD_SIZE_Y);
-    remove_matrix(game_state->next_block, BLOCK_SIZE);
   }
 
 

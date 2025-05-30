@@ -1,54 +1,9 @@
 #ifndef GAMEPLAY_H
 #define GAMEPLAY_H
 
-#include "../../gui/cli/main.h"
+#include "main_header.h"
 
-enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
-
-enum block_codes {
-  SQUARE,
-  LINE,
-  LEFT_ANGLE,
-  RIGHT_ANGLE,
-  ZET,
-  TURNED_ZET,
-  TURNED_T
-};
-
-typedef struct {
-  int **matrix;
-  int x, y;
-  color_codes color;
-} current_block_t;
-
-typedef struct {
-  current_block_t figure;
-  enum fsm_states current_state;
-  int **field;
-  int **next_block;
-  int score;
-  // int high_score;
-  int level;
-  // int speed;
-  // int pause;
-} BackGameInfo_t;
-
-BackGameInfo_t *get_game_state();
-
-void normalize_matrix(current_block_t *figure);
-void turn_left_matrix(current_block_t *figure);
-void move_left(current_block_t *figure);
-void move_right(current_block_t *figure);
-void move_down(current_block_t *figure);
-void fall_down(current_block_t *figure, GameInfo_t *game_state);
-
-int able_to_turn(current_block_t *figure, GameInfo_t *game_state);
-int able_to_move_left(current_block_t *figure, GameInfo_t *game_state);
-int able_to_move_right(current_block_t *figure, GameInfo_t *game_state);
-int able_to_move_down(current_block_t *figure, GameInfo_t *game_state);
-
-void do_users_command(int command_code, current_block_t *figure,
-                      GameInfo_t *game_state);
+void normalize_matrix(int **matrix);
 
 void attach_block_on_field(current_block_t *figure, GameInfo_t *game_state);
 

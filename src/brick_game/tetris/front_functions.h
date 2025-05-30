@@ -1,10 +1,12 @@
 #ifndef FRONT_H
 #define FRONT_H
 
-#include "../../gui/cli/main.h"
+#include "main_header.h"
 #include "gameplay.h"
+#include "moving.h"
 
-void userInput(UserAction_t action, bool hold);
+UserAction_t get_action(char command);
+void userInput(UserAction_t action, int hold);
 GameInfo_t updateCurrentState();
 
 #endif
