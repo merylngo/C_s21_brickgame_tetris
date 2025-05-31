@@ -8,6 +8,6 @@
 #include "moving.h"
 
 void userInput(UserAction_t action, int hold);
-BackGameInfo_t updateCurrentState();
+BackGameInfo_t *updateCurrentState();
 
 #endif

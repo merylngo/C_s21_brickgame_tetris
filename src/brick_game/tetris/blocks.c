@@ -1,6 +1,8 @@
 #include "blocks.h"
 
 void copy_matrix(int **src, int **dest) {
+  if (!src || !dest) return;
+
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       dest[i][j] = src[i][j];
@@ -76,6 +78,7 @@ void init_current_block() {
 }
 
 void spawn_block() {
+  get_next_block();
   init_current_block();
   get_next_block();
 }

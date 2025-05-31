@@ -54,7 +54,7 @@ void userInput(UserAction_t action, int hold) {
   }
 }
 
-BackGameInfo_t updateCurrentState() {
+BackGameInfo_t *updateCurrentState() {
   BackGameInfo_t *game_state = get_game_state();
-  return *game_state;
+  return game_state;
 }

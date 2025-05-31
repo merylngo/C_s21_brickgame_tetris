@@ -31,7 +31,7 @@ void play_game() {
   clear();
 
   userInput(Start, false);
-  BackGameInfo_t game_state = {0};
+  BackGameInfo_t *game_state;
 
   do {
     int command = getch();
@@ -41,13 +41,13 @@ void play_game() {
 
     game_state = updateCurrentState();
 
-    print_current_state(&game_state);
-  } while (game_not_over(&game_state));
+    print_current_state(*game_state);
+  } while (game_not_over(game_state));
 
   int finish_key;
 
   while ((finish_key = getch()) && finish_key != 27) {
-    print_final_screen(&game_state);
+    print_final_screen(*game_state);
   }
 }
 
