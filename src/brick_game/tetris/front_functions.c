@@ -4,19 +4,20 @@ void userInput(UserAction_t action, int hold) {
   (void)hold;
   BackGameInfo_t *game_state = get_game_state();
 
-  if (action == Start) {
-    init_game();
-  }
 
   switch (action) {
+    case Start:
+      init_game();
+      break;
+
     case Left:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING && able_to_move_left()) {
         move_left();
       }
       break;
 
     case Right:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING && able_to_move_right()) {
         move_right();
       }
       break;
@@ -27,10 +28,17 @@ void userInput(UserAction_t action, int hold) {
       }
 
     case Action:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING && able_to_turn_left()) {
         turn_left();
       }
 
+    case Pause:
+      break;
+
+    case Terminate:
+      break;
+
+    default:
       break;
   }
 }

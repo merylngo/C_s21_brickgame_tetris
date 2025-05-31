@@ -1,10 +1,5 @@
 #include "init_game.h"
 
-BackGameInfo_t *get_game_state() {
-  static BackGameInfo_t game_state = {0};
-  return &game_state;
-}
-
 matrix_memory_status get_field_memory() {
   matrix_memory_status status = NORM;
   BackGameInfo_t *game_state = get_game_state();

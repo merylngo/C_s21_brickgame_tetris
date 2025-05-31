@@ -9,7 +9,6 @@ matrix_memory_status get_field_memory();
 matrix_memory_status get_next_block_memory();
 matrix_memory_status get_current_block_memory();
 
-BackGameInfo_t *get_game_state();
 int get_memory_for_game();
 void init_game();
 
