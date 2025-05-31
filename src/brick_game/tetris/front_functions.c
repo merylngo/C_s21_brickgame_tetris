@@ -4,8 +4,6 @@ void userInput(UserAction_t action, int hold) {
   (void)hold;
   BackGameInfo_t *game_state = get_game_state();
 
-  printw("action == %d", action);
-
   switch (action) {
     case Start:
       game_state->fsm_state = START;

@@ -1,6 +1,5 @@
-#include "main_header.h"
-
 #include "blocks.h"
+#include "main_header.h"
 
 void copy_top_layers(int layer_number) {
   BackGameInfo_t *game_state = get_game_state();
@@ -59,50 +58,6 @@ void remove_full_layers() {
       break;
     default:
       break;
-  }
-}
-
-void copy_matrix(int src[][BLOCK_SIZE], int **dest) {
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      dest[i][j] = src[i][j];
-    }
-  }
-}
-
-void normalize_matrix(int **matrix) {
-  int first_layer_block = 0;
-
-  for (int j = 0; j < BLOCK_SIZE; j++) {
-    first_layer_block += matrix[0][j];
-  }
-
-  if (first_layer_block == 0) {
-    for (int i = 1; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < BLOCK_SIZE; j++) {
-        matrix[i - 1][j] = matrix[i][j];
-      }
-    }
-
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      matrix[BLOCK_SIZE - 1][j] = 0;
-    }
-  }
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    first_layer_block += matrix[i][0];
-  }
-
-  if (first_layer_block == 0) {
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 1; j < BLOCK_SIZE; j++) {
-        matrix[i][j - 1] = matrix[i][j];
-      }
-    }
-
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      matrix[i][BLOCK_SIZE - 1] = 0;
-    }
   }
 }
 
@@ -167,6 +122,7 @@ int achieved_top_layer() {
 
   return cnt_empty_strings >= last_i + 1;
 }
+
 int achieved_max_level() {
   BackGameInfo_t *game_state = get_game_state();
 

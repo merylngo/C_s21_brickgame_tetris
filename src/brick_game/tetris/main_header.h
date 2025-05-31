@@ -1,10 +1,6 @@
 #ifndef MAIN_HEADER_H
 #define MAIN_HEADER_H
 
-#include <ncurses.h>
-#include <stdlib.h>
-#include <time.h>
-
 #define BLOCK_SIZE 4
 #define FIELD_SIZE_Y 20
 #define FIELD_SIZE_X 10
@@ -12,6 +8,8 @@
 #define BORDER_UP 10
 #define BORDER_RIGHT (BORDER_LEFT + FIELD_SIZE_X)
 #define BORDER_BOTTOM (BORDER_UP + FIELD_SIZE_Y)
+
+#include <stdlib.h>
 
 enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
 
@@ -57,7 +55,6 @@ typedef enum {
 
 BackGameInfo_t *get_game_state();
 
-void copy_matrix(int src[][BLOCK_SIZE], int **dest);
 void copy_top_layers(int layer_number);
 void remove_full_layers();
 void attach_block();

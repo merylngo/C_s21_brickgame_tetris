@@ -1,46 +1,54 @@
 #include "blocks.h"
 
+void copy_matrix(int **src, int **dest) {
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      dest[i][j] = src[i][j];
+    }
+  }
+}
+
 void get_block(enum block_codes block_code, int **block) {
   if (block_code == SQUARE) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 
   if (block_code == LINE) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 
   if (block_code == RIGHT_ANGLE) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 
   if (block_code == LEFT_ANGLE) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 
   if (block_code == ZET) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 
   if (block_code == TURNED_ZET) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {1, 1, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 
   if (block_code == TURNED_T) {
     int block_src[BLOCK_SIZE][BLOCK_SIZE] = {
         {0, 1, 0, 0}, {1, 1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    copy_matrix(block_src, block);
+    copy_matrix((int **)block_src, block);
   }
 }
 
@@ -59,7 +67,7 @@ void get_next_block() {
 void init_current_block() {
   BackGameInfo_t *game_state = get_game_state();
 
-  game_state->figure.matrix = game_state->next_block;
+  copy_matrix(game_state->next_block, game_state->figure.matrix);
 
   game_state->figure.x = FIELD_SIZE_X / 2 - 1;
   game_state->figure.y = 0;

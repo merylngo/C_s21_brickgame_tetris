@@ -20,11 +20,14 @@ void init_cli() {
 }
 
 void play_game() {
+  /*
   int start_key;
 
   while ((start_key = getch()) && start_key != '\n') {
     print_start_screen();
   }
+
+  */
   clear();
 
   userInput(Start, false);
@@ -42,8 +45,6 @@ void play_game() {
   } while (game_not_over(&game_state));
 
   int finish_key;
-
-  free_game();
 
   while ((finish_key = getch()) && finish_key != 27) {
     print_final_screen(&game_state);

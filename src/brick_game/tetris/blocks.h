@@ -3,6 +3,7 @@
 
 #include "main_header.h"
 
+void copy_matrix(int **src, int **dest);
 void init_current_block();
 enum block_codes generate_next_block();
 color_codes generate_color_code();

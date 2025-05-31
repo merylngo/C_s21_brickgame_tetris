@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS :=  -std=c11 -Wall -Werror -Wextra
+CFLAGS :=  -std=c11 -Wall -Werror -Wextra -g
 TETRIS_DIR_BACK := ./brick_game/tetris/
 TETRIS_DIR_MAIN := ./gui/cli/
 TESTS_DIR := ./tests
