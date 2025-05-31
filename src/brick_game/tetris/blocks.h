@@ -9,4 +9,6 @@ color_codes generate_color_code();
 void get_block(enum block_codes block_code, int **block);
 void get_next_block();
 
+void spawn_block();
+
 #endif

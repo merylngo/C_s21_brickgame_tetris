@@ -66,3 +66,8 @@ void init_current_block() {
 
   game_state->figure.color = generate_color_code();
 }
+
+void spawn_block() {
+  init_current_block();
+  get_next_block();
+}

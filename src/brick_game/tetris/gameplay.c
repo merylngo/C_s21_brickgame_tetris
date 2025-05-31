@@ -18,6 +18,7 @@ void remove_full_layers() {
   BackGameInfo_t *game_state = get_game_state();
 
   int layers[FIELD_SIZE_Y] = {0};
+  int cnt_layers = 0;
 
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     int sum_in_layer = 0;
@@ -30,6 +31,7 @@ void remove_full_layers() {
 
     if (sum_in_layer == FIELD_SIZE_X) {
       layers[i] = 1;
+      cnt_layers++;
     }
   }
 
@@ -38,6 +40,23 @@ void remove_full_layers() {
       copy_top_layers(k);
       layers[k] = 0;
     }
+  }
+
+  switch (cnt_layers) {
+    case 1:
+      game_state->score += 100;
+      break;
+    case 2:
+      game_state->score += 300;
+      break;
+    case 3:
+      game_state->score += 700;
+      break;
+    case 4:
+      game_state->score += 1500;
+      break;
+    default:
+      break;
   }
 }
 
@@ -85,7 +104,7 @@ void normalize_matrix(int **matrix) {
   }
 }
 
-void attach_block_on_field() {
+void attach_block() {
   BackGameInfo_t *game_state = get_game_state();
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
@@ -97,6 +116,8 @@ void attach_block_on_field() {
       }
     }
   }
+
+  remove_full_layers();
 }
 
 int game_is_over() {

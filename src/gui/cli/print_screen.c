@@ -21,7 +21,7 @@ void print_cell(int color_code, int x, int y, char sign) {
   }
 }
 
-void print_field(GameInfo_t *game_state) {
+void print_field(BackGameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {
@@ -32,36 +32,39 @@ void print_field(GameInfo_t *game_state) {
         print_cell(0, i, j * 2 + 1, '-');
       }
     }
-
-    // printw("%d", i);
   }
 
-  /*
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < BLOCK_SIZE; j++)
-        if (game_state->matrix[i][j]) {
-          print_cell(game_state->figure.color, game_state->figure.y + i,
-    (game_state->figure.x + j) * 2, '['); print_cell(game_state->figure.color,
-    game_state->figure.y + i, (game_state->figure.x + j) * 2 + 1, ']');
-        }
-    }
-  */
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++)
+      if (game_state->figure.matrix[i][j]) {
+        print_cell(game_state->figure.color, game_state->figure.y + i,
+                   (game_state->figure.x + j) * 2, '[');
+        print_cell(game_state->figure.color, game_state->figure.y + i,
+                   (game_state->figure.x + j) * 2 + 1, ']');
+      }
+  }
 }
 
-void print_info_screen(GameInfo_t *game_state) {
+void print_info_screen(BackGameInfo_t *game_state) {
+  int k = 1;
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
   }
 
-  mvprintw(BORDER_UP + 1, BORDER_RIGHT * 2 + 1, "info:");
-  mvprintw(BORDER_UP + 2, BORDER_RIGHT * 2 + 1, "score: %d", game_state->score);
-  mvprintw(BORDER_UP + 3, BORDER_RIGHT * 2 + 1, "next_block:");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "game_info:");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "speed: %d",
+           game_state->speed);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "score: %d",
+           game_state->score);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "max_score: %d",
+           game_state->high_score);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "next_block:");
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state->next_block[i][j]) {
-        mvaddch(BORDER_UP + 4 + i, (BORDER_RIGHT + j) * 2 + 1, '[');
-        mvaddch(BORDER_UP + 4 + i, (BORDER_RIGHT + j) * 2 + 2, ']');
+        mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 1, '[');
+        mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 2, ']');
       }
     }
   }
@@ -72,7 +75,7 @@ void print_start_screen() {
   mvprintw(11, 10, "Press any other key to end\n");
 }
 
-void print_pause_screen(GameInfo_t *game_state) {
+void print_pause_screen(BackGameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {
@@ -86,7 +89,7 @@ void print_pause_screen(GameInfo_t *game_state) {
   }
 }
 
-void print_final_screen(GameInfo_t *game_state) {
+void print_final_screen(BackGameInfo_t *game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state->field[i][j]) {
@@ -100,7 +103,7 @@ void print_final_screen(GameInfo_t *game_state) {
   }
 }
 
-void print_current_state(GameInfo_t *game_state) {
+void print_current_state(BackGameInfo_t *game_state) {
   clear();
   print_field(game_state);
   print_info_screen(game_state);

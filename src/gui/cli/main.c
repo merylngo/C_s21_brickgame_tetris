@@ -16,22 +16,24 @@ void init_cli() {
   cbreak();
   init_colors();
   // nodelay(stdscr, TRUE);
-  timeout(300);
+  timeout(1000);
 }
 
 void play_game() {
-  char start_key;
+  int start_key;
 
   while ((start_key = getch()) && start_key != '\n') {
     print_start_screen();
   }
+  clear();
 
   userInput(Start, false);
-  GameInfo_t game_state = {0};
+  BackGameInfo_t game_state = {0};
 
   do {
-    char command = getch();
+    int command = getch();
     UserAction_t action = get_action(command);
+
     userInput(action, false);
 
     game_state = updateCurrentState();
@@ -39,15 +41,21 @@ void play_game() {
     print_current_state(&game_state);
   } while (game_not_over(&game_state));
 
-  char finish_key;
+  int finish_key;
+
+  free_game();
 
   while ((finish_key = getch()) && finish_key != 27) {
     print_final_screen(&game_state);
   }
 }
 
-UserAction_t get_action(char command) {
+UserAction_t get_action(int command) {
   UserAction_t action = 0;
+
+  if (command == KEY_LEFT) {
+    action = Left;
+  }
 
   switch (command) {
     case '\n':
@@ -56,22 +64,30 @@ UserAction_t get_action(char command) {
     case 'p':
       action = Pause;
       break;
+    case 'q':
+      action = Terminate;
+      break;
     case KEY_LEFT:
       action = Left;
       break;
     case KEY_RIGHT:
       action = Right;
       break;
-    case KEY_DOWN:
-      action = Down;
-      break;
     case KEY_UP:
       action = Action;
       break;
+    case KEY_DOWN:
+      action = Down;
+      break;
 
     default:
+      action = 0;
       break;
   }
 
   return action;
+}
+
+int game_not_over(BackGameInfo_t *game_state) {
+  return game_state->fsm_state == GAME_OVER;
 }

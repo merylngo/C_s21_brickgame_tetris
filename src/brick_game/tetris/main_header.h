@@ -1,7 +1,9 @@
 #ifndef MAIN_HEADER_H
 #define MAIN_HEADER_H
 
+#include <ncurses.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define BLOCK_SIZE 4
 #define FIELD_SIZE_Y 20
@@ -37,21 +39,11 @@ typedef struct {
   int **field;
   int **next_block;
   int score;
-  // int high_score;
+  int high_score;
   int level;
-  // int speed;
-  // int pause;
-} BackGameInfo_t;
-
-typedef struct {
-  int **field;
-  int **next_block;
-  int score;
-  // int high_score;
-  int level;
-  // int speed;
-  // int pause;
-} GameInfo_t;
+  int speed;
+  int pause;
+} BackGameInfo_t;  // GameInfo_t
 
 typedef enum {
   Start,
@@ -63,25 +55,13 @@ typedef enum {
   Action
 } UserAction_t;
 
-typedef enum {
-  MOVE_DOWN,
-  MOVE_RIGHT,
-  MOVE_LEFT,
-  TURN,
-  ESCAPE,
-  ENTER,
-  PAUSE,
-  END
-} commands;
-
 BackGameInfo_t *get_game_state();
 void normalize_matrix(int **matrix);
 void copy_matrix(int src[][BLOCK_SIZE], int **dest);
 
-void attach_block_on_field();
-
 void copy_top_layers(int layer_number);
 void remove_full_layers();
+void attach_block();
 
 int game_is_over();
 

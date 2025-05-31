@@ -86,4 +86,10 @@ int get_memory_for_game() {
   return field_status + next_block_status + current_block_status;
 }
 
-void init_game() { get_memory_for_game(); }
+void init_game() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  game_state->fsm_state = START;
+
+  get_memory_for_game();
+}
