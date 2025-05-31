@@ -28,7 +28,6 @@ void play_game() {
   }
 
   */
-  clear();
 
   userInput(Start, false);
   BackGameInfo_t *game_state;
@@ -43,12 +42,13 @@ void play_game() {
 
     print_current_state(*game_state);
   } while (game_not_over(game_state));
-
+/*
   int finish_key;
 
   while ((finish_key = getch()) && finish_key != 27) {
     print_final_screen(*game_state);
   }
+*/
 }
 
 UserAction_t get_action(int command) {

@@ -19,15 +19,15 @@ matrix_status create_matrix(int **result, int rows, int cols) {
     } else {
       status = MEMORY_ERROR;
     }
+  }
 
-    if (status == NORM) {
+  if (status == NORM) {
       for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
           result[i][j] = 0;
         }
       }
     }
-  }
 
   return status;
 }

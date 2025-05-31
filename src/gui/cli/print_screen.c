@@ -29,7 +29,7 @@ void print_cell(int color_code, int x, int y, char sign) {
 void print_field(BackGameInfo_t game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state.field[i][j]) {
+      if (game_state.field && game_state.field[i][j]) {
         print_cell(game_state.field[i][j], i, j * 2, '[');
         print_cell(game_state.field[i][j], i, j * 2 + 1, ']');
       } else {
@@ -41,7 +41,7 @@ void print_field(BackGameInfo_t game_state) {
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++)
-      if (game_state.figure.matrix[i][j]) {
+      if (game_state.figure.matrix && game_state.figure.matrix[i][j]) {
         print_cell(game_state.figure.color, game_state.figure.y + i,
                    (game_state.figure.x + j) * 2, '[');
         print_cell(game_state.figure.color, game_state.figure.y + i,
@@ -67,12 +67,18 @@ void print_info_screen(BackGameInfo_t game_state) {
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
-      if (game_state.next_block[i][j]) {
+      if (game_state.next_block && game_state.next_block[i][j]) {
         mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 1, '[');
         mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 2, ']');
       }
     }
   }
+}
+
+void print_current_state(BackGameInfo_t game_state) {
+  clear();
+  print_field(game_state);
+  print_info_screen(game_state);
 }
 
 void print_pause_screen(BackGameInfo_t game_state) {
@@ -87,12 +93,6 @@ void print_pause_screen(BackGameInfo_t game_state) {
       }
     }
   }
-}
-
-void print_current_state(BackGameInfo_t game_state) {
-  clear();
-  print_field(game_state);
-  print_info_screen(game_state);
 }
 
 void print_final_screen(BackGameInfo_t game_state) {
