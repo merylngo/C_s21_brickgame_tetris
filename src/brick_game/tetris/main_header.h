@@ -56,13 +56,14 @@ typedef enum {
 } UserAction_t;
 
 BackGameInfo_t *get_game_state();
-void normalize_matrix(int **matrix);
-void copy_matrix(int src[][BLOCK_SIZE], int **dest);
 
+void copy_matrix(int src[][BLOCK_SIZE], int **dest);
 void copy_top_layers(int layer_number);
 void remove_full_layers();
 void attach_block();
 
+int achieved_top_layer();
+int achieved_max_level();
 int game_is_over();
 
 #endif

@@ -1,5 +1,7 @@
 #include "main_header.h"
 
+#include "blocks.h"
+
 void copy_top_layers(int layer_number) {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -118,9 +120,18 @@ void attach_block() {
   }
 
   remove_full_layers();
+
+  if (game_is_over()) {
+    game_state->fsm_state = GAME_OVER;
+  } else {
+    game_state->fsm_state = SPAWN;
+    spawn_block();
+  }
 }
 
-int game_is_over() {
+int game_is_over() { return achieved_top_layer() || achieved_max_level(); }
+
+int achieved_top_layer() {
   BackGameInfo_t *game_state = get_game_state();
 
   int last_i;
@@ -155,4 +166,9 @@ int game_is_over() {
   }
 
   return cnt_empty_strings >= last_i + 1;
+}
+int achieved_max_level() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  return game_state->level == 10;
 }

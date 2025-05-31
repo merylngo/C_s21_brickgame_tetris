@@ -16,13 +16,13 @@ void userInput(UserAction_t action, int hold) {
       break;
 
     case Left:
-      if (game_state->fsm_state == MOVING && able_to_move_left()) {
+      if (game_state->fsm_state == MOVING) {
         move_left();
       }
       break;
 
     case Right:
-      if (game_state->fsm_state == MOVING && able_to_move_right()) {
+      if (game_state->fsm_state == MOVING) {
         move_right();
       }
       break;
@@ -34,20 +34,22 @@ void userInput(UserAction_t action, int hold) {
       break;
 
     case Action:
-      if (game_state->fsm_state == MOVING && able_to_turn_left()) {
+      if (game_state->fsm_state == MOVING) {
         turn_left();
       }
       break;
 
     case Pause:
+      game_state->pause = !game_state->pause;
       break;
 
     case Terminate:
       free_game();
+      game_state->fsm_state = GAME_OVER;
       break;
 
     default:
-      if (game_state->fsm_state == MOVING && able_to_move_down()) {
+      if (game_state->fsm_state == MOVING) {
         move_down();
       }
       break;

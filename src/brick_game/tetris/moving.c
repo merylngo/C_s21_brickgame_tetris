@@ -1,10 +1,5 @@
 #include "moving.h"
 
-void move_left() {
-  BackGameInfo_t *game_state = get_game_state();
-  (game_state->figure.x)--;
-}
-
 int able_to_move_left() {
   BackGameInfo_t *game_state = get_game_state();
   int res = 1;
@@ -31,9 +26,34 @@ int able_to_move_left() {
   return res;
 }
 
+void move_left() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  if (able_to_move_left()) {
+    (game_state->figure.x)--;
+  }
+
+  if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
+  } else {
+    game_state->fsm_state = ATTACHING;
+    attach_block();
+  }
+}
+
 void move_right() {
   BackGameInfo_t *game_state = get_game_state();
-  (game_state->figure.x)++;
+
+  if (able_to_move_right()) {
+    (game_state->figure.x)++;
+  }
+
+  if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
+  } else {
+    game_state->fsm_state = ATTACHING;
+    attach_block();
+  }
 }
 
 int able_to_move_right() {
@@ -75,7 +95,17 @@ int able_to_move_right() {
 
 void move_down() {
   BackGameInfo_t *game_state = get_game_state();
-  game_state->figure.y++;
+
+  if (able_to_move_down()) {
+    (game_state->figure.y)++;
+  }
+
+  if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
+  } else {
+    game_state->fsm_state = ATTACHING;
+    attach_block();
+  }
 }
 
 int able_to_move_down() {
@@ -122,7 +152,43 @@ void fall_down() {
   }
 }
 
-void turn_left() {
+void normalize_matrix(int **matrix) {
+  int first_layer_block = 0;
+
+  for (int j = 0; j < BLOCK_SIZE; j++) {
+    first_layer_block += matrix[0][j];
+  }
+
+  if (first_layer_block == 0) {
+    for (int i = 1; i < BLOCK_SIZE; i++) {
+      for (int j = 0; j < BLOCK_SIZE; j++) {
+        matrix[i - 1][j] = matrix[i][j];
+      }
+    }
+
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      matrix[BLOCK_SIZE - 1][j] = 0;
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    first_layer_block += matrix[i][0];
+  }
+
+  if (first_layer_block == 0) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      for (int j = 1; j < BLOCK_SIZE; j++) {
+        matrix[i][j - 1] = matrix[i][j];
+      }
+    }
+
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      matrix[i][BLOCK_SIZE - 1] = 0;
+    }
+  }
+}
+
+void turn_left_matrix() {
   BackGameInfo_t *game_state = get_game_state();
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
@@ -164,4 +230,19 @@ int able_to_turn_left() {
   }
 
   return res;
+}
+
+void turn_left() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  if (able_to_turn_left()) {
+    turn_left_matrix();
+  }
+
+  if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
+  } else {
+    game_state->fsm_state = ATTACHING;
+    attach_block();
+  }
 }
