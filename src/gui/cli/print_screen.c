@@ -1,5 +1,10 @@
 #include "print_screen.h"
 
+void print_start_screen() {
+  mvprintw(10, 10, "Press ENTER button to start\n");
+  mvprintw(11, 10, "Press any other key to end\n");
+}
+
 void init_colors() {
   start_color();
   init_pair(RED, COLOR_RED, COLOR_RED);
@@ -70,26 +75,7 @@ void print_info_screen(BackGameInfo_t game_state) {
   }
 }
 
-void print_start_screen() {
-  mvprintw(10, 10, "Press ENTER button to start\n");
-  mvprintw(11, 10, "Press any other key to end\n");
-}
-
 void print_pause_screen(BackGameInfo_t game_state) {
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state.field[i][j]) {
-        print_cell(0, i, j * 2, '[');
-        print_cell(0, i, j * 2 + 1, ']');
-      } else {
-        print_cell(0, i, j * 2, '-');
-        print_cell(0, i, j * 2 + 1, '-');
-      }
-    }
-  }
-}
-
-void print_final_screen(BackGameInfo_t game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (game_state.field[i][j]) {
@@ -107,4 +93,18 @@ void print_current_state(BackGameInfo_t game_state) {
   clear();
   print_field(game_state);
   print_info_screen(game_state);
+}
+
+void print_final_screen(BackGameInfo_t game_state) {
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      if (game_state.field[i][j]) {
+        print_cell(0, i, j * 2, '[');
+        print_cell(0, i, j * 2 + 1, ']');
+      } else {
+        print_cell(0, i, j * 2, '-');
+        print_cell(0, i, j * 2 + 1, '-');
+      }
+    }
+  }
 }
