@@ -8,7 +8,7 @@ C_SRCS := $(wildcard $(TETRIS_DIR_MAIN)/*.c $(TETRIS_DIR_BACK)/*.c)
 C_OBJS := $(C_SRCS:%.c=%.o)
 C_SRCS_TEST := $(wildcard $(TETRIS_DIR_BACK)/*.c)
 C_OBJS_TEST := $(C_SRCS_TEST:%.c=%.o)
-ASAN=-g -fsanitize=address
+ASAN=-fsanitize=address
 
 
 all: clean tetris

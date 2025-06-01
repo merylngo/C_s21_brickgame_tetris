@@ -41,7 +41,7 @@ void print_field(BackGameInfo_t game_state) {
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++)
-      if (game_state.figure.matrix && game_state.figure.matrix[i][j]) {
+      if (game_state.figure.matrix[i][j]) {
         print_cell(game_state.figure.color, game_state.figure.y + i,
                    (game_state.figure.x + j) * 2, '[');
         print_cell(game_state.figure.color, game_state.figure.y + i,

@@ -46,6 +46,12 @@ void userInput(UserAction_t action, int hold) {
       game_state->fsm_state = GAME_OVER;
       break;
 
+    case Empty:
+      if (game_state->fsm_state == MOVING) {
+        move_down();
+      }
+      break;
+
     default:
       if (game_state->fsm_state == MOVING) {
         move_down();

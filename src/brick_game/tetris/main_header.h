@@ -50,7 +50,8 @@ typedef enum {
   Left,
   Right,
   Down,
-  Action
+  Action,
+  Empty
 } UserAction_t;
 
 BackGameInfo_t *get_game_state();

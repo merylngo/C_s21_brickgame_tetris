@@ -77,7 +77,7 @@ UserAction_t get_action(int command) {
       break;
 
     default:
-      action = 0;
+      action = Empty;
       break;
   }
 
@@ -85,5 +85,5 @@ UserAction_t get_action(int command) {
 }
 
 int game_not_over(BackGameInfo_t *game_state) {
-  return game_state->fsm_state == GAME_OVER;
+  return game_state->fsm_state != GAME_OVER;
 }
