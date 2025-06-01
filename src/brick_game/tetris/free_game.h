@@ -3,7 +3,7 @@
 
 #include "main_header.h"
 
-void remove_matrix(int **matrix, int rows);
+void remove_matrix(int ***matrix, int rows);
 void free_game();
 
 #endif

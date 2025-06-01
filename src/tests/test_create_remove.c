@@ -10,10 +10,9 @@ START_TEST(test_1) {
   ck_assert_msg(game_state->field != NULL,
                 RED_BCGR "function failed 2" RESET_COLORS);
 
-  remove_matrix(game_state->field, FIELD_SIZE_Y);
-  // free_game();
+  free_game();
 }
-END_TEST
+END_TEST  
 
 START_TEST(test_2) {
   BackGameInfo_t* game_state = get_game_state();
@@ -25,9 +24,7 @@ START_TEST(test_2) {
   ck_assert_msg(game_state->next_block != NULL,
                 RED_BCGR "function failed 2" RESET_COLORS);
 
-  remove_matrix(game_state->next_block, BLOCK_SIZE);
-
-  // free_game();
+  free_game();
 }
 END_TEST
 
@@ -41,8 +38,7 @@ START_TEST(test_3) {
   ck_assert_msg(game_state->figure.matrix != NULL,
                 RED_BCGR "function failed 2" RESET_COLORS);
 
-  remove_matrix(game_state->figure.matrix, BLOCK_SIZE);
-  // free_game();
+  free_game();
 }
 END_TEST
 
