@@ -81,6 +81,7 @@ void attach_block() {
   } else {
     game_state->fsm_state = SPAWN;
     spawn_block();
+    game_state->fsm_state = MOVING;
   }
 }
 

@@ -47,17 +47,11 @@ void init_game() {
   matrix_status field_status =
       create_matrix(&game_state->field, FIELD_SIZE_Y, FIELD_SIZE_X);
 
-  if (!game_state->field) return;
-
   matrix_status next_block_status =
       create_matrix(&game_state->next_block, BLOCK_SIZE, BLOCK_SIZE);
 
-  if (!game_state->next_block) return;
-
   matrix_status current_block_status =
       create_matrix(&game_state->figure.matrix, BLOCK_SIZE, BLOCK_SIZE);
-
-  if (!game_state->figure.matrix) return;
 
   if (field_status + next_block_status + current_block_status == 0) {
     game_state->fsm_state = START;

@@ -16,7 +16,7 @@ void init_cli() {
   cbreak();
   init_colors();
   // nodelay(stdscr, TRUE);
-  timeout(300);
+  timeout(100);
 }
 
 void play_game() {
