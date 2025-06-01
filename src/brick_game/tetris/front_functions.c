@@ -48,8 +48,8 @@ void userInput(UserAction_t action, int hold) {
     case Empty:
       if (game_state->fsm_state == MOVING) {
         move_down();
-      } 
-      
+      }
+
       if (game_state->fsm_state == ATTACHING) {
         game_state->fsm_state = SPAWN;
         spawn_block();

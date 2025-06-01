@@ -232,7 +232,7 @@ int able_to_turn_left() {
 }
 
 void turn_left() {
-  //BackGameInfo_t *game_state = get_game_state();
+  // BackGameInfo_t *game_state = get_game_state();
 
   if (able_to_turn_left()) {
     turn_left_matrix();

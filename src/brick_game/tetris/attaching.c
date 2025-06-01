@@ -43,6 +43,8 @@ void remove_full_layers() {
     }
   }
 
+  int prev_score = game_state->score;
+
   switch (cnt_layers) {
     case 1:
       game_state->score += 100;
@@ -58,6 +60,17 @@ void remove_full_layers() {
       break;
     default:
       break;
+  }
+
+  update_level(prev_score);
+}
+
+void update_level(int prev_score) {
+  BackGameInfo_t *game_state = get_game_state();
+
+  if (game_state->score - prev_score >= 600) {
+    game_state->level++;
+    game_state->speed++;
   }
 }
 
@@ -79,11 +92,10 @@ void attach_block() {
 
   // освободили заполненные слои
   remove_full_layers();
-/*
+
   if (game_is_over()) {
     game_state->fsm_state = GAME_OVER;
   }
-*/
 }
 
 int game_is_over() { return achieved_top_layer() || achieved_max_level(); }
@@ -122,7 +134,7 @@ int achieved_top_layer() {
     }
   }
 
-  return cnt_empty_strings >= last_i + 1;
+  return cnt_empty_strings < last_i + 1;
 }
 
 int achieved_max_level() {

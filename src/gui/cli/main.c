@@ -16,7 +16,7 @@ void init_cli() {
   cbreak();
   init_colors();
   // nodelay(stdscr, TRUE);
-  timeout(300);
+  timeout(START_TIMEOUT);
 }
 
 void play_game() {
@@ -31,8 +31,10 @@ void play_game() {
 
   userInput(Start, false);
   BackGameInfo_t *game_state;
+  int delay = START_TIMEOUT;
 
   do {
+    timeout(delay);
     int command = getch();
     UserAction_t action = get_action(command);
 
@@ -40,7 +42,13 @@ void play_game() {
 
     game_state = updateCurrentState();
 
-    print_current_state(*game_state);
+    delay = START_TIMEOUT - 40 * game_state->speed;
+
+    if (game_state->pause) {
+      print_pause_screen(*game_state);
+    } else {
+      print_current_state(*game_state);
+    }
   } while (game_not_over(game_state));
 
   int finish_key;
