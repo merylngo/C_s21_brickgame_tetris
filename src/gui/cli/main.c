@@ -20,35 +20,56 @@ void init_cli() {
 }
 
 void play_game() {
-  /*
   int start_key;
 
-  while ((start_key = getch()) && start_key != '\n') {
+  while ((start_key = getch()) && (start_key != '\n')) {
     print_start_screen();
   }
 
-  */
-
   userInput(Start, false);
-  BackGameInfo_t *game_state;
+  BackGameInfo_t *game_state = updateCurrentState();
   int delay = START_TIMEOUT;
 
   do {
     timeout(delay);
-    int command = getch();
-    UserAction_t action = get_action(command);
-
-    userInput(action, false);
-
-    game_state = updateCurrentState();
-
-    delay = START_TIMEOUT - 40 * game_state->speed;
 
     if (game_state->pause) {
       print_pause_screen(*game_state);
+      int command = getch();
+      UserAction_t action = get_action(command);
+
+      if (action == Pause || action == Terminate) {
+        userInput(action, false);
+      }
     } else {
+      int command = getch();
+      UserAction_t action = get_action(command);
+
+      userInput(action, false);
+
+      game_state = updateCurrentState();
+
+      delay = START_TIMEOUT - 40 * game_state->speed;
+
       print_current_state(*game_state);
     }
+
+    /*
+        timeout(delay);
+        int command = getch();
+        UserAction_t action = get_action(command);
+
+        userInput(action, false);
+
+        game_state = updateCurrentState();
+
+        delay = START_TIMEOUT - 40 * game_state->speed;
+
+        if (game_state->pause) {
+          print_pause_screen(*game_state);
+        } else {
+          print_current_state(*game_state);
+        } */
   } while (game_not_over(game_state));
 
   int finish_key;

@@ -32,8 +32,8 @@ typedef struct {
 } current_block_t;
 
 typedef struct {
-  current_block_t figure;
   enum fsm_states fsm_state;
+  current_block_t figure;
   int **field;
   int **next_block;
   int score;
