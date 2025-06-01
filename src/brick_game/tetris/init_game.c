@@ -15,6 +15,15 @@ matrix_status create_matrix(int ***result, int rows, int cols) {
         (*result)[i] = (int *)malloc(cols * sizeof(int));
 
         status = ((*result)[i]) ? NORM : MEMORY_ERROR;
+
+        if (status == MEMORY_ERROR) {
+          for (int j = 0; j < i; j++) {
+            free((*result)[j]);
+          }
+
+          free(*result);
+          *result = NULL;
+        }
       }
     } else {
       status = MEMORY_ERROR;

@@ -16,7 +16,7 @@ void init_cli() {
   cbreak();
   init_colors();
   // nodelay(stdscr, TRUE);
-  timeout(10000);
+  timeout(300);
 }
 
 void play_game() {
@@ -72,7 +72,7 @@ UserAction_t get_action(int command) {
     case KEY_UP:
       action = Action;
       break;
-    case KEY_DOWN:
+    case 32:
       action = Down;
       break;
 
