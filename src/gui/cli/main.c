@@ -16,7 +16,7 @@ void init_cli() {
   cbreak();
   init_colors();
   // nodelay(stdscr, TRUE);
-  timeout(1000);
+  timeout(10000);
 }
 
 void play_game() {
@@ -42,21 +42,16 @@ void play_game() {
 
     print_current_state(*game_state);
   } while (game_not_over(game_state));
-/*
+
   int finish_key;
 
   while ((finish_key = getch()) && finish_key != 27) {
     print_final_screen(*game_state);
   }
-*/
 }
 
 UserAction_t get_action(int command) {
   UserAction_t action = 0;
-
-  if (command == KEY_LEFT) {
-    action = Left;
-  }
 
   switch (command) {
     case '\n':

@@ -1,4 +1,4 @@
-#include "run_tests.h"
+#include "main.h"
 
 int main(void) {
   int failed = 0;
