@@ -12,7 +12,7 @@ START_TEST(test_1) {
 
   free_game();
 }
-END_TEST  
+END_TEST
 
 START_TEST(test_2) {
   BackGameInfo_t* game_state = get_game_state();

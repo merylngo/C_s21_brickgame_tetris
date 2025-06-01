@@ -6,11 +6,10 @@ void userInput(UserAction_t action, int hold) {
 
   switch (action) {
     case Start:
-      game_state->fsm_state = START;
       init_game();
-      game_state->fsm_state = SPAWN;
       spawn_block();
       game_state->fsm_state = MOVING;
+
       break;
 
     case Left:
@@ -42,14 +41,14 @@ void userInput(UserAction_t action, int hold) {
       break;
 
     case Terminate:
-      free_game();
       game_state->fsm_state = GAME_OVER;
+      // free_game(); - не делаем пока т к будет seg fault в print_final_screen
       break;
 
     case Empty:
       if (game_state->fsm_state == MOVING) {
         move_down();
-      }  else if (game_state->fsm_state == ATTACHING) {
+      } else if (game_state->fsm_state == ATTACHING) {
         game_state->fsm_state = SPAWN;
         spawn_block();
         game_state->fsm_state = MOVING;
@@ -59,8 +58,7 @@ void userInput(UserAction_t action, int hold) {
     default:
       if (game_state->fsm_state == MOVING) {
         move_down();
-      }
-      else if (game_state->fsm_state == ATTACHING) {
+      } else if (game_state->fsm_state == ATTACHING) {
         game_state->fsm_state = SPAWN;
         spawn_block();
         game_state->fsm_state = MOVING;

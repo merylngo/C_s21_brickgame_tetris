@@ -16,7 +16,7 @@ void init_cli() {
   cbreak();
   init_colors();
   // nodelay(stdscr, TRUE);
-  timeout(100);
+  timeout(300);
 }
 
 void play_game() {
@@ -48,6 +48,8 @@ void play_game() {
   while ((finish_key = getch()) && finish_key != 27) {
     print_final_screen(*game_state);
   }
+
+  free_game();
 }
 
 UserAction_t get_action(int command) {

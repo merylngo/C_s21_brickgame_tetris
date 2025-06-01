@@ -84,7 +84,14 @@ void init_current_block() {
 }
 
 void spawn_block() {
-  get_next_block();
+  BackGameInfo_t *game_state = get_game_state();
+
+  if (game_state->fsm_state == START) {
+    get_next_block();
+  }
+
   init_current_block();
   get_next_block();
+
+  game_state->fsm_state = SPAWN;
 }

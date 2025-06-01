@@ -96,14 +96,13 @@ int able_to_move_right() {
 void move_down() {
   BackGameInfo_t *game_state = get_game_state();
 
+  game_state->fsm_state = MOVING;
+
   if (able_to_move_down()) {
     (game_state->figure.y)++;
   }
 
-  if (able_to_move_down()) {
-    game_state->fsm_state = MOVING;
-  } else {
-    game_state->fsm_state = ATTACHING;
+  if (!able_to_move_down()) {
     attach_block();
   }
 }

@@ -64,6 +64,8 @@ void remove_full_layers() {
 void attach_block() {
   BackGameInfo_t *game_state = get_game_state();
 
+  game_state->fsm_state = ATTACHING;
+
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state->figure.matrix[i][j]) {
@@ -79,7 +81,6 @@ void attach_block() {
   if (game_is_over()) {
     game_state->fsm_state = GAME_OVER;
   } else {
-    game_state->fsm_state = SPAWN;
     spawn_block();
     game_state->fsm_state = MOVING;
   }
