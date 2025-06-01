@@ -66,6 +66,7 @@ void attach_block() {
 
   game_state->fsm_state = ATTACHING;
 
+  // поставили блок на поле - не совсем корректно, но норм
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state->figure.matrix[i][j]) {
@@ -76,14 +77,13 @@ void attach_block() {
     }
   }
 
+  // освободили заполненные слои
   remove_full_layers();
-
+/*
   if (game_is_over()) {
     game_state->fsm_state = GAME_OVER;
-  } else {
-    spawn_block();
-    game_state->fsm_state = MOVING;
   }
+*/
 }
 
 int game_is_over() { return achieved_top_layer() || achieved_max_level(); }

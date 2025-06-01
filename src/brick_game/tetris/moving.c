@@ -232,16 +232,13 @@ int able_to_turn_left() {
 }
 
 void turn_left() {
-  BackGameInfo_t *game_state = get_game_state();
+  //BackGameInfo_t *game_state = get_game_state();
 
   if (able_to_turn_left()) {
     turn_left_matrix();
   }
 
-  if (able_to_move_down()) {
-    game_state->fsm_state = MOVING;
-  } else {
-    game_state->fsm_state = ATTACHING;
+  if (!able_to_move_down()) {
     attach_block();
   }
 }
