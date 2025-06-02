@@ -25,7 +25,7 @@ test: clean tetris_lib.a $(TESTS_DIR)/*.c
 	$(TESTS_DIR)/test.o
 
 clean:
-	rm -rf tetris tetris_lib.a
+	rm -rf tetris tetris_lib.a tetris.dSYM
 	rm -rf $(TETRIS_DIR_BACK)/*.o	
 	rm -rf $(TESTS_DIR)/*.o	
 

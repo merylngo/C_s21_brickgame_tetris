@@ -53,23 +53,6 @@ void play_game() {
 
       print_current_state(*game_state);
     }
-
-    /*
-        timeout(delay);
-        int command = getch();
-        UserAction_t action = get_action(command);
-
-        userInput(action, false);
-
-        game_state = updateCurrentState();
-
-        delay = START_TIMEOUT - 40 * game_state->speed;
-
-        if (game_state->pause) {
-          print_pause_screen(*game_state);
-        } else {
-          print_current_state(*game_state);
-        } */
   } while (game_not_over(game_state));
 
   int finish_key;

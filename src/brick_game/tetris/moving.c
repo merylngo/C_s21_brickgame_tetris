@@ -1,5 +1,7 @@
 #include "moving.h"
 
+#include "attaching.h"
+
 int able_to_move_left() {
   BackGameInfo_t *game_state = get_game_state();
   int res = 1;
@@ -24,36 +26,6 @@ int able_to_move_left() {
   }
 
   return res;
-}
-
-void move_left() {
-  BackGameInfo_t *game_state = get_game_state();
-
-  if (able_to_move_left()) {
-    (game_state->figure.x)--;
-  }
-
-  if (able_to_move_down()) {
-    game_state->fsm_state = MOVING;
-  } else {
-    game_state->fsm_state = ATTACHING;
-    attach_block();
-  }
-}
-
-void move_right() {
-  BackGameInfo_t *game_state = get_game_state();
-
-  if (able_to_move_right()) {
-    (game_state->figure.x)++;
-  }
-
-  if (able_to_move_down()) {
-    game_state->fsm_state = MOVING;
-  } else {
-    game_state->fsm_state = ATTACHING;
-    attach_block();
-  }
 }
 
 int able_to_move_right() {
@@ -145,12 +117,6 @@ int able_to_move_down() {
   return flag;
 }
 
-void fall_down() {
-  while (able_to_move_down()) {
-    move_down();
-  }
-}
-
 void normalize_matrix(int **matrix) {
   int first_layer_block = 0;
 
@@ -204,6 +170,7 @@ void turn_left_matrix() {
   }
 
   normalize_matrix(game_state->figure.matrix);
+  normalize_matrix(game_state->figure.matrix);
 }
 
 int able_to_turn_left() {
@@ -231,14 +198,48 @@ int able_to_turn_left() {
   return res;
 }
 
-void turn_left() {
-  // BackGameInfo_t *game_state = get_game_state();
+void move_left() {
+  BackGameInfo_t *game_state = get_game_state();
 
+  if (able_to_move_left()) {
+    (game_state->figure.x)--;
+  }
+
+  if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
+  } else {
+    game_state->fsm_state = ATTACHING;
+    attach_block();
+  }
+}
+
+void move_right() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  if (able_to_move_right()) {
+    (game_state->figure.x)++;
+  }
+
+  if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
+  } else {
+    game_state->fsm_state = ATTACHING;
+    attach_block();
+  }
+}
+
+void turn_left() {
   if (able_to_turn_left()) {
     turn_left_matrix();
   }
 
   if (!able_to_move_down()) {
     attach_block();
+  }
+}
+
+void fall_down() {
+  while (able_to_move_down()) {
+    move_down();
   }
 }

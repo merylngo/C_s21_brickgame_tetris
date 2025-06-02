@@ -1,3 +1,5 @@
+#include "attaching.h"
+
 #include "blocks.h"
 #include "main_header.h"
 
@@ -73,13 +75,36 @@ void update_level(int prev_score) {
     game_state->speed++;
   }
 }
+#if 0 
+int able_to_attach_block() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  int last_i;
+  int cnt_empty_strings = 0;
+
+  // находим last_i = последнюю строку в блоке, где есть часть фигуры
+  for (last_i = BLOCK_SIZE - 1; last_i > 0; last_i--) {
+    int j;
+
+    for (j = 0; j < BLOCK_SIZE; j++) {
+      if (game_state->figure.matrix[last_i][j]) {
+        break;
+      }
+    }
+
+    if (last_i >=0 && j < BLOCK_SIZE && game_state->figure.matrix[last_i][j]) {
+      break;
+    }
+  }
+}
+#endif
 
 void attach_block() {
   BackGameInfo_t *game_state = get_game_state();
 
   game_state->fsm_state = ATTACHING;
 
-  // поставили блок на поле - не совсем корректно, но норм
+  // поставили блок на поле - не совсем корректно
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state->figure.matrix[i][j]) {
@@ -115,7 +140,7 @@ int achieved_top_layer() {
       }
     }
 
-    if (game_state->figure.matrix[last_i][j]) {
+    if (last_i >= 0 && j < BLOCK_SIZE && game_state->figure.matrix[last_i][j]) {
       break;
     }
   }

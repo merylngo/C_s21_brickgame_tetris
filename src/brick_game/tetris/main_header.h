@@ -56,11 +56,7 @@ typedef enum {
 
 BackGameInfo_t *get_game_state();
 
-void copy_top_layers(int layer_number);
-void remove_full_layers();
-void attach_block();
 void update_level(int prev_score);
-
 int achieved_top_layer();
 int achieved_max_level();
 int game_is_over();
