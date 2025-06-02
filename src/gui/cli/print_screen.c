@@ -82,39 +82,21 @@ void print_current_state(BackGameInfo_t game_state) {
 }
 
 void print_pause_screen(BackGameInfo_t game_state) {
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state.field[i][j]) {
-        print_cell(0, i, j * 2, '[');
-        print_cell(0, i, j * 2 + 1, ']');
-      } else {
-        print_cell(0, i, j * 2, '-');
-        print_cell(0, i, j * 2 + 1, '-');
-      }
-    }
-  }
+  clear();
 
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++)
-      if (game_state.figure.matrix[i][j]) {
-        print_cell(game_state.figure.color, game_state.figure.y + i,
-                   (game_state.figure.x + j) * 2, '[');
-        print_cell(game_state.figure.color, game_state.figure.y + i,
-                   (game_state.figure.x + j) * 2 + 1, ']');
-      }
-  }
+  mvprintw(BORDER_UP - 1, BORDER_LEFT, "PAUSE: press 'p' to continue");
+
+  print_field(game_state);
+  print_info_screen(game_state);
 }
 
 void print_final_screen(BackGameInfo_t game_state) {
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state.field[i][j]) {
-        print_cell(0, i, j * 2, '[');
-        print_cell(0, i, j * 2 + 1, ']');
-      } else {
-        print_cell(0, i, j * 2, '-');
-        print_cell(0, i, j * 2 + 1, '-');
-      }
-    }
-  }
+  clear();
+
+  mvprintw(BORDER_UP - 4, BORDER_LEFT, "GAME_OVER");
+  mvprintw(BORDER_UP - 3, BORDER_LEFT, "YOUR_SCORE: %d", game_state.score);
+  mvprintw(BORDER_UP - 2, BORDER_LEFT, "HIGHEST_SCORE: %d", 0);
+  mvprintw(BORDER_UP - 1, BORDER_LEFT, "PRESS ESC TO EXIT GAME");
+
+  print_field(game_state);
 }
