@@ -8,7 +8,6 @@ void userInput(UserAction_t action, int hold) {
     case Start:
       init_game();
       spawn_block();
-      game_state->fsm_state = MOVING;
 
       break;
 
