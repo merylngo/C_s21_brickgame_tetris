@@ -65,11 +65,13 @@ void print_info_screen(BackGameInfo_t game_state) {
            game_state.high_score);
   mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "next_block:");
 
+  k++;
+
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state.next_block && game_state.next_block[i][j]) {
-        mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 1, '[');
-        mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 2, ']');
+        mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 2, '[');
+        mvaddch(BORDER_UP + k + i, (BORDER_RIGHT + j) * 2 + 3, ']');
       }
     }
   }

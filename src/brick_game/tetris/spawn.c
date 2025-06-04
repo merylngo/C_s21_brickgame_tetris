@@ -1,4 +1,4 @@
-#include "blocks.h"
+#include "spawn.h"
 
 void copy_matrix(int src[][BLOCK_SIZE], int ***dest) {
   for (int i = 0; i < BLOCK_SIZE; i++) {

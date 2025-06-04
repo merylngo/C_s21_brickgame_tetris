@@ -1,7 +1,7 @@
 #include "attaching.h"
 
-#include "blocks.h"
 #include "main_header.h"
+#include "spawn.h"
 
 void copy_top_layers(int layer_number) {
   BackGameInfo_t *game_state = get_game_state();
@@ -73,13 +73,13 @@ void remove_full_layers() {
 }
 
 void update_high_score(int new_score) {
-    FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "w");
+  FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "w");
 
-    if (file_score) { 
-      fprintf(file_score, "%d", new_score);
+  if (file_score) {
+    fprintf(file_score, "%d", new_score);
 
-      fclose(file_score);
-    }
+    fclose(file_score);
+  }
 }
 
 void update_level(int prev_score) {

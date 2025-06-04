@@ -9,8 +9,8 @@
 #define BORDER_RIGHT (BORDER_LEFT + FIELD_SIZE_X)
 #define BORDER_BOTTOM (BORDER_UP + FIELD_SIZE_Y)
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
 

@@ -42,18 +42,18 @@ matrix_status create_matrix(int ***result, int rows, int cols) {
 }
 
 int get_high_score() {
-    int res = 0;
-    FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "r");
+  int res = 0;
+  FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "r");
 
-    if (file_score) { 
-      if (fscanf(file_score, "%d", &res) != 1) {
-        res = 0;
-      }
-
-      fclose(file_score);
+  if (file_score) {
+    if (fscanf(file_score, "%d", &res) != 1) {
+      res = 0;
     }
 
-    return res;
+    fclose(file_score);
+  }
+
+  return res;
 }
 
 void init_game() {
