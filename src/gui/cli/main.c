@@ -49,7 +49,7 @@ void play_game() {
 
       game_state = updateCurrentState();
 
-      delay = START_TIMEOUT - 40 * game_state->speed;
+      delay /= game_state->speed;
 
       print_current_state(*game_state);
     }

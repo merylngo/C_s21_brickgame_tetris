@@ -10,6 +10,7 @@
 #define BORDER_BOTTOM (BORDER_UP + FIELD_SIZE_Y)
 
 #include <stdlib.h>
+#include <stdio.h>
 
 enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
 
@@ -57,6 +58,7 @@ typedef enum {
 BackGameInfo_t *get_game_state();
 
 void update_level(int prev_score);
+void update_high_score(int new_score);
 int achieved_top_layer();
 int achieved_max_level();
 int game_is_over();

@@ -64,7 +64,22 @@ void remove_full_layers() {
       break;
   }
 
+  if (game_state->score > game_state->high_score) {
+    game_state->high_score = game_state->score;
+    update_high_score(game_state->score);
+  }
+
   update_level(prev_score);
+}
+
+void update_high_score(int new_score) {
+    FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "w");
+
+    if (file_score) { 
+      fprintf(file_score, "%d", new_score);
+
+      fclose(file_score);
+    }
 }
 
 void update_level(int prev_score) {

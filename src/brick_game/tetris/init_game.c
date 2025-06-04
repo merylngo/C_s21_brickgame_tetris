@@ -41,8 +41,27 @@ matrix_status create_matrix(int ***result, int rows, int cols) {
   return status;
 }
 
+int get_high_score() {
+    int res = 0;
+    FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "r");
+
+    if (file_score) { 
+      if (fscanf(file_score, "%d", &res) != 1) {
+        res = 0;
+      }
+
+      fclose(file_score);
+    }
+
+    return res;
+}
+
 void init_game() {
   BackGameInfo_t *game_state = get_game_state();
+
+  game_state->speed = 1;
+  game_state->level = 1;
+  game_state->high_score = get_high_score();
 
   matrix_status field_status =
       create_matrix(&game_state->field, FIELD_SIZE_Y, FIELD_SIZE_X);
