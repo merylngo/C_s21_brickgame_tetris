@@ -51,18 +51,27 @@ void print_field(BackGameInfo_t game_state) {
 }
 
 void print_info_screen(BackGameInfo_t game_state) {
-  int k = 1;
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+  for (int i = 0; i < 12; i++) {
     mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
   }
 
+  int k = 0;
+
   mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "game_info:");
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "speed: %d",
-           game_state.speed);
+
+  k++;
+
   mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "score: %d",
            game_state.score);
   mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "max_score: %d",
            game_state.high_score);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "level: %d",
+           game_state.level);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "speed: %d",
+           game_state.speed);
+
+  k++;
+
   mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "next_block:");
 
   k++;
@@ -95,10 +104,19 @@ void print_pause_screen(BackGameInfo_t game_state) {
 void print_final_screen(BackGameInfo_t game_state) {
   clear();
 
-  mvprintw(BORDER_UP - 4, BORDER_LEFT, "GAME_OVER");
-  mvprintw(BORDER_UP - 3, BORDER_LEFT, "YOUR_SCORE: %d", game_state.score);
-  mvprintw(BORDER_UP - 2, BORDER_LEFT, "HIGHEST_SCORE: %d", 0);
-  mvprintw(BORDER_UP - 1, BORDER_LEFT, "PRESS ESC TO EXIT GAME");
-
   print_field(game_state);
+
+  for (int i = 0; i < 5; i++) {
+    mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
+  }
+
+  int k = 0;
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "GAME_OVER");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "YOUR_SCORE: %d",
+           game_state.score);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "HIGHEST_SCORE: %d",
+           game_state.high_score);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "ACHIEVED_LEVEL: %d",
+           game_state.level);
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "PRESS ESC TO EXIT GAME");
 }

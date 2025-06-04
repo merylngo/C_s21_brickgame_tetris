@@ -90,8 +90,10 @@ void spawn_block() {
     get_next_block();
   }
 
+  game_state->fsm_state = SPAWN;
+
   init_current_block();
   get_next_block();
 
-  game_state->fsm_state = SPAWN;
+  game_state->fsm_state = MOVING;
 }

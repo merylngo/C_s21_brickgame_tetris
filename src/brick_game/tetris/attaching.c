@@ -45,8 +45,6 @@ void remove_full_layers() {
     }
   }
 
-  int prev_score = game_state->score;
-
   switch (cnt_layers) {
     case 1:
       game_state->score += 100;
@@ -60,59 +58,47 @@ void remove_full_layers() {
     case 4:
       game_state->score += 1500;
       break;
+    case 5:
+      game_state->score += 3100;
+      break;
+    case 6:
+      game_state->score += 6300;
+      break;
+    case 7:
+      game_state->score += 9700;
+      break;
     default:
       break;
   }
 
+  update_level();
+
   if (game_state->score > game_state->high_score) {
     game_state->high_score = game_state->score;
-    update_high_score(game_state->score);
+    update_high_score();
   }
-
-  update_level(prev_score);
 }
 
-void update_high_score(int new_score) {
+void update_high_score() {
   FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "w");
+  BackGameInfo_t *game_state = get_game_state();
 
   if (file_score) {
-    fprintf(file_score, "%d", new_score);
+    fprintf(file_score, "%d", game_state->high_score);
 
     fclose(file_score);
   }
 }
 
-void update_level(int prev_score) {
+void update_level() {
   BackGameInfo_t *game_state = get_game_state();
+  int new_level = game_state->score / 600;
 
-  if (game_state->score - prev_score >= 600) {
-    game_state->level++;
+  if (new_level > game_state->level) {
+    game_state->level = new_level;
     game_state->speed++;
   }
 }
-#if 0 
-int able_to_attach_block() {
-  BackGameInfo_t *game_state = get_game_state();
-
-  int last_i;
-  int cnt_empty_strings = 0;
-
-  // находим last_i = последнюю строку в блоке, где есть часть фигуры
-  for (last_i = BLOCK_SIZE - 1; last_i > 0; last_i--) {
-    int j;
-
-    for (j = 0; j < BLOCK_SIZE; j++) {
-      if (game_state->figure.matrix[last_i][j]) {
-        break;
-      }
-    }
-
-    if (last_i >=0 && j < BLOCK_SIZE && game_state->figure.matrix[last_i][j]) {
-      break;
-    }
-  }
-}
-#endif
 
 void attach_block() {
   BackGameInfo_t *game_state = get_game_state();
@@ -130,11 +116,12 @@ void attach_block() {
     }
   }
 
-  // освободили заполненные слои
   remove_full_layers();
 
   if (game_is_over()) {
     game_state->fsm_state = GAME_OVER;
+  } else {
+    spawn_block();
   }
 }
 

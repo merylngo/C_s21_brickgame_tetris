@@ -13,25 +13,29 @@ void userInput(UserAction_t action, int hold) {
       break;
 
     case Left:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING ||
+          game_state->fsm_state == SHIFTING) {
         move_left();
       }
       break;
 
     case Right:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING ||
+          game_state->fsm_state == SHIFTING) {
         move_right();
       }
       break;
 
     case Down:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING ||
+          game_state->fsm_state == SHIFTING) {
         fall_down();
       }
       break;
 
     case Action:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING ||
+          game_state->fsm_state == SHIFTING) {
         turn_left();
       }
       break;
@@ -46,8 +50,10 @@ void userInput(UserAction_t action, int hold) {
       break;
 
     case Empty:
-      if (game_state->fsm_state == MOVING) {
+      if (game_state->fsm_state == MOVING ||
+          game_state->fsm_state == SHIFTING) {
         move_down();
+        // game_state->fsm_state = SHIFTING;
       }
 
       if (game_state->fsm_state == ATTACHING) {

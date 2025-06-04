@@ -12,6 +12,7 @@
 #include "print_screen.h"
 
 #define START_TIMEOUT 300
+#define START_KEY '\n'
 
 void init_cli();
 void play_game();

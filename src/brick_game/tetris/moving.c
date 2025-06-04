@@ -65,20 +65,6 @@ int able_to_move_right() {
   return flag;
 }
 
-void move_down() {
-  BackGameInfo_t *game_state = get_game_state();
-
-  game_state->fsm_state = MOVING;
-
-  if (able_to_move_down()) {
-    (game_state->figure.y)++;
-  }
-
-  if (!able_to_move_down()) {
-    attach_block();
-  }
-}
-
 int able_to_move_down() {
   BackGameInfo_t *game_state = get_game_state();
   int last_i;
@@ -153,26 +139,6 @@ void normalize_matrix(int **matrix) {
   }
 }
 
-void turn_left_matrix() {
-  BackGameInfo_t *game_state = get_game_state();
-  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      left_matrix[BLOCK_SIZE - j - 1][i] = game_state->figure.matrix[i][j];
-    }
-  }
-
-  for (int i = 0; i < BLOCK_SIZE; i++) {
-    for (int j = 0; j < BLOCK_SIZE; j++) {
-      game_state->figure.matrix[i][j] = left_matrix[i][j];
-    }
-  }
-
-  normalize_matrix(game_state->figure.matrix);
-  normalize_matrix(game_state->figure.matrix);
-}
-
 int able_to_turn_left() {
   BackGameInfo_t *game_state = get_game_state();
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
@@ -198,17 +164,48 @@ int able_to_turn_left() {
   return res;
 }
 
+void turn_left_matrix() {
+  BackGameInfo_t *game_state = get_game_state();
+  int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      left_matrix[BLOCK_SIZE - j - 1][i] = game_state->figure.matrix[i][j];
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      game_state->figure.matrix[i][j] = left_matrix[i][j];
+    }
+  }
+
+  normalize_matrix(game_state->figure.matrix);
+  normalize_matrix(game_state->figure.matrix);
+}
+
+void move_down() {
+  BackGameInfo_t *game_state = get_game_state();
+
+  game_state->fsm_state = MOVING;
+
+  if (able_to_move_down()) {
+    (game_state->figure.y)++;
+  } else {
+    attach_block();
+  }
+}
+
 void move_left() {
   BackGameInfo_t *game_state = get_game_state();
+
+  game_state->fsm_state = MOVING;
 
   if (able_to_move_left()) {
     (game_state->figure.x)--;
   }
 
-  if (able_to_move_down()) {
-    game_state->fsm_state = MOVING;
-  } else {
-    game_state->fsm_state = ATTACHING;
+  if (!able_to_move_down()) {
     attach_block();
   }
 }
@@ -216,14 +213,13 @@ void move_left() {
 void move_right() {
   BackGameInfo_t *game_state = get_game_state();
 
+  game_state->fsm_state = MOVING;
+
   if (able_to_move_right()) {
     (game_state->figure.x)++;
   }
 
-  if (able_to_move_down()) {
-    game_state->fsm_state = MOVING;
-  } else {
-    game_state->fsm_state = ATTACHING;
+  if (!able_to_move_down()) {
     attach_block();
   }
 }
