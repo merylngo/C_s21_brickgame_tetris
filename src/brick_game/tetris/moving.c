@@ -103,7 +103,7 @@ int able_to_move_down() {
   return flag;
 }
 
-void normalize_matrix(int **matrix) {
+void normalize_matrix(int matrix[][BLOCK_SIZE]) {
   int first_layer_block = 0;
 
   for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -139,6 +139,42 @@ void normalize_matrix(int **matrix) {
   }
 }
 
+void normalize_matrix_pt(int ***matrix) {
+  int first_layer_block = 0;
+
+  for (int j = 0; j < BLOCK_SIZE; j++) {
+    first_layer_block += (*matrix)[0][j];
+  }
+
+  if (first_layer_block == 0) {
+    for (int i = 1; i < BLOCK_SIZE; i++) {
+      for (int j = 0; j < BLOCK_SIZE; j++) {
+        (*matrix)[i - 1][j] = (*matrix)[i][j];
+      }
+    }
+
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      (*matrix)[BLOCK_SIZE - 1][j] = 0;
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    first_layer_block += (*matrix)[i][0];
+  }
+
+  if (first_layer_block == 0) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      for (int j = 1; j < BLOCK_SIZE; j++) {
+        (*matrix)[i][j - 1] = (*matrix)[i][j];
+      }
+    }
+
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      (*matrix)[i][BLOCK_SIZE - 1] = 0;
+    }
+  }
+}
+
 int able_to_turn_left() {
   BackGameInfo_t *game_state = get_game_state();
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
@@ -149,6 +185,8 @@ int able_to_turn_left() {
       left_matrix[BLOCK_SIZE - j - 1][i] = game_state->figure.matrix[i][j];
     }
   }
+
+  normalize_matrix(left_matrix);
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -180,20 +218,18 @@ void turn_left_matrix() {
     }
   }
 
-  normalize_matrix(game_state->figure.matrix);
-  normalize_matrix(game_state->figure.matrix);
+  normalize_matrix_pt(&game_state->figure.matrix);
 }
 
 void move_down() {
   BackGameInfo_t *game_state = get_game_state();
 
   if (able_to_move_down()) {
+    game_state->fsm_state = MOVING;
     (game_state->figure.y)++;
   } else {
     attach_block();
   }
-
-  game_state->fsm_state = MOVING;
 }
 
 void move_left() {
@@ -248,5 +284,38 @@ void turn_left() {
 void fall_down() {
   while (able_to_move_down()) {
     move_down();
+  }
+
+  attach_block();
+}
+
+void move_block(UserAction_t action) {
+  BackGameInfo_t *game_state = get_game_state();
+
+  if (game_state->fsm_state == MOVING || game_state->fsm_state == SHIFTING) {
+    switch (action) {
+      case Left:
+        move_left();
+        break;
+
+      case Right:
+        move_right();
+        break;
+
+      case Down:
+        fall_down();
+        break;
+
+      case Action:
+        turn_left();
+        break;
+
+      case Empty:
+        move_down();
+        break;
+
+      default:
+        break;
+    }
   }
 }
