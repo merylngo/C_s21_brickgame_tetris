@@ -28,12 +28,15 @@ void print_cell(int color_code, int x, int y, char sign) {
   }
 }
 
-void print_field(BackGameInfo_t game_state) {
+void print_field(int color_flag, BackGameInfo_t game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_state.field && game_state.field[i][j]) {
+      if (game_state.field[i][j] && color_flag) {
         print_cell(game_state.field[i][j], i, j * 2, '[');
         print_cell(game_state.field[i][j], i, j * 2 + 1, ']');
+      } else if (game_state.field[i][j] && color_flag == 0) {
+        print_cell(0, i, j * 2, '[');
+        print_cell(0, i, j * 2 + 1, ']');
       } else {
         print_cell(0, i, j * 2, '-');
         print_cell(0, i, j * 2 + 1, '-');
@@ -43,12 +46,23 @@ void print_field(BackGameInfo_t game_state) {
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++)
-      if (game_state.figure.matrix[i][j]) {
+      if (game_state.figure.matrix[i][j] && color_flag) {
         print_cell(game_state.figure.color, game_state.figure.y + i,
                    (game_state.figure.x + j) * 2, '[');
         print_cell(game_state.figure.color, game_state.figure.y + i,
                    (game_state.figure.x + j) * 2 + 1, ']');
-      }
+      } else if (game_state.figure.matrix[i][j] && color_flag == 0) {
+        print_cell(0, game_state.figure.y + i, (game_state.figure.x + j) * 2,
+                   '[');
+        print_cell(0, game_state.figure.y + i,
+                   (game_state.figure.x + j) * 2 + 1, ']');
+      } /*
+      else {
+        print_cell(0, game_state.figure.y + i,
+                   (game_state.figure.x + j) * 2, '[');
+        print_cell(0, game_state.figure.y + i,
+                   (game_state.figure.x + j) * 2 + 1, ']');
+      } */
   }
 }
 
@@ -90,7 +104,7 @@ void print_info_screen(BackGameInfo_t game_state) {
 
 void print_current_state(BackGameInfo_t game_state) {
   clear();
-  print_field(game_state);
+  print_field(1, game_state);
   print_info_screen(game_state);
 }
 
@@ -99,14 +113,14 @@ void print_pause_screen(BackGameInfo_t game_state) {
 
   mvprintw(BORDER_UP - 1, BORDER_LEFT, "PAUSE: press 'p' to continue");
 
-  print_field(game_state);
+  print_field(1, game_state);
   print_info_screen(game_state);
 }
 
 void print_final_screen(BackGameInfo_t game_state) {
   clear();
 
-  print_field(game_state);
+  print_field(0, game_state);
 
   for (int i = 0; i < 5; i++) {
     mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');

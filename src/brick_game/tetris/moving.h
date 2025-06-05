@@ -14,7 +14,6 @@ void fall_down();
 int able_to_move_down();
 
 void normalize_matrix(int matrix[][BLOCK_SIZE]);
-void normalize_matrix_pt(int ***matrix);
 void turn_left_matrix();
 int able_to_turn_left();
 void turn_left();
