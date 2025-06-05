@@ -42,7 +42,27 @@ START_TEST(test_3) {
 }
 END_TEST
 
-Suite* create_remove_test(void) {
+START_TEST(test_4) {
+  BackGameInfo_t* game_state = get_game_state();
+
+  init_game();
+
+  ck_assert_msg(game_state->field != NULL,
+                RED_BCGR "function failed 1" RESET_COLORS);
+  ck_assert_msg(game_state->figure.matrix != NULL,
+                RED_BCGR "function failed 2" RESET_COLORS);
+  ck_assert_msg(game_state->next_block != NULL,
+                RED_BCGR "function failed 3" RESET_COLORS);
+  ck_assert_msg(game_state->level != 1,
+                RED_BCGR "function failed 4" RESET_COLORS);
+  ck_assert_msg(game_state->speed != 1,
+                RED_BCGR "function failed 5" RESET_COLORS);
+
+  free_game();
+}
+END_TEST
+
+Suite* init_game_test(void) {
   Suite* suite = suite_create(GREEN_BCGR WHITE_FONT
                               ">     create_&_remove     <" RESET_COLORS);
 
@@ -51,6 +71,7 @@ Suite* create_remove_test(void) {
   tcase_add_test(tcase_core, test_1);
   tcase_add_test(tcase_core, test_2);
   tcase_add_test(tcase_core, test_3);
+  tcase_add_test(tcase_core, test_4);
 
   suite_add_tcase(suite, tcase_core);
 

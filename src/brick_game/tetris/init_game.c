@@ -74,5 +74,7 @@ void init_game() {
 
   if (field_status + next_block_status + current_block_status == 0) {
     game_state->fsm_state = START;
+  } else {
+    game_state->fsm_state = GAME_OVER;
   }
 }

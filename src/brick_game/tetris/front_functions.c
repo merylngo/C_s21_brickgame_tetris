@@ -55,11 +55,6 @@ void userInput(UserAction_t action, int hold) {
         // game_state->fsm_state = SHIFTING;
       }
 
-      if (game_state->fsm_state == ATTACHING) {
-        game_state->fsm_state = SPAWN;
-        spawn_block();
-        game_state->fsm_state = MOVING;
-      }
       break;
 
     default:

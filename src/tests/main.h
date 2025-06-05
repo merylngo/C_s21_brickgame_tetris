@@ -20,6 +20,10 @@
 
 #define SIZE 100
 
-Suite* create_remove_test(void);
+void generate_field();
+int check_block_on_field(int field_before[][FIELD_SIZE_X]);
+
+Suite* init_game_test(void);
+Suite* fall_down_test(void);
 
 #endif
