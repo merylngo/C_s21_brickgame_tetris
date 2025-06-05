@@ -187,13 +187,13 @@ void turn_left_matrix() {
 void move_down() {
   BackGameInfo_t *game_state = get_game_state();
 
-  game_state->fsm_state = MOVING;
-
   if (able_to_move_down()) {
     (game_state->figure.y)++;
   } else {
     attach_block();
   }
+
+  game_state->fsm_state = MOVING;
 }
 
 void move_left() {
@@ -207,6 +207,9 @@ void move_left() {
 
   if (!able_to_move_down()) {
     attach_block();
+  } else {
+    game_state->fsm_state = SHIFTING;
+    move_down();
   }
 }
 
@@ -221,16 +224,24 @@ void move_right() {
 
   if (!able_to_move_down()) {
     attach_block();
+  } else {
+    game_state->fsm_state = SHIFTING;
+    move_down();
   }
 }
 
 void turn_left() {
+  BackGameInfo_t *game_state = get_game_state();
+
   if (able_to_turn_left()) {
     turn_left_matrix();
   }
 
   if (!able_to_move_down()) {
     attach_block();
+  } else {
+    game_state->fsm_state = SHIFTING;
+    move_down();
   }
 }
 

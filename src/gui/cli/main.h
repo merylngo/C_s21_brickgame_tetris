@@ -11,7 +11,7 @@
 #include "../../brick_game/tetris/moving.h"
 #include "print_screen.h"
 
-#define START_TIMEOUT 300
+#define START_TIMEOUT 400
 #define START_KEY '\n'
 
 void init_cli();
