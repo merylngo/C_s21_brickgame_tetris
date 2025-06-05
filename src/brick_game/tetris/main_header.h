@@ -14,7 +14,7 @@
 
 enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
 
-typedef enum { RED = 1, GREEN, WHITE, YELLOW, BLUE } color_codes;
+typedef enum { RED = 1, GREEN, YELLOW, BLUE, PINK, PURPLE, WHITE } color_codes;
 
 enum block_codes {
   SQUARE,

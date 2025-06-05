@@ -64,7 +64,7 @@ enum block_codes generate_next_block() {
   return (enum block_codes)(rand() % 7);
 }
 
-color_codes generate_color_code() { return (color_codes)(rand() % 5 + 1); }
+color_codes generate_color_code() { return (color_codes)(rand() % 7 + 1); }
 
 void get_next_block() {
   BackGameInfo_t *game_state = get_game_state();

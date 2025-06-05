@@ -10,6 +10,8 @@ void init_colors() {
   init_pair(RED, COLOR_RED, COLOR_RED);
   init_pair(GREEN, COLOR_GREEN, COLOR_GREEN);
   init_pair(WHITE, COLOR_WHITE, COLOR_WHITE);
+  init_pair(PINK, COLOR_MAGENTA, COLOR_MAGENTA);
+  init_pair(PURPLE, COLOR_CYAN, COLOR_CYAN);
   init_pair(YELLOW, COLOR_YELLOW, COLOR_YELLOW);
   init_pair(BLUE, COLOR_BLUE, COLOR_BLUE);
 }
