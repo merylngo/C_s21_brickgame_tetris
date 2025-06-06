@@ -3,7 +3,6 @@ CFLAGS := -std=c11 -Wall -Werror -Wextra -g
 ASAN := -fsanitize=address
 #directories
 TETRIS_DIR_BACK := ./brick_game/tetris/
-
 C_LIB_SRCS := $(wildcard $(TETRIS_DIR_BACK)/*.c)
 C_LIB_OBJS := $(C_LIB_SRCS:%.c=%.o)
 
@@ -51,7 +50,7 @@ uninstall:
 	-rm -rf install
 
 dvi:
-	@doxygen Doxyfile > /dev/null 2>&1
+	@doxygen ./documentation/Doxyfile > /dev/null 2>&1
 	@cd dvi/latex && latex -silent refman.tex > /dev/null 2>&1
 	mv dvi/latex/refman.dvi dvi/
 	rm -rf dvi/latex
@@ -62,31 +61,24 @@ run_dvi: dvi
 dist:
 	rm -rf dist/
 	mkdir -p dist
-	tar cvzf dist/BrickGame_1.0.tgz brick_game gui test FSM_tetris.jpeg Doxyfile Makefile mainpage.dox	
+	tar cvzf dist/BrickGame_Tetris.tgz Makefile brick_game gui tests documentation
 
 play: install
 	./install/tetris	
 
 clean:
-	rm -rf tetris tetris_lib.a tetris.dSYM
+	rm -rf tetris tetris_lib.a tetris.dSYM dist
 	rm -rf $(TETRIS_DIR_BACK)/*.o $(TETRIS_DIR_MAIN)/*.o $(TESTS_DIR)/*.o
 	rm -rf *.gcno *.gcda *.info report.out *.gcov report
 
 style:
 	cp ../materials/linters/.clang-format ../src/
-	clang-format -i $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c
-	clang-format -i $(TETRIS_DIR_MAIN)*.h $(TETRIS_DIR_BACK)*.h
-	clang-format -i $(TESTS_DIR)/*.c
-	clang-format -i $(TESTS_DIR)/*.h
-
+	clang-format -i $(TETRIS_DIR_BACK)*.h $(TETRIS_DIR_BACK)*.c
+	clang-format -i $(TETRIS_DIR_MAIN)*.h $(TETRIS_DIR_MAIN)*.c
+	clang-format -i $(TESTS_DIR)/*.c $(TESTS_DIR)/*.h
 
 check:
 	cp ../materials/linters/.clang-format ../src/
-	clang-format -n *.c
-	clang-format -n *.h
-	clang-format -n $(TESTS_DIR)/*.c
-	clang-format -n $(TESTS_DIR)/*.h
-
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	clang-format -n $(TETRIS_DIR_BACK)*.h $(TETRIS_DIR_BACK)*.c
+	clang-format -n $(TETRIS_DIR_MAIN)*.h $(TETRIS_DIR_MAIN)*.c
+	clang-format -n $(TESTS_DIR)/*.c $(TESTS_DIR)/*.h

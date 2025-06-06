@@ -1,8 +1,8 @@
 #include "print_screen.h"
 
 void print_start_screen() {
-  mvprintw(10, 10, "Press ENTER button to start\n");
-  mvprintw(11, 10, "Press any other key to end\n");
+  mvprintw(10, 10, "Press ENTER to start\n");
+  mvprintw(11, 10, "Press ESCAPE to quit\n");
 }
 
 void init_colors() {

@@ -1,7 +1,8 @@
 #include "main.h"
-#include "../../brick_game/tetris/main_header.h"
-#include "../../brick_game/tetris/front_functions.h"
+
 #include "../../brick_game/tetris/free_game.h"
+#include "../../brick_game/tetris/front_functions.h"
+#include "../../brick_game/tetris/main_header.h"
 
 int main(void) {
   init_cli();
@@ -23,16 +24,24 @@ void init_cli() {
 
 void play_game() {
   int start_key;
+  int flag_terminate_before = 0;
 
-  while ((start_key = getch()) && (start_key != START_KEY)) {
+  while ((start_key = getch()) &&
+         (start_key != START_KEY && start_key != FINISH_KEY)) {
     print_start_screen();
   }
 
-  userInput(Start, false);
+  if (start_key == START_KEY) {
+    userInput(Start, false);
+  } else {
+    userInput(Terminate, false);
+    flag_terminate_before = 1;
+  }
+
   BackGameInfo_t *game_state = updateCurrentState();
   int delay = START_TIMEOUT;
 
-  do {
+  while (game_not_over(game_state)) {
     timeout(delay);
 
     if (game_state->pause) {
@@ -51,19 +60,20 @@ void play_game() {
 
       game_state = updateCurrentState();
 
-      delay = START_TIMEOUT - 29 * game_state->speed;
+      delay = START_TIMEOUT - 45 * game_state->speed;
 
       print_current_state(*game_state);
     }
-  } while (game_not_over(game_state));
-
-  int finish_key;
-
-  while ((finish_key = getch()) && finish_key != 27) {
-    print_final_screen(*game_state);
   }
+  if (!flag_terminate_before) {
+    int finish_key;
 
-  free_game();
+    while ((finish_key = getch()) && finish_key != FINISH_KEY) {
+      print_final_screen(*game_state);
+    }
+
+    free_game();
+  }
 }
 
 UserAction_t get_action(int command) {
