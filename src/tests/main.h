@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <stdio.h>
 
+#include "../brick_game/tetris/attaching.h"
 #include "../brick_game/tetris/free_game.h"
 #include "../brick_game/tetris/front_functions.h"
 #include "../brick_game/tetris/init_game.h"
@@ -18,12 +19,10 @@
 #define WHITE_FONT "\033[97m"
 #define RESET_COLORS "\033[0m"
 
-#define SIZE 100
+Suite* init_game_test(void);
+Suite* fall_down_test(void);
 
 void generate_field();
 int check_block_on_field(int field_before[][FIELD_SIZE_X]);
-
-Suite* init_game_test(void);
-Suite* fall_down_test(void);
 
 #endif

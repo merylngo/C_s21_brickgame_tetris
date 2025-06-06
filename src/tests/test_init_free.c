@@ -62,11 +62,11 @@ START_TEST(test_4) {
 }
 END_TEST
 
-Suite* init_game_test(void) {
+Suite* init_free_test(void) {
   Suite* suite = suite_create(GREEN_BCGR WHITE_FONT
-                              ">     create_&_remove     <" RESET_COLORS);
+                              ">     init_free_test     <" RESET_COLORS);
 
-  TCase* tcase_core = tcase_create("test_create_&_remove");
+  TCase* tcase_core = tcase_create("init_free_test()");
 
   tcase_add_test(tcase_core, test_1);
   tcase_add_test(tcase_core, test_2);
