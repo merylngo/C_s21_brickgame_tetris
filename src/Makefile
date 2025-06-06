@@ -1,33 +1,62 @@
 CC := gcc
 CFLAGS := -std=c11 -Wall -Werror -Wextra -g
+ASAN := -fsanitize=address
+#directories
 TETRIS_DIR_BACK := ./brick_game/tetris/
+
+C_LIB_SRCS := $(wildcard $(TETRIS_DIR_BACK)/*.c)
+C_LIB_OBJS := $(C_LIB_SRCS:%.c=%.o)
+
 TETRIS_DIR_MAIN := ./gui/cli/
 TESTS_DIR := ./tests
-OBJ_DIR := ./obj
-C_SRCS := $(wildcard $(TETRIS_DIR_MAIN)/*.c $(TETRIS_DIR_BACK)/*.c)
-C_OBJS := $(C_SRCS:%.c=%.o)
-C_SRCS_TEST := $(wildcard $(TETRIS_DIR_BACK)/*.c)
-C_OBJS_TEST := $(C_SRCS_TEST:%.c=%.o)
-ASAN=-fsanitize=address
-
 
 all: clean tetris
 
-tetris: $(TETRIS_DIR_BACK)*.c $(TETRIS_DIR_MAIN)*.c
-	$(CC) $(CFLAGS) -o tetris  $(TETRIS_DIR_BACK)*.c $(TETRIS_DIR_MAIN)*.c -lncurses 
-
-tetris_lib.a: $(C_OBJS_TEST)
+tetris_lib.a: $(C_LIB_OBJS)
 	ar rcs ./$@ $^
 	ranlib tetris_lib.a
 
-test: clean tetris_lib.a $(TESTS_DIR)/*.c
+$(TETRIS_DIR_MAIN)/%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+tetris: clean tetris_lib.a $(TETRIS_DIR_MAIN)*.c
+	$(CC) $(CFLAGS) -o tetris -L. tetris_lib.a $(TETRIS_DIR_MAIN)*.c -lncurses 
+
+build_test: clean tetris_lib.a $(TESTS_DIR)/*.c
 	$(CC) $(CFLAGS) $(ASAN) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test.o -L. tetris_lib.a -lcheck -lsubunit -lm
+
+test: build_test
 	$(TESTS_DIR)/test.o
+
+memcheck: clean build_test
+	valgrind --tool=memcheck --leak-check=yes $(TESTS_DIR)/test.o
+
+gcov_report: clean
+	mkdir -p report
+	$(CC) $(FLAGS) --coverage -fprofile-arcs -ftest-coverage $(TETRIS_DIR_BACK)*.c $(TESTS_DIR)/*.c -o report/gcov_test -lm -lgtest -pthread -lgcov -lsubunit
+	./report/gcov_test
+	lcov -t "s21_test" -o report/s21_test.info -c -d report --ignore-errors mismatch,mismatch -o report/s21_test.info
+	lcov -o report/s21_test.info -r report/s21_test.info "*/13/*"
+	lcov -o report/s21_test.info -r report/s21_test.info "*/usr/include/*"
+	genhtml -o report report/s21_test.info
+	xdg-open report/index.html
+
+install: clean tetris
+	rm -rf install
+	mkdir -p install
+	mv tetris ./install
+	make clean
+
+uninstall:
+	-rm -rf install
+
+play: install
+	./install/tetris	
 
 clean:
 	rm -rf tetris tetris_lib.a tetris.dSYM
-	rm -rf $(TETRIS_DIR_BACK)/*.o	
-	rm -rf $(TESTS_DIR)/*.o	
+	rm -rf $(TETRIS_DIR_BACK)/*.o $(TETRIS_DIR_MAIN)/*.o $(TESTS_DIR)/*.o
+	rm -rf *.gcno *.gcda *.info report.out *.gcov report
 
 style:
 	cp ../materials/linters/.clang-format ../src/

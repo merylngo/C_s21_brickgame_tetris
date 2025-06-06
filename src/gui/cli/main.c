@@ -68,11 +68,9 @@ UserAction_t get_action(int command) {
 
   switch (command) {
     case 'p':
-    case 'P':
       action = Pause;
       break;
     case 'q':
-    case 'Q':
       action = Terminate;
       break;
     case KEY_LEFT:
