@@ -1,0 +1,33 @@
+/*!
+ @mainpage Welcome to the BrickGame_v1.0 Documentation
+
+ This is the documentation for the "Tetris" project. Here you will find:
+ - Main features.
+ - How to run the project.
+ - Details about the implementation.
+
+ ## Game Description
+ "BrickGame_v1.0" is a version of the classic "Tetris" game.
+ Control keys:
+ up - rotate block
+ 'p' - pause
+ 'q' - end game
+ Esc - quit from game when it's over
+ -> - move block left
+ <- - move block right
+ space - fall block down
+
+ ## Getting Started
+ The program builds by using a Makefile
+
+* `make install` - build the game into the 'install' directory 
+* `make play` - build the game & play
+* `make uninstall` - remove the program  
+* `make dvi` - compile the documentation  
+* `make run_dvi` - run the documentation  
+* `make dist` - archive the project  
+* `make test` - run unit tests  
+* `make gcov_report` - generate a gcov-report as an HTML page  
+* `make clean` - Remove unnecessary files
+
+*/

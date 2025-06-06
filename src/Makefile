@@ -50,6 +50,20 @@ install: clean tetris
 uninstall:
 	-rm -rf install
 
+dvi:
+	@doxygen Doxyfile > /dev/null 2>&1
+	@cd dvi/latex && latex -silent refman.tex > /dev/null 2>&1
+	mv dvi/latex/refman.dvi dvi/
+	rm -rf dvi/latex
+
+run_dvi: dvi
+	xdvi dvi/refman.dvi
+
+dist:
+	rm -rf dist/
+	mkdir -p dist
+	tar cvzf dist/BrickGame_1.0.tgz brick_game gui test FSM_tetris.jpeg Doxyfile Makefile mainpage.dox	
+
 play: install
 	./install/tetris	
 
