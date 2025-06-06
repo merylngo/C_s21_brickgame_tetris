@@ -19,8 +19,12 @@
 #define WHITE_FONT "\033[97m"
 #define RESET_COLORS "\033[0m"
 
-Suite* init_game_test(void);
+Suite* init_free_test(void);
+Suite* attaching_test(void);
 Suite* fall_down_test(void);
+Suite* front_frunctions_test(void);
+Suite* moving_test(void);
+Suite* spawn_test(void);
 
 void generate_field();
 int check_block_on_field(int field_before[][FIELD_SIZE_X]);

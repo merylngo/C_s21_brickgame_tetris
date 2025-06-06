@@ -53,9 +53,9 @@ START_TEST(test_4) {
                 RED_BCGR "function failed 2" RESET_COLORS);
   ck_assert_msg(game_state->next_block != NULL,
                 RED_BCGR "function failed 3" RESET_COLORS);
-  ck_assert_msg(game_state->level != 1,
+  ck_assert_msg(game_state->level == 1,
                 RED_BCGR "function failed 4" RESET_COLORS);
-  ck_assert_msg(game_state->speed != 1,
+  ck_assert_msg(game_state->speed == 1,
                 RED_BCGR "function failed 5" RESET_COLORS);
 
   free_game();

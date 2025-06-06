@@ -1,4 +1,7 @@
 #include "main.h"
+#include "../../brick_game/tetris/main_header.h"
+#include "../../brick_game/tetris/front_functions.h"
+#include "../../brick_game/tetris/free_game.h"
 
 int main(void) {
   init_cli();
