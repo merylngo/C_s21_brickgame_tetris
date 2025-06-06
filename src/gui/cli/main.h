@@ -4,11 +4,9 @@
 #include <ncurses.h>
 #include <time.h>
 
-#include "../../brick_game/tetris/free_game.h"
-#include "../../brick_game/tetris/front_functions.h"
-#include "../../brick_game/tetris/init_game.h"
 #include "../../brick_game/tetris/main_header.h"
-#include "../../brick_game/tetris/moving.h"
+#include "../../brick_game/tetris/front_functions.h"
+#include "../../brick_game/tetris/free_game.h"
 #include "print_screen.h"
 
 #define START_TIMEOUT 400
