@@ -3,36 +3,46 @@ CFLAGS := -std=c11 -Wall -Werror -Wextra -g
 ASAN := -fsanitize=address
 #directories
 TETRIS_DIR_BACK := ./brick_game/tetris/
-C_LIB_SRCS := $(wildcard $(TETRIS_DIR_BACK)/*.c)
-C_LIB_OBJS := $(C_LIB_SRCS:%.c=%.o)
-
 TETRIS_DIR_MAIN := ./gui/cli/
 TESTS_DIR := ./tests
+#files
+C_LIB_SRCS := $(wildcard $(TETRIS_DIR_BACK)/*.c)
+C_LIB_OBJS := $(C_LIB_SRCS:%.c=%.o)
+C_MAIN_SRCS := $(wildcard $(TETRIS_DIR_MAIN)/*.c)
+C_MAIN_OBJS := $(C_MAIN_SRCS:%.c=%.o)
+
 
 all: clean tetris
 
 tetris_lib.a: $(C_LIB_OBJS)
 	ar rcs ./$@ $^
-	ranlib tetris_lib.a
+	ranlib $@
 
-$(TETRIS_DIR_MAIN)/%.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
+$(TETRIS_DIR_BACK)%.o: $(TETRIS_DIR_BACK)%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-tetris: clean $(TETRIS_DIR_MAIN)*.c  $(TETRIS_DIR_BACK)*.c
-	$(CC) $(CFLAGS) -o tetris $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c -lncurses
+# Правило для компиляции объектных файлов из исходных файлов главного приложения
+$(TETRIS_DIR_MAIN)%.o: $(TETRIS_DIR_MAIN)%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+tetris: $(C_MAIN_OBJS) $(C_LIB_OBJS)
+	$(CC) $(CFLAGS) -o tetris $(C_MAIN_OBJS) $(C_LIB_OBJS) -lncurses	
+
+#tetris: clean $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c
+#	$(CC) $(CFLAGS) -o tetris $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c -lncurses
 
 build_test: clean tetris_lib.a $(TESTS_DIR)/*.c
-	$(CC) $(CFLAGS) $(ASAN) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test.o -L. tetris_lib.a -lcheck -lsubunit -lm
+	$(CC) $(CFLAGS) $(ASAN) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test -lcheck -lsubunit -lm
 
 test: build_test
-	$(TESTS_DIR)/test.o
+	$(TESTS_DIR)/test
 
 memcheck: clean build_test
 	valgrind --tool=memcheck --leak-check=yes $(TESTS_DIR)/test.o
 
 gcov_report: clean
 	mkdir -p report
-	$(CC) $(СFLAGS) --coverage -fprofile-arcs -ftest-coverage $(TETRIS_DIR_BACK)*.c $(TESTS_DIR)/*.c -o report/gcov_test -lcheck -lgcov -lsubunit -lm
+	$(CC) $(СFLAGS) --coverage -fprofile-arcs -ftest-coverage $(TETRIS_DIR_BACK)*.c  $(TESTS_DIR)/*.c -o report/gcov_test -lcheck -lgcov -lsubunit -lm
 	./report/gcov_test
 	lcov -t "s21_test" -o report/s21_test.info -c -d report --ignore-errors mismatch,mismatch -o report/s21_test.info
 	genhtml -o report report/s21_test.info
