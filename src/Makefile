@@ -18,8 +18,8 @@ tetris_lib.a: $(C_LIB_OBJS)
 $(TETRIS_DIR_MAIN)/%.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
-tetris: clean tetris_lib.a $(TETRIS_DIR_MAIN)*.c
-	$(CC) $(CFLAGS) -o tetris -L. tetris_lib.a $(TETRIS_DIR_MAIN)*.c -lncurses 
+tetris: clean $(TETRIS_DIR_MAIN)*.c  $(TETRIS_DIR_BACK)*.c
+	$(CC) $(CFLAGS) -o tetris $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c -lncurses
 
 build_test: clean tetris_lib.a $(TESTS_DIR)/*.c
 	$(CC) $(CFLAGS) $(ASAN) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test.o -L. tetris_lib.a -lcheck -lsubunit -lm
