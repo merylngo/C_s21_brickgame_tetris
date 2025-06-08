@@ -30,13 +30,11 @@ test: build_test
 memcheck: clean build_test
 	valgrind --tool=memcheck --leak-check=yes $(TESTS_DIR)/test.o
 
-gcov_report: clean tetris_lib.a
+gcov_report: clean
 	mkdir -p report
-	$(CC) $(СFLAGS) --coverage -fprofile-arcs -ftest-coverage -L. tetris_lib.a $(TESTS_DIR)/*.c -o report/gcov_test -lm -lcheck -lgcov -lsubunit
+	$(CC) $(СFLAGS) --coverage -fprofile-arcs -ftest-coverage $(TETRIS_DIR_BACK)*.c $(TESTS_DIR)/*.c -o report/gcov_test -lcheck -lgcov -lsubunit -lm
 	./report/gcov_test
 	lcov -t "s21_test" -o report/s21_test.info -c -d report --ignore-errors mismatch,mismatch -o report/s21_test.info
-	lcov -o report/s21_test.info -r report/s21_test.info "*/13/*"
-	lcov -o report/s21_test.info -r report/s21_test.info "*/usr/include/*"
 	genhtml -o report report/s21_test.info
 	xdg-open report/index.html
 
