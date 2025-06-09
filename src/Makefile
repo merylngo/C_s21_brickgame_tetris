@@ -75,8 +75,8 @@ play: install
 	./install/tetris	
 
 clean:
-	rm -rf tetris tetris_lib.a tetris.dSYM dist
-	rm -rf $(TETRIS_DIR_BACK)/*.o $(TETRIS_DIR_MAIN)/*.o $(TESTS_DIR)/*.o
+	rm -rf tetris tetris_lib.a dist
+	rm -rf $(TETRIS_DIR_BACK)/*.o $(TETRIS_DIR_MAIN)/*.o $(TESTS_DIR)/*.o $(TESTS_DIR)/test
 	rm -rf *.gcno *.gcda *.info report.out *.gcov report
 
 style:

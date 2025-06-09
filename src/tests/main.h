@@ -28,5 +28,7 @@ Suite* spawn_test(void);
 
 void generate_field();
 int check_block_on_field(int field_before[][FIELD_SIZE_X]);
+int check_equality();
+int equal_matrix(int **m1, int m2[][BLOCK_SIZE]);
 
 #endif
