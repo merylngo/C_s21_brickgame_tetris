@@ -72,7 +72,7 @@ void init_game() {
   matrix_status current_block_status =
       create_matrix(&game_state->figure.matrix, BLOCK_SIZE, BLOCK_SIZE);
 
-  if (field_status + next_block_status + current_block_status == 0) {
+  if (field_status + next_block_status + current_block_status == NORM) {
     game_state->fsm_state = START;
   } else {
     game_state->fsm_state = GAME_OVER;
