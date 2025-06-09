@@ -5,7 +5,6 @@
 #include <time.h>
 
 #include "../../brick_game/tetris/free_game.h"
-#include "../../brick_game/tetris/front_functions.h"
 #include "../../brick_game/tetris/main_header.h"
 #include "print_screen.h"
 
@@ -17,6 +16,6 @@ void init_cli();
 void play_game();
 
 UserAction_t get_action(int command);
-int game_not_over(BackGameInfo_t *game_state);
+int game_not_over(const BackGameInfo_t *game_state);
 
 #endif

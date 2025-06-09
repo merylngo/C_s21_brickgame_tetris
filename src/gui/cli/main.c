@@ -1,7 +1,6 @@
 #include "main.h"
 
 #include "../../brick_game/tetris/free_game.h"
-#include "../../brick_game/tetris/front_functions.h"
 #include "../../brick_game/tetris/main_header.h"
 
 int main(void) {
@@ -38,7 +37,7 @@ void play_game() {
     flag_terminate_before = 1;
   }
 
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
   int delay = START_TIMEOUT;
 
   while (game_not_over(game_state)) {
@@ -107,6 +106,6 @@ UserAction_t get_action(int command) {
   return action;
 }
 
-int game_not_over(BackGameInfo_t *game_state) {
+int game_not_over(const BackGameInfo_t *game_state) {
   return game_state->fsm_state != GAME_OVER;
 }

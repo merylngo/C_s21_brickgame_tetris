@@ -55,6 +55,8 @@ typedef enum {
   Empty
 } UserAction_t;
 
+void userInput(UserAction_t action, int hold);
+const BackGameInfo_t *updateCurrentState();
 BackGameInfo_t *get_game_state();
 
 void update_level();

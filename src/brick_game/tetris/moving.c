@@ -1,6 +1,7 @@
 #include "moving.h"
 
 #include "attaching.h"
+#include "main_header.h"
 
 int able_to_move_left() {
   BackGameInfo_t *game_state = get_game_state();

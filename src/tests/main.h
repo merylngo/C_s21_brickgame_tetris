@@ -7,7 +7,6 @@
 
 #include "../brick_game/tetris/attaching.h"
 #include "../brick_game/tetris/free_game.h"
-#include "../brick_game/tetris/front_functions.h"
 #include "../brick_game/tetris/init_game.h"
 #include "../brick_game/tetris/main_header.h"
 #include "../brick_game/tetris/moving.h"
