@@ -12,7 +12,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum fsm_states { START, SPAWN, MOVING, SHIFTING, ATTACHING, GAME_OVER };
+typedef enum {
+  START,
+  SPAWN,
+  MOVING,
+  SHIFTING,
+  ATTACHING,
+  GAME_OVER
+} fsm_states;
 
 typedef enum { RED = 1, GREEN, YELLOW, BLUE, PINK, PURPLE, WHITE } color_codes;
 
@@ -33,7 +40,7 @@ typedef struct {
 } current_block_t;
 
 typedef struct {
-  enum fsm_states fsm_state;
+  fsm_states fsm_state;
   current_block_t figure;
   int **field;
   int **next_block;
@@ -58,11 +65,5 @@ typedef enum {
 void userInput(UserAction_t action, int hold);
 const BackGameInfo_t *updateCurrentState();
 BackGameInfo_t *get_game_state();
-
-void update_level();
-void update_high_score();
-int achieved_top_layer();
-int achieved_max_level();
-int game_is_over();
 
 #endif

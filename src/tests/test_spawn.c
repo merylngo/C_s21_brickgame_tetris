@@ -148,7 +148,7 @@ Suite* spawn_test(void) {
 }
 
 int check_equality() {
-  BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = updateCurrentState();
   int res = 0;
 
   res |= equal_matrix(game_state->figure.matrix, block_1);

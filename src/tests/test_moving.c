@@ -3,7 +3,7 @@
 START_TEST(test_1) {
   userInput(Start, 0);
 
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -24,7 +24,7 @@ END_TEST
 START_TEST(test_2) {
   userInput(Start, 0);
 
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -49,7 +49,7 @@ START_TEST(test_3) {
     userInput(Left, 0);
   }
 
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -79,21 +79,21 @@ Suite *moving_test(void) {
 }
 
 int check_move_left(int x_prev, int y_prev) {
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
 
   return (x_prev == game_state->figure.x + 1) &&
          (y_prev == game_state->figure.y - 1);
 }
 
 int check_move_right(int x_prev, int y_prev) {
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
 
   return x_prev == (game_state->figure.x - 1) &&
          (y_prev == game_state->figure.y - 1);
 }
 
 int check_no_move(int x_prev, int y_prev) {
-  BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = updateCurrentState();
 
   return (x_prev == game_state->figure.x) && (y_prev || !y_prev);
 }
