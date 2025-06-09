@@ -32,7 +32,7 @@ tetris: $(C_MAIN_OBJS) $(C_LIB_OBJS)
 #	$(CC) $(CFLAGS) -o tetris $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c -lncurses
 
 build_test: clean tetris_lib.a $(TESTS_DIR)/*.c
-	$(CC) $(CFLAGS) $(ASAN) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test -lcheck -lsubunit -lm
+	$(CC) $(CFLAGS) $(ASAN) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test -L. tetris_lib.a -lcheck -lsubunit -lm
 
 test: build_test
 	$(TESTS_DIR)/test
