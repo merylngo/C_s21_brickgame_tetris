@@ -32,6 +32,7 @@ int equal_matrix(int** m1, int m2[][BLOCK_SIZE]);
 
 int check_move_left(int x_prev, int y_prev);
 int check_move_right(int x_prev, int y_prev);
+int check_move_down(int x_prev, int y_prev);
 int check_no_move(int x_prev, int y_prev);
 
 #endif
