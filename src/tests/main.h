@@ -26,7 +26,9 @@ Suite* moving_test(void);
 Suite* spawn_test(void);
 
 void generate_field();
-int check_block_on_field(int field_before[][FIELD_SIZE_X]);
+void create_field();
+int check_block_on_field(int field_before[][FIELD_SIZE_X],
+                         int block_before[][BLOCK_SIZE]);
 int check_equality();
 int equal_matrix(int** m1, int m2[][BLOCK_SIZE]);
 
@@ -35,5 +37,9 @@ int check_move_right(int x_prev, int y_prev);
 int check_move_down(int x_prev, int y_prev);
 int check_no_move(int x_prev, int y_prev);
 int check_turn(int m[][BLOCK_SIZE]);
+
+void normalize_field(int** matrix);
+int first_row_sum(int** matrix);
+int first_col_sum(int** matrix);
 
 #endif

@@ -1,25 +1,84 @@
 #include "main.h"
 
 START_TEST(test_1) {
+  userInput(Start, 0);
+
+  const BackGameInfo_t* game_state = updateCurrentState();
+
+  int field_before[FIELD_SIZE_Y][FIELD_SIZE_X] = {0};
+  int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      field_before[i][j] = game_state->field[i][j];
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      block_before[i][j] = game_state->figure.matrix[i][j];
+    }
+  }
+
+  userInput(Down, 0);
+
   /*
-  BackGameInfo_t* game_state = get_game_state();
+  printf("from test after\n");
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      printf("%d ", game_state->field[i][j]);
+    }
 
-  init_game();
+    printf("\n");
+  }
+  */
 
-  copy_matrix(block_1, game_state->next_block);
-  init_current_block();
-  fall_down();
-
-  // проверка - разницу матриц 10 на 20 и наложением найти фигуру а матрицу 10
-  на 20 просто генерить
-
-  ck_assert_msg(game_state->field != NULL,
+  ck_assert_msg(check_block_on_field(field_before, block_before),
                 RED_BCGR "function failed 1" RESET_COLORS);
 
   free_game();
-  */
+}
+END_TEST
 
-  ck_assert_msg(1, RED_BCGR "function failed 1" RESET_COLORS);
+START_TEST(test_2) {
+  userInput(Start, 0);
+
+  const BackGameInfo_t* game_state = updateCurrentState();
+
+  int field_before[FIELD_SIZE_Y][FIELD_SIZE_X] = {0};
+  int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
+
+  spawn_block();
+  spawn_block();
+  spawn_block();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      field_before[i][j] = game_state->field[i][j];
+    }
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      block_before[i][j] = game_state->figure.matrix[i][j];
+    }
+  }
+
+  userInput(Down, 0);
+
+  printf("from test after\n");
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      printf("%d ", game_state->field[i][j]);
+    }
+
+    printf("\n");
+  }
+
+  ck_assert_msg(check_block_on_field(field_before, block_before),
+                RED_BCGR "function failed 1" RESET_COLORS);
+
+  free_game();
 }
 END_TEST
 
@@ -30,6 +89,7 @@ Suite* fall_down_test(void) {
   TCase* tcase_core = tcase_create("fall_down_test");
 
   tcase_add_test(tcase_core, test_1);
+  tcase_add_test(tcase_core, test_2);
 
   suite_add_tcase(suite, tcase_core);
 

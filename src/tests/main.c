@@ -81,40 +81,16 @@ void generate_field() {
   }
 }
 
-int check_block_on_field(int field_before[][FIELD_SIZE_X]) {
+void create_field() {
   BackGameInfo_t* game_state = get_game_state();
-  int result = 1;
 
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      game_state->field[i][j] -= field_before[i][j];
-    }
-  }
-
-  int i_bl = 0, j_bl = 0;
-
-  for (; i_bl < BLOCK_SIZE; i_bl++) {
-    for (; j_bl < BLOCK_SIZE; j_bl++) {
-      if (game_state->figure.matrix[i_bl][j_bl]) {
-        break;
+      if (i == FIELD_SIZE_Y - 1) {
+        game_state->field[i][j] = 1;
       }
     }
   }
-
-  int i_fi = 0, j_fi = 0;
-
-  for (; i_fi < FIELD_SIZE_Y; i_fi++) {
-    for (; j_fi < FIELD_SIZE_X; j_fi++) {
-      if (game_state->field[i_fi][j_fi]) {
-        break;
-      }
-    }
-  }
-
-  // в этот момент нашли координаты начал фигуры - вопрос как проверить
-  // наложение?
-
-  return result;
 }
 
 int check_equality() {
@@ -142,4 +118,85 @@ int equal_matrix(int** m1, int m2[][BLOCK_SIZE]) {
   }
 
   return flag;
+}
+
+int check_block_on_field(int field_before[][FIELD_SIZE_X],
+                         int block_before[][BLOCK_SIZE]) {
+  BackGameInfo_t* game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      game_state->field[i][j] -= field_before[i][j];
+    }
+  }
+
+  normalize_field(game_state->field);
+
+  /*
+  printf("from check\n");
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      field_before[i][j] = game_state->field[i][j];
+      printf("%d ", field_before[i][j]);
+    }
+
+    printf("\n");
+  }
+  */
+
+  int result = 1;
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      result = result &&
+               (block_before[i][j] == (game_state->field[i][j] > 0 ? 1 : 0));
+    }
+  }
+
+  return result;
+}
+
+int first_row_sum(int** matrix) {
+  int sum = 0;
+
+  for (int j = 0; j < FIELD_SIZE_X; j++) {
+    sum += matrix[0][j];
+  }
+
+  return sum;
+}
+
+int first_col_sum(int** matrix) {
+  int sum = 0;
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    sum += matrix[i][0];
+  }
+
+  return sum;
+}
+
+void normalize_field(int** matrix) {
+  while (first_row_sum(matrix) == 0) {
+    for (int i = 1; i < FIELD_SIZE_Y; i++) {
+      for (int j = 0; j < FIELD_SIZE_X; j++) {
+        matrix[i - 1][j] = matrix[i][j];
+      }
+    }
+
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      matrix[FIELD_SIZE_Y - 1][j] = 0;
+    }
+  }
+
+  while (first_col_sum(matrix) == 0) {
+    for (int i = 0; i < FIELD_SIZE_Y; i++) {
+      for (int j = 1; j < FIELD_SIZE_X; j++) {
+        matrix[i][j - 1] = matrix[i][j];
+      }
+    }
+
+    for (int i = 0; i < FIELD_SIZE_Y; i++) {
+      matrix[i][FIELD_SIZE_X - 1] = 0;
+    }
+  }
 }
