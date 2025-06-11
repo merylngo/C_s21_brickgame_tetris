@@ -69,24 +69,60 @@ int main(void) {
   return 0;
 }
 
-void generate_field() {
-  BackGameInfo_t* game_state = get_game_state();
-
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (i > FIELD_SIZE_Y / 2) {
-        game_state->field[i][j] = rand() % 5;
-      }
-    }
-  }
-}
-
-void create_field() {
+void create_field_1() {
   BackGameInfo_t* game_state = get_game_state();
 
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
       if (i == FIELD_SIZE_Y - 1) {
+        game_state->field[i][j] = 1;
+      }
+    }
+  }
+}
+
+void create_field_2() {
+  BackGameInfo_t* game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      if (i >= FIELD_SIZE_Y - 2) {
+        game_state->field[i][j] = 1;
+      }
+    }
+  }
+}
+
+void create_field_3() {
+  BackGameInfo_t* game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      if (i >= FIELD_SIZE_Y - 3) {
+        game_state->field[i][j] = 1;
+      }
+    }
+  }
+}
+
+void create_field_4() {
+  BackGameInfo_t* game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      if (i >= FIELD_SIZE_Y - 4) {
+        game_state->field[i][j] = 1;
+      }
+    }
+  }
+}
+
+void create_field_5() {
+  BackGameInfo_t* game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      if (i >= FIELD_SIZE_Y - 5) {
         game_state->field[i][j] = 1;
       }
     }
@@ -120,6 +156,34 @@ int equal_matrix(int** m1, int m2[][BLOCK_SIZE]) {
   return flag;
 }
 
+int check_block_on_field_after_clean(int block_before[][BLOCK_SIZE]) {
+  BackGameInfo_t* game_state = get_game_state();
+
+  normalize_field(game_state->field);
+
+  /*
+    printf("from check_block after\n");
+    for (int i = 0; i < FIELD_SIZE_Y; i++) {
+      for (int j = 0; j < FIELD_SIZE_X; j++) {
+        printf("%d ", game_state->field[i][j]);
+      }
+
+      printf("\n");
+    }
+  */
+
+  int result = 1;
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      result = result &&
+               (block_before[i][j] == (game_state->field[i][j] != 0 ? 1 : 0));
+    }
+  }
+
+  return result;
+}
+
 int check_block_on_field(int field_before[][FIELD_SIZE_X],
                          int block_before[][BLOCK_SIZE]) {
   BackGameInfo_t* game_state = get_game_state();
@@ -132,23 +196,12 @@ int check_block_on_field(int field_before[][FIELD_SIZE_X],
 
   normalize_field(game_state->field);
 
-  /*
-  printf("from check\n");
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      field_before[i][j] = game_state->field[i][j];
-      printf("%d ", field_before[i][j]);
-    }
-
-    printf("\n");
-  }
-  */
-
   int result = 1;
+
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       result = result &&
-               (block_before[i][j] == (game_state->field[i][j] > 0 ? 1 : 0));
+               (block_before[i][j] == (game_state->field[i][j] != 0 ? 1 : 0));
     }
   }
 
@@ -176,27 +229,37 @@ int first_col_sum(int** matrix) {
 }
 
 void normalize_field(int** matrix) {
-  while (first_row_sum(matrix) == 0) {
-    for (int i = 1; i < FIELD_SIZE_Y; i++) {
-      for (int j = 0; j < FIELD_SIZE_X; j++) {
-        matrix[i - 1][j] = matrix[i][j];
-      }
-    }
+  int empty_flag = 0;
 
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {
-      matrix[FIELD_SIZE_Y - 1][j] = 0;
+      empty_flag = empty_flag || (matrix[i][j] != 0);
     }
   }
 
-  while (first_col_sum(matrix) == 0) {
-    for (int i = 0; i < FIELD_SIZE_Y; i++) {
-      for (int j = 1; j < FIELD_SIZE_X; j++) {
-        matrix[i][j - 1] = matrix[i][j];
+  if (empty_flag != 0) {
+    while (first_row_sum(matrix) == 0) {
+      for (int i = 1; i < FIELD_SIZE_Y; i++) {
+        for (int j = 0; j < FIELD_SIZE_X; j++) {
+          matrix[i - 1][j] = matrix[i][j];
+        }
+      }
+
+      for (int j = 0; j < FIELD_SIZE_X; j++) {
+        matrix[FIELD_SIZE_Y - 1][j] = 0;
       }
     }
 
-    for (int i = 0; i < FIELD_SIZE_Y; i++) {
-      matrix[i][FIELD_SIZE_X - 1] = 0;
+    while (first_col_sum(matrix) == 0) {
+      for (int i = 0; i < FIELD_SIZE_Y; i++) {
+        for (int j = 1; j < FIELD_SIZE_X; j++) {
+          matrix[i][j - 1] = matrix[i][j];
+        }
+      }
+
+      for (int i = 0; i < FIELD_SIZE_Y; i++) {
+        matrix[i][FIELD_SIZE_X - 1] = 0;
+      }
     }
   }
 }

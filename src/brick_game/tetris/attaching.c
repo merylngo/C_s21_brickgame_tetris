@@ -105,7 +105,6 @@ void attach_block() {
 
   game_state->fsm_state = ATTACHING;
 
-  // поставили блок на поле - не совсем корректно
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (game_state->figure.matrix[i][j]) {

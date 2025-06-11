@@ -62,6 +62,7 @@ void init_game() {
   game_state->speed = 1;
   game_state->level = 1;
   game_state->pause = 0;
+  game_state->score = 0;
   game_state->high_score = get_high_score();
 
   matrix_status field_status =
