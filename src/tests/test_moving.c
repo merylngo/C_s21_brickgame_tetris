@@ -93,18 +93,21 @@ END_TEST
 START_TEST(test_5) {
   userInput(Start, 0);
 
-  while (able_to_move_left()) {
-    userInput(Left, 0);
-  }
-
   const BackGameInfo_t *game_state = updateCurrentState();
 
-  int x_prev = game_state->figure.x;
-  int y_prev = game_state->figure.y;
+  int figure_copy[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
-  userInput(Left, 0);
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      figure_copy[i][j] = game_state->figure.matrix[i][j];
+    }
+  }
 
-  ck_assert_msg(check_no_move(x_prev, y_prev),
+  if (able_to_turn_left()) {
+    userInput(Action, 0);
+  }
+
+  ck_assert_msg(check_turn(figure_copy),
                 RED_BCGR "function failed" RESET_COLORS);
 
   free_game();
@@ -153,4 +156,34 @@ int check_no_move(int x_prev, int y_prev) {
   const BackGameInfo_t *game_state = updateCurrentState();
 
   return (x_prev == game_state->figure.x) && (y_prev || !y_prev);
+}
+
+int check_turn(int m[][BLOCK_SIZE]) {
+  const BackGameInfo_t *game_state = updateCurrentState();
+
+  int right_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      right_matrix[j][BLOCK_SIZE - i - 1] = game_state->figure.matrix[i][j];
+    }
+  }
+
+  normalize_matrix(right_matrix);
+  normalize_matrix(right_matrix);
+  normalize_matrix(right_matrix);
+
+  int flag = 1;
+
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      flag = flag && (m[i][j] == right_matrix[i][j]);
+    }
+
+    if (!flag) {
+      break;
+    }
+  }
+
+  return flag;
 }

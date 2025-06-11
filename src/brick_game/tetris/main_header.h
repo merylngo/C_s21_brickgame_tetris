@@ -12,6 +12,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * @brief Состояния конечного автомата
+ */
+
 typedef enum {
   START,
   SPAWN,
@@ -33,11 +37,20 @@ enum block_codes {
   TURNED_T
 };
 
+/**
+ * @brief Структура, описывающая текущую падающую фигурку, ее координаты на поле
+ * и цвет
+ */
+
 typedef struct {
   int **matrix;
   int x, y;
   color_codes color;
 } current_block_t;
+
+/**
+ * @brief Основная структура, описывающая полное состояние игры
+ */
 
 typedef struct {
   fsm_states fsm_state;
@@ -51,6 +64,10 @@ typedef struct {
   int pause;
 } BackGameInfo_t;  // GameInfo_t
 
+/**
+ * @brief Действия пользователя
+ */
+
 typedef enum {
   Start,
   Pause,
@@ -62,8 +79,34 @@ typedef enum {
   Empty
 } UserAction_t;
 
+/**
+ * @brief Функция userInput(UserAction_t action, int hold)
+ *
+ * Интерпретирует команду пользователя в действие в игре и изменяет ее состояние
+ *
+ * @param action - действие пользователя
+ * @param hold - не используется
+ */
 void userInput(UserAction_t action, int hold);
+
+/**
+ * @brief Функция updateCurrentState()
+ *
+ * возвращает в игровой цикл константный указатель на статическую переменную,
+ * описывающую текущее состояние игры
+ *
+ * @return const BackGameInfo_t *
+ */
 const BackGameInfo_t *updateCurrentState();
+
+/**
+ * @brief Функция get_game_state()
+ *
+ * возвращает указатель на статическую переменную, описывающую текущее состояние
+ * игры
+ *
+ * @return BackGameInfo_t *
+ */
 BackGameInfo_t *get_game_state();
 
 #endif
