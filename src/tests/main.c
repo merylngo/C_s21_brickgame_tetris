@@ -46,6 +46,8 @@ int main(void) {
                    fall_down_test(),
                    NULL};
 
+  update_high_score_for_tests();
+
   for (int i = 0; list[i]; i++) {
     SRunner* sr = srunner_create(list[i]);
 
@@ -67,6 +69,16 @@ int main(void) {
          total);
 
   return 0;
+}
+
+void update_high_score_for_tests() {
+  FILE* file_score = fopen("./brick_game/tetris/high_score.txt", "w");
+
+  if (file_score) {
+    fprintf(file_score, "%d", 0);
+
+    fclose(file_score);
+  }
 }
 
 void create_field_1() {
@@ -129,6 +141,16 @@ void create_field_5() {
   }
 }
 
+void create_field_full_no_one() {
+  BackGameInfo_t* game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X - 1; j++) {
+      game_state->field[i][j] = 1;
+    }
+  }
+}
+
 int check_equality() {
   const BackGameInfo_t* game_state = updateCurrentState();
   int res = 0;
@@ -160,17 +182,6 @@ int check_block_on_field_after_clean(int block_before[][BLOCK_SIZE]) {
   BackGameInfo_t* game_state = get_game_state();
 
   normalize_field(game_state->field);
-
-  /*
-    printf("from check_block after\n");
-    for (int i = 0; i < FIELD_SIZE_Y; i++) {
-      for (int j = 0; j < FIELD_SIZE_X; j++) {
-        printf("%d ", game_state->field[i][j]);
-      }
-
-      printf("\n");
-    }
-  */
 
   int result = 1;
 

@@ -25,15 +25,19 @@ Suite* front_frunctions_test(void);
 Suite* moving_test(void);
 Suite* spawn_test(void);
 
+void update_high_score_for_tests();
+
 void create_field_1();
 void create_field_2();
 void create_field_3();
 void create_field_4();
 void create_field_5();
+void create_field_full_no_one();
+
+int check_block_on_field_after_clean(int block_before[][BLOCK_SIZE]);
 int check_block_on_field(int field_before[][FIELD_SIZE_X],
                          int block_before[][BLOCK_SIZE]);
 
-int check_block_on_field_after_clean(int block_before[][BLOCK_SIZE]);
 int check_equality();
 int equal_matrix(int** m1, int m2[][BLOCK_SIZE]);
 

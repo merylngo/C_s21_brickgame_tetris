@@ -61,12 +61,7 @@ void remove_full_layers() {
     case 5:
       game_state->score += 3100;
       break;
-    case 6:
-      game_state->score += 6300;
-      break;
-    case 7:
-      game_state->score += 9700;
-      break;
+
     default:
       break;
   }

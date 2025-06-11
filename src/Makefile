@@ -37,8 +37,11 @@ build_test: clean tetris_lib.a $(TESTS_DIR)/*.c
 test: build_test
 	$(TESTS_DIR)/test
 
-memcheck: clean build_test
-	valgrind --tool=memcheck --leak-check=yes $(TESTS_DIR)/test.o
+build_test_no_asan: clean tetris_lib.a $(TESTS_DIR)/*.c
+	$(CC) $(CFLAGS) $(TESTS_DIR)/*.c -o $(TESTS_DIR)/test -L. tetris_lib.a -lcheck -lsubunit -lm
+
+memcheck_back: clean build_test_no_asan
+	valgrind --tool=memcheck --leak-check=yes $(TESTS_DIR)/test
 
 gcov_report: clean
 	mkdir -p report
@@ -64,7 +67,7 @@ dvi:
 	rm -rf dvi/latex
 
 run_dvi: dvi
-	xdvi dvi/refman.dvi
+	xdvi dvi/refman.dvi	
 
 dist:
 	rm -rf dist/

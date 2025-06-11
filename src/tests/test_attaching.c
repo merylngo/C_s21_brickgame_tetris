@@ -74,7 +74,7 @@ START_TEST(test_3) {
   // printf("score == %d\n", game_state->score);
 
   ck_assert_msg(check_block_on_field_after_clean(block_before) &&
-                    game_state->score == 700,
+                    game_state->score == 700 && game_state->level == 1,
                 RED_BCGR "function failed 1" RESET_COLORS);
 
   free_game();
@@ -98,10 +98,8 @@ START_TEST(test_4) {
 
   userInput(Down, 0);
 
-  // printf("score == %d\n", game_state->score);
-
   ck_assert_msg(check_block_on_field_after_clean(block_before) &&
-                    game_state->score == 1500,
+                    game_state->score == 1500 && game_state->level == 2,
                 RED_BCGR "function failed 1" RESET_COLORS);
 
   free_game();
@@ -125,8 +123,27 @@ START_TEST(test_5) {
 
   userInput(Down, 0);
 
-  ck_assert_msg(check_block_on_field_after_clean(block_before),
+  ck_assert_msg(check_block_on_field_after_clean(block_before) &&
+                    game_state->score == 3100 && game_state->level == 5,
                 RED_BCGR "function failed 1" RESET_COLORS);
+
+  free_game();
+}
+END_TEST
+
+START_TEST(test_6) {
+  userInput(Start, 0);
+
+  create_field_full_no_one();
+
+  const BackGameInfo_t* game_state = updateCurrentState();
+
+  userInput(Down, 0);
+
+  printf("game_state = %d\n", game_state->fsm_state);
+
+  ck_assert_msg(game_state->fsm_state == GAME_OVER,
+                RED_BCGR "function failed" RESET_COLORS);
 
   free_game();
 }
@@ -143,6 +160,7 @@ Suite* attaching_test(void) {
   tcase_add_test(tcase_core, test_3);
   tcase_add_test(tcase_core, test_4);
   tcase_add_test(tcase_core, test_5);
+  tcase_add_test(tcase_core, test_6);
 
   suite_add_tcase(suite, tcase_core);
 
