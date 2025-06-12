@@ -1,5 +1,6 @@
 #include "attaching.h"
 
+#include "free_game.h"
 #include "main_header.h"
 #include "spawn.h"
 
@@ -114,6 +115,7 @@ void attach_block() {
 
   if (game_is_over()) {
     game_state->fsm_state = GAME_OVER;
+    free_game();
   } else {
     spawn_block();
   }

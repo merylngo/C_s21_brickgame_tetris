@@ -66,7 +66,6 @@ void play_game() {
       delay = START_TIMEOUT - 45 * game_state->speed;
 
       // print_current_state(*game_state);
-      // print_game_info_t(game_info);
       print_current_state(game_info);
     }
 
@@ -82,7 +81,8 @@ void play_game() {
   }
 
   if (!flag_terminate_before) {
-    free_game();
+    flag_terminate_before = !flag_terminate_before;
+    // free_game();
   }
 
   /*

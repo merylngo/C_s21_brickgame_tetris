@@ -1,3 +1,4 @@
+#include "free_game.h"
 #include "init_game.h"
 #include "main_header.h"
 #include "moving.h"
@@ -14,7 +15,7 @@ void userInput(UserAction_t action, int hold) {
     game_state->pause = !game_state->pause;
   } else if (action == Terminate) {
     game_state->fsm_state = GAME_OVER;
-    // free_game(); - не делаем пока т к будет seg fault в print_final_screen
+    free_game();
   } else {
     move_block(action);
   }

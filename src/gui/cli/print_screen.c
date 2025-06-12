@@ -139,24 +139,6 @@ void print_final_screen(BackGameInfo_t game_state) {
 
 #endif
 
-void print_game_info_t(GameInfo_t game_info) {
-  int color_flag = 1;
-  for (int i = 0; i < FIELD_SIZE_Y; i++) {
-    for (int j = 0; j < FIELD_SIZE_X; j++) {
-      if (game_info.field[i][j] && color_flag) {
-        print_cell(game_info.field[i][j], i, j * 2, '[');
-        print_cell(game_info.field[i][j], i, j * 2 + 1, ']');
-      } else if (game_info.field[i][j] && color_flag == 0) {
-        print_cell(0, i, j * 2, '[');
-        print_cell(0, i, j * 2 + 1, ']');
-      } else {
-        print_cell(0, i, j * 2, '-');
-        print_cell(0, i, j * 2 + 1, '-');
-      }
-    }
-  }
-}
-
 void print_field(int color_flag, GameInfo_t game_state) {
   for (int i = 0; i < FIELD_SIZE_Y; i++) {
     for (int j = 0; j < FIELD_SIZE_X; j++) {

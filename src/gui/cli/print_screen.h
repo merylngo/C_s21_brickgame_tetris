@@ -23,6 +23,4 @@ void print_info_screen(GameInfo_t game_state);
 void print_pause_screen(GameInfo_t game_state);
 void print_final_screen(GameInfo_t game_state);
 
-void print_game_info_t(GameInfo_t game_info);
-
 #endif
