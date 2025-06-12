@@ -23,7 +23,7 @@ void init_cli() {
 
 void play_game() {
   int start_key;
-  int flag_terminate_before = 0;
+  int game_status = PLAYING_STATUS;
 
   while ((start_key = getch()) &&
          (start_key != START_KEY && start_key != FINISH_KEY)) {
@@ -34,42 +34,38 @@ void play_game() {
     userInput(Start, false);
   } else {
     userInput(Terminate, false);
-    flag_terminate_before = 1;
+    game_status = GAMEOVER_STATUS;
   }
 
   GameInfo_t game_info = {0};
-
-  const BackGameInfo_t *game_state = updateCurrentState();
   int delay = START_TIMEOUT;
 
-  while (game_not_over(game_state)) {
+  while (game_status != GAMEOVER_STATUS) {
     timeout(delay);
 
     game_info = UpdateCurrentState();
+    game_status = game_info.pause;
 
-    if (game_state->pause) {
+    if (game_status == PAUSE_STATUS) {
       print_pause_screen(game_info);
+
       int command = getch();
       UserAction_t action = get_action(command);
 
       if (action == Pause || action == Terminate) {
         userInput(action, false);
       }
-    } else {
+    } else if (game_status == PLAYING_STATUS) {
+      print_current_state(game_info);
+      delay = START_TIMEOUT - 45 * game_info.speed;
+
       int command = getch();
       UserAction_t action = get_action(command);
 
       userInput(action, false);
-
-      game_state = updateCurrentState();
-
-      delay = START_TIMEOUT - 45 * game_state->speed;
-
-      // print_current_state(*game_state);
-      print_current_state(game_info);
     }
 
-    if (!game_not_over(game_state)) {
+    if (game_status == GAMEOVER_STATUS) {
       int finish_key;
 
       while ((finish_key = getch()) && finish_key != FINISH_KEY) {
@@ -79,23 +75,6 @@ void play_game() {
 
     free_game_info(game_info);
   }
-
-  if (!flag_terminate_before) {
-    flag_terminate_before = !flag_terminate_before;
-    // free_game();
-  }
-
-  /*
-  if (!flag_terminate_before) {
-    int finish_key;
-
-    while ((finish_key = getch()) && finish_key != FINISH_KEY) {
-      print_final_screen(game_info);
-    }
-
-    free_game();
-  }
-    */
 }
 
 UserAction_t get_action(int command) {
@@ -127,10 +106,6 @@ UserAction_t get_action(int command) {
   }
 
   return action;
-}
-
-int game_not_over(const BackGameInfo_t *game_state) {
-  return game_state->fsm_state != GAME_OVER;
 }
 
 void remove_matrix_info(int **matrix, int rows) {

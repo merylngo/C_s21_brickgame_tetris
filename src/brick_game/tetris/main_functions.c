@@ -42,7 +42,6 @@ GameInfo_t UpdateCurrentState() {
   game_info->speed = game_state->speed;
   game_info->high_score = game_state->high_score;
   game_info->score = game_state->score;
-  game_info->pause = game_state->pause;
 
   matrix_status field_status =
       create_matrix(&game_info->field, FIELD_SIZE_Y, FIELD_SIZE_X);
@@ -50,6 +49,13 @@ GameInfo_t UpdateCurrentState() {
       create_matrix(&game_info->next, BLOCK_SIZE, BLOCK_SIZE);
 
   if (field_status == NORM && next_block_status == NORM) {
+    if (game_state->fsm_state == GAME_OVER) {
+      game_info->pause = 2;
+      return *game_info;
+    } else {
+      game_info->pause = game_state->pause;
+    }
+
     for (int i = 0; i < FIELD_SIZE_Y; i++) {
       for (int j = 0; j < FIELD_SIZE_X; j++) {
         game_info->field[i][j] = game_state->field[i][j];
@@ -58,7 +64,9 @@ GameInfo_t UpdateCurrentState() {
 
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (game_state->figure.matrix[i][j]) {
+        if (game_state->figure.matrix[i][j] &&
+            game_info->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                            [(game_state->figure.x + j) % FIELD_SIZE_X] == 0) {
           game_info->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
                           [(game_state->figure.x + j) % FIELD_SIZE_X] =
               (int)game_state->figure.color;
@@ -69,6 +77,12 @@ GameInfo_t UpdateCurrentState() {
     copy_matrix_pt(game_state->next_block, &game_info->next);
   } else {
     game_state->fsm_state = GAME_OVER;
+  }
+
+  if (game_state->fsm_state == GAME_OVER) {
+    game_info->pause = 2;
+  } else {
+    game_info->pause = game_state->pause;
   }
 
   return *game_info;

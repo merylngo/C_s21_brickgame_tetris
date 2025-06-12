@@ -210,7 +210,7 @@ void print_pause_screen(GameInfo_t game_state) {
 void print_final_screen(GameInfo_t game_state) {
   clear();
 
-  print_field(0, game_state);
+  // print_field(0, game_state);
 
   for (int i = 0; i < 5; i++) {
     mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
