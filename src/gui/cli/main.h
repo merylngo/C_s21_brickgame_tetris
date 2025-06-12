@@ -15,6 +15,9 @@
 void init_cli();
 void play_game();
 
+void remove_matrix_info(int **matrix, int rows);
+void free_game_info(GameInfo_t game_info);
+
 UserAction_t get_action(int command);
 int game_not_over(const BackGameInfo_t *game_state);
 

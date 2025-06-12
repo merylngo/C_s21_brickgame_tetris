@@ -62,7 +62,17 @@ typedef struct {
   int level;
   int speed;
   int pause;
-} BackGameInfo_t;  // GameInfo_t
+} BackGameInfo_t;
+
+typedef struct {
+  int **field;
+  int **next;
+  int score;
+  int high_score;
+  int level;
+  int speed;
+  int pause;
+} GameInfo_t;
 
 /**
  * @brief Действия пользователя
@@ -98,6 +108,8 @@ void userInput(UserAction_t action, int hold);
  * @return const BackGameInfo_t *
  */
 const BackGameInfo_t *updateCurrentState();
+
+GameInfo_t UpdateCurrentState();
 
 /**
  * @brief Функция get_game_state()

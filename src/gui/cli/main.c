@@ -37,14 +37,18 @@ void play_game() {
     flag_terminate_before = 1;
   }
 
+  GameInfo_t game_info = {0};
+
   const BackGameInfo_t *game_state = updateCurrentState();
   int delay = START_TIMEOUT;
 
   while (game_not_over(game_state)) {
     timeout(delay);
 
+    game_info = UpdateCurrentState();
+
     if (game_state->pause) {
-      print_pause_screen(*game_state);
+      print_pause_screen(game_info);
       int command = getch();
       UserAction_t action = get_action(command);
 
@@ -61,18 +65,37 @@ void play_game() {
 
       delay = START_TIMEOUT - 45 * game_state->speed;
 
-      print_current_state(*game_state);
+      // print_current_state(*game_state);
+      // print_game_info_t(game_info);
+      print_current_state(game_info);
     }
+
+    if (!game_not_over(game_state)) {
+      int finish_key;
+
+      while ((finish_key = getch()) && finish_key != FINISH_KEY) {
+        print_final_screen(game_info);
+      }
+    }
+
+    free_game_info(game_info);
   }
+
+  if (!flag_terminate_before) {
+    free_game();
+  }
+
+  /*
   if (!flag_terminate_before) {
     int finish_key;
 
     while ((finish_key = getch()) && finish_key != FINISH_KEY) {
-      print_final_screen(*game_state);
+      print_final_screen(game_info);
     }
 
     free_game();
   }
+    */
 }
 
 UserAction_t get_action(int command) {
@@ -108,4 +131,23 @@ UserAction_t get_action(int command) {
 
 int game_not_over(const BackGameInfo_t *game_state) {
   return game_state->fsm_state != GAME_OVER;
+}
+
+void remove_matrix_info(int **matrix, int rows) {
+  if (matrix) {
+    for (int i = 0; i < rows; i++) {
+      if (matrix[i]) {
+        free(matrix[i]);
+      }
+    }
+
+    free(matrix);
+  }
+
+  matrix = NULL;
+}
+
+void free_game_info(GameInfo_t game_info) {
+  remove_matrix(&game_info.field, FIELD_SIZE_Y);
+  remove_matrix(&game_info.next, BLOCK_SIZE);
 }
