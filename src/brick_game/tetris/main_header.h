@@ -98,15 +98,27 @@ typedef enum {
 void userInput(UserAction_t action, int hold);
 
 /**
+ * @brief Function update_current_state()
+
+ *
+ * @return const BackGameInfo_t *
+ */
+const BackGameInfo_t *update_current_state();
+
+/**
  * @brief Function updateCurrentState()
 
  *
  * @return const BackGameInfo_t *
  */
-const BackGameInfo_t *updateCurrentState();
+GameInfo_t updateCurrentState();
 
-GameInfo_t UpdateCurrentState();
+/**
+ * @brief Function get_game_state()
 
+ *
+ * @return BackGameInfo_t *
+ */
 BackGameInfo_t *get_game_state();
 
 #endif

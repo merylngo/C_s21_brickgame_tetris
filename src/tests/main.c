@@ -152,7 +152,7 @@ void create_field_full_no_one() {
 }
 
 int check_equality() {
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
   int res = 0;
 
   res = res || equal_matrix(game_state->figure.matrix, block_1);
@@ -273,4 +273,23 @@ void normalize_field(int** matrix) {
       }
     }
   }
+}
+
+void remove_matrix_info(int** matrix, int rows) {
+  if (matrix) {
+    for (int i = 0; i < rows; i++) {
+      if (matrix[i]) {
+        free(matrix[i]);
+      }
+    }
+
+    free(matrix);
+  }
+
+  matrix = NULL;
+}
+
+void free_game_info(GameInfo_t game_info) {
+  remove_matrix_info(game_info.field, FIELD_SIZE_Y);
+  remove_matrix_info(game_info.next, BLOCK_SIZE);
 }

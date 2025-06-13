@@ -3,7 +3,7 @@
 START_TEST(test_1) {
   userInput(Start, 0);
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   int field_before[FIELD_SIZE_Y][FIELD_SIZE_X] = {0};
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
@@ -32,7 +32,7 @@ END_TEST
 START_TEST(test_2) {
   userInput(Start, 0);
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   int field_before[FIELD_SIZE_Y][FIELD_SIZE_X] = {0};
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
@@ -65,7 +65,7 @@ END_TEST
 START_TEST(test_3) {
   userInput(Start, 0);
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   int field_before[FIELD_SIZE_Y][FIELD_SIZE_X] = {0};
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};

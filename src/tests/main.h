@@ -51,4 +51,7 @@ void normalize_field(int** matrix);
 int first_row_sum(int** matrix);
 int first_col_sum(int** matrix);
 
+void remove_matrix_info(int** matrix, int rows);
+void free_game_info(GameInfo_t game_info);
+
 #endif

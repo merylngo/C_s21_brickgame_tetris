@@ -57,7 +57,7 @@ void userInput(UserAction_t action, int hold) {
  * @return A constant pointer to the current BackGameInfo_t structure
  * representing the game state.
  */
-const BackGameInfo_t *updateCurrentState() {
+const BackGameInfo_t *update_current_state() {
   const BackGameInfo_t *game_state = get_game_state();
   return game_state;
 }
@@ -97,58 +97,58 @@ BackGameInfo_t *get_game_state() {
  * caller is responsible for freeing the allocated memory for the GameInfo_t
  * structure.
  */
-GameInfo_t UpdateCurrentState() {
+GameInfo_t updateCurrentState() {
   BackGameInfo_t *game_state = get_game_state();
-  GameInfo_t *game_info = NULL;
+  GameInfo_t game_info;
 
-  game_info = (GameInfo_t *)malloc(sizeof(GameInfo_t));
+  game_info.field = game_info.next = NULL;
 
-  game_info->level = game_state->level;
-  game_info->speed = game_state->speed;
-  game_info->high_score = game_state->high_score;
-  game_info->score = game_state->score;
+  game_info.level = game_state->level;
+  game_info.speed = game_state->speed;
+  game_info.high_score = game_state->high_score;
+  game_info.score = game_state->score;
 
   matrix_status field_status =
-      create_matrix(&game_info->field, FIELD_SIZE_Y, FIELD_SIZE_X);
+      create_matrix(&game_info.field, FIELD_SIZE_Y, FIELD_SIZE_X);
   matrix_status next_block_status =
-      create_matrix(&game_info->next, BLOCK_SIZE, BLOCK_SIZE);
+      create_matrix(&game_info.next, BLOCK_SIZE, BLOCK_SIZE);
 
   if (field_status == NORM && next_block_status == NORM) {
     if (game_state->fsm_state == GAME_OVER) {
-      game_info->pause = 2;
-      return *game_info;
+      game_info.pause = 2;
+      return game_info;
     } else {
-      game_info->pause = game_state->pause;
+      game_info.pause = game_state->pause;
     }
 
     for (int i = 0; i < FIELD_SIZE_Y; i++) {
       for (int j = 0; j < FIELD_SIZE_X; j++) {
-        game_info->field[i][j] = game_state->field[i][j];
+        game_info.field[i][j] = game_state->field[i][j];
       }
     }
 
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
         if (game_state->figure.matrix[i][j] &&
-            game_info->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
-                            [(game_state->figure.x + j) % FIELD_SIZE_X] == 0) {
-          game_info->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
-                          [(game_state->figure.x + j) % FIELD_SIZE_X] =
+            game_info.field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                           [(game_state->figure.x + j) % FIELD_SIZE_X] == 0) {
+          game_info.field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                         [(game_state->figure.x + j) % FIELD_SIZE_X] =
               (int)game_state->figure.color;
         }
       }
     }
 
-    copy_matrix_pt(game_state->next_block, &game_info->next);
+    copy_matrix_pt(game_state->next_block, &game_info.next);
   } else {
     game_state->fsm_state = GAME_OVER;
   }
 
   if (game_state->fsm_state == GAME_OVER) {
-    game_info->pause = 2;
+    game_info.pause = 2;
   } else {
-    game_info->pause = game_state->pause;
+    game_info.pause = game_state->pause;
   }
 
-  return *game_info;
+  return game_info;
 }

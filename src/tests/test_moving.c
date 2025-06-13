@@ -3,7 +3,7 @@
 START_TEST(test_1) {
   userInput(Start, 0);
 
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -11,7 +11,7 @@ START_TEST(test_1) {
   if (able_to_move_left()) {
     userInput(Left, 0);
 
-    game_state = updateCurrentState();
+    game_state = update_current_state();
 
     ck_assert_msg(check_move_left(x_prev, y_prev),
                   RED_BCGR "function failed" RESET_COLORS);
@@ -24,7 +24,7 @@ END_TEST
 START_TEST(test_2) {
   userInput(Start, 0);
 
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -32,7 +32,7 @@ START_TEST(test_2) {
   if (able_to_move_right()) {
     userInput(Right, 0);
 
-    game_state = updateCurrentState();
+    game_state = update_current_state();
 
     ck_assert_msg(check_move_right(x_prev, y_prev),
                   RED_BCGR "function failed" RESET_COLORS);
@@ -49,7 +49,7 @@ START_TEST(test_3) {
     userInput(Left, 0);
   }
 
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -66,7 +66,7 @@ END_TEST
 START_TEST(test_4) {
   userInput(Start, 0);
 
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   int x_prev = game_state->figure.x;
   int y_prev = game_state->figure.y;
@@ -76,7 +76,7 @@ START_TEST(test_4) {
   ck_assert_msg(check_move_down(x_prev, y_prev),
                 RED_BCGR "function failed 1" RESET_COLORS);
 
-  game_state = updateCurrentState();
+  game_state = update_current_state();
 
   x_prev = game_state->figure.x;
   y_prev = game_state->figure.y;
@@ -93,7 +93,7 @@ END_TEST
 START_TEST(test_5) {
   userInput(Start, 0);
 
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   int figure_copy[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
@@ -132,34 +132,34 @@ Suite *moving_test(void) {
 }
 
 int check_move_left(int x_prev, int y_prev) {
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   return (x_prev == game_state->figure.x + 1) &&
          (y_prev == game_state->figure.y - 1);
 }
 
 int check_move_right(int x_prev, int y_prev) {
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   return (x_prev == game_state->figure.x - 1) &&
          (y_prev == game_state->figure.y - 1);
 }
 
 int check_move_down(int x_prev, int y_prev) {
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   return (x_prev == game_state->figure.x) &&
          (y_prev == game_state->figure.y - 1);
 }
 
 int check_no_move(int x_prev, int y_prev) {
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   return (x_prev == game_state->figure.x) && (y_prev || !y_prev);
 }
 
 int check_turn(int m[][BLOCK_SIZE]) {
-  const BackGameInfo_t *game_state = updateCurrentState();
+  const BackGameInfo_t *game_state = update_current_state();
 
   int right_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
 

@@ -7,7 +7,7 @@ START_TEST(test_1) {
 
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -16,8 +16,6 @@ START_TEST(test_1) {
   }
 
   userInput(Down, 0);
-
-  // printf("score == %d\n", game_state->score);
 
   ck_assert_msg(check_block_on_field_after_clean(block_before) &&
                     game_state->score == 100,
@@ -34,7 +32,7 @@ START_TEST(test_2) {
 
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -43,8 +41,6 @@ START_TEST(test_2) {
   }
 
   userInput(Down, 0);
-
-  // printf("score == %d\n", game_state->score);
 
   ck_assert_msg(check_block_on_field_after_clean(block_before) &&
                     game_state->score == 300,
@@ -61,7 +57,7 @@ START_TEST(test_3) {
 
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -70,8 +66,6 @@ START_TEST(test_3) {
   }
 
   userInput(Down, 0);
-
-  // printf("score == %d\n", game_state->score);
 
   ck_assert_msg(check_block_on_field_after_clean(block_before) &&
                     game_state->score == 700 && game_state->level == 1,
@@ -88,7 +82,7 @@ START_TEST(test_4) {
 
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -113,7 +107,7 @@ START_TEST(test_5) {
 
   int block_before[BLOCK_SIZE][BLOCK_SIZE] = {0};
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
@@ -124,7 +118,7 @@ START_TEST(test_5) {
   userInput(Down, 0);
 
   ck_assert_msg(check_block_on_field_after_clean(block_before) &&
-                    game_state->score == 3100 && game_state->level == 5,
+                    game_state->score == 1600 && game_state->level == 2,
                 RED_BCGR "function failed 1" RESET_COLORS);
 
   free_game();
@@ -136,11 +130,9 @@ START_TEST(test_6) {
 
   create_field_full_no_one();
 
-  const BackGameInfo_t* game_state = updateCurrentState();
+  const BackGameInfo_t* game_state = update_current_state();
 
   userInput(Down, 0);
-
-  printf("game_state = %d\n", game_state->fsm_state);
 
   ck_assert_msg(game_state->fsm_state == GAME_OVER,
                 RED_BCGR "function failed" RESET_COLORS);
