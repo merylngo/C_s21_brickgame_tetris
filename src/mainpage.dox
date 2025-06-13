@@ -9,13 +9,13 @@
  ## Game Description
  "BrickGame_v1.0" is a version of the classic "Tetris" game.
  Control keys:
- up - rotate block
+ 'KEY_UP' - rotate block
  'p' - pause
  'q' - end game
- Esc - quit from game when it's over
- -> - move block left
- <- - move block right
- space - fall block down
+ 'Esc' - quit from game when it's over
+ 'KEY_LEFT' - move block left
+ 'KEY_RIGHT' - move block right
+ 'SPACE' - fall block down
 
  ## Getting Started
  The program builds by using a Makefile

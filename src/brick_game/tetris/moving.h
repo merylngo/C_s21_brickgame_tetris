@@ -1,3 +1,9 @@
+/**
+ * @file moving.h
+ * @brief Header file for moving logic
+ *
+ */
+
 #ifndef MOVING_H
 #define MOVING_H
 

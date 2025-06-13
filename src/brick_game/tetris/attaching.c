@@ -1,3 +1,9 @@
+/**
+ * @file attaching.c
+ * @brief file for the attaching logic of the Tetris game
+ *
+ */
+
 #include "attaching.h"
 
 #include "free_game.h"

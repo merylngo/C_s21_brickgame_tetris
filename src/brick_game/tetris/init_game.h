@@ -1,3 +1,9 @@
+/**
+ * @file init_game.h
+ * @brief Header file for the game initialization
+ *
+ */
+
 #ifndef INIT_GAME_H
 #define INIT_GAME_H
 

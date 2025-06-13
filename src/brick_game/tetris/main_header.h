@@ -1,3 +1,9 @@
+/**
+ * @file main_header.h
+ * @brief Header file for the all game
+ *
+ */
+
 #ifndef MAIN_HEADER_H
 #define MAIN_HEADER_H
 

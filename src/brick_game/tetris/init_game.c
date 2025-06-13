@@ -1,3 +1,9 @@
+/**
+ * @file init_game.c
+ * @brief file for the game initialization
+ *
+ */
+
 #include "init_game.h"
 
 /**

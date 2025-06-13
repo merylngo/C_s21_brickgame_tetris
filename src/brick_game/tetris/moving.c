@@ -1,3 +1,9 @@
+/**
+ * @file moving.c
+ * @brief file for moving logic
+ *
+ */
+
 #include "moving.h"
 
 #include "attaching.h"

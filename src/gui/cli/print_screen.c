@@ -101,21 +101,18 @@ void print_pause_screen(GameInfo_t game_state) {
 void print_final_screen(GameInfo_t game_state) {
   clear();
 
-  // print_field(0, game_state);
-
   for (int i = 0; i < 6; i++) {
-    mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
+    mvaddch(BORDER_UP + i, BORDER_RIGHT, '|');
   }
 
   int k = 0;
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "GAME OVER");
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "YOUR SCORE: %d",
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT + 1, "GAME OVER");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT + 1, "YOUR SCORE: %d",
            game_state.score);
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "HIGHEST SCORE: %d",
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT + 1, "HIGHEST SCORE: %d",
            game_state.high_score);
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "ACHIEVED LEVEL: %d",
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT + 1, "ACHIEVED LEVEL: %d",
            game_state.level);
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "PRESS ESC TO EXIT GAME");
-  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1,
-           "PRESS ENTER TO START NEW GAME");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT + 1, "PRESS ESC TO EXIT GAME");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT + 1, "PRESS ENTER TO START NEW GAME");
 }

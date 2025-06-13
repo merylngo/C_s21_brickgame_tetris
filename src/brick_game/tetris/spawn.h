@@ -1,3 +1,9 @@
+/**
+ * @file spawn.h
+ * @brief Header file for spawn logic
+ *
+ */
+
 #ifndef BLOCKS_H
 #define BLOCKS_H
 

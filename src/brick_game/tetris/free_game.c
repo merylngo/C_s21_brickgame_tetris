@@ -1,3 +1,9 @@
+/**
+ * @file free_game.c
+ * @brief file for the freeing game resourses
+ *
+ */
+
 #include "free_game.h"
 
 /**

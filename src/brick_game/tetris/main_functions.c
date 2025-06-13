@@ -1,3 +1,9 @@
+/**
+ * @file main_functions.c
+ * @brief file with input-output lib functionc
+ *
+ */
+
 #include "free_game.h"
 #include "init_game.h"
 #include "main_header.h"

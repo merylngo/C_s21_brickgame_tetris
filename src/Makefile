@@ -75,7 +75,7 @@ run_dvi_ex:
 	xdvi ./documentation/refman.dvi		
 
 clean_dvi:
-	rm ./documentation/refman.dvi	
+	@rm ./documentation/refman.dvi	
 
 dist:
 	rm -rf dist/

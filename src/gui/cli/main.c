@@ -1,6 +1,5 @@
 #include "main.h"
 
-#include "../../brick_game/tetris/free_game.h"
 #include "../../brick_game/tetris/main_header.h"
 
 int main(void) {
@@ -24,7 +23,7 @@ void init_cli() {
 void play_game() {
   int game_status = PLAYING_STATUS;
 
-  //while (game_status != EXIT_STATUS) {
+  while (game_status != EXIT_STATUS) {
     int start_key;
 
     while ((start_key = getch()) &&
@@ -59,7 +58,7 @@ void play_game() {
         }
       } else if (game_status == PLAYING_STATUS) {
         print_current_state(game_info);
-        delay = START_TIMEOUT - DELAY_MUL * game_info.speed;
+        delay = START_TIMEOUT - 45 * game_info.speed;
 
         int command = getch();
         UserAction_t action = get_action(command);
@@ -68,19 +67,19 @@ void play_game() {
       }
 
       if (game_status == GAMEOVER_STATUS) {
-        int finish_key;
+        int finish_key = -1;
 
         while ((finish_key = getch()) &&
-               (finish_key != FINISH_KEY && finish_key != START_KEY)) {
+               (finish_key != START_KEY && finish_key != FINISH_KEY)) {
           print_final_screen(game_info);
         }
 
-        //game_status = (finish_key == FINISH_KEY) ? EXIT_STATUS : PLAYING_STATUS;
+        game_status = (finish_key == FINISH_KEY) ? EXIT_STATUS : PLAYING_STATUS;
       }
 
       free_game_info(game_info);
     }
- // }
+  }
 }
 
 UserAction_t get_action(int command) {
@@ -129,6 +128,6 @@ void remove_matrix_info(int **matrix, int rows) {
 }
 
 void free_game_info(GameInfo_t game_info) {
-  remove_matrix(&game_info.field, FIELD_SIZE_Y);
-  remove_matrix(&game_info.next, BLOCK_SIZE);
+  remove_matrix_info(game_info.field, FIELD_SIZE_Y);
+  remove_matrix_info(game_info.next, BLOCK_SIZE);
 }

@@ -1,3 +1,9 @@
+/**
+ * @file attaching.h
+ * @brief Header file for the attaching logic of the Tetris game.
+ *
+ */
+
 #ifndef ATTACHING_H
 #define ATTACHING_H
 
