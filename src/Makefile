@@ -60,6 +60,8 @@ install: clean tetris
 uninstall:
 	-rm -rf install
 
+# sudo apt install texlive-full
+# sudo apt-get install doxygen
 dvi:
 	@doxygen ./documentation/Doxyfile > /dev/null 2>&1
 	@cd dvi/latex && latex -silent refman.tex > /dev/null 2>&1
