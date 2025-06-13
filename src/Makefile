@@ -64,12 +64,16 @@ uninstall:
 # sudo apt-get install doxygen
 dvi:
 	@doxygen ./documentation/Doxyfile > /dev/null 2>&1
-	@cd dvi/latex && latex -silent refman.tex > /dev/null 2>&1
-	mv dvi/latex/refman.dvi dvi/
-	rm -rf dvi/latex
+	@mkdir -p dvi/latex
+	@cd dvi/latex && latex refman.tex > /dev/null 2>&1
+	@mv dvi/latex/refman.dvi dvi/
+	@rm -rf dvi/latex
 
 run_dvi: dvi
 	xdvi dvi/refman.dvi	
+
+dvi_clean:
+	rm -rf ./dvi
 
 dist:
 	rm -rf dist/

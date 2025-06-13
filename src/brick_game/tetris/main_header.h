@@ -38,8 +38,7 @@ enum block_codes {
 };
 
 /**
- * @brief Структура, описывающая текущую падающую фигурку, ее координаты на поле
- * и цвет
+ * @brief Current block struct
  */
 
 typedef struct {
@@ -47,10 +46,6 @@ typedef struct {
   int x, y;
   color_codes color;
 } current_block_t;
-
-/**
- * @brief Основная структура, описывающая полное состояние игры
- */
 
 typedef struct {
   fsm_states fsm_state;
@@ -75,7 +70,7 @@ typedef struct {
 } GameInfo_t;
 
 /**
- * @brief Действия пользователя
+ * @brief User's actions
  */
 
 typedef enum {
@@ -90,20 +85,14 @@ typedef enum {
 } UserAction_t;
 
 /**
- * @brief Функция userInput(UserAction_t action, int hold)
+ * @brief Function userInput(UserAction_t action, int hold)
  *
- * Интерпретирует команду пользователя в действие в игре и изменяет ее состояние
- *
- * @param action - действие пользователя
- * @param hold - не используется
  */
 void userInput(UserAction_t action, int hold);
 
 /**
- * @brief Функция updateCurrentState()
- *
- * возвращает в игровой цикл константный указатель на статическую переменную,
- * описывающую текущее состояние игры
+ * @brief Function updateCurrentState()
+
  *
  * @return const BackGameInfo_t *
  */
@@ -111,14 +100,6 @@ const BackGameInfo_t *updateCurrentState();
 
 GameInfo_t UpdateCurrentState();
 
-/**
- * @brief Функция get_game_state()
- *
- * возвращает указатель на статическую переменную, описывающую текущее состояние
- * игры
- *
- * @return BackGameInfo_t *
- */
 BackGameInfo_t *get_game_state();
 
 #endif
