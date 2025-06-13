@@ -62,18 +62,21 @@ uninstall:
 
 # sudo apt install texlive-full
 # sudo apt-get install doxygen
-dvi:
+dvi: clean_dvi
 	@doxygen ./documentation/Doxyfile > /dev/null 2>&1
 	@mkdir -p dvi/latex
 	@cd dvi/latex && latex refman.tex > /dev/null 2>&1
-	@mv dvi/latex/refman.dvi dvi/
-	@rm -rf dvi/latex
+	@mv dvi/latex/refman.dvi ./documentation
+	@rm -rf ./dvi
 
 run_dvi: dvi
-	xdvi dvi/refman.dvi	
+	xdvi ./documentation/refman.dvi	
 
-dvi_clean:
-	rm -rf ./dvi
+run_dvi_ex:
+	xdvi ./documentation/refman.dvi		
+
+clean_dvi:
+	rm ./documentation/refman.dvi	
 
 dist:
 	rm -rf dist/
