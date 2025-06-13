@@ -14,6 +14,7 @@
 #define PLAYING_STATUS 0
 #define PAUSE_STATUS 1
 #define GAMEOVER_STATUS 2
+#define EXIT_STATUS 3
 
 void init_cli();
 void play_game();

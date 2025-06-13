@@ -22,58 +22,64 @@ void init_cli() {
 }
 
 void play_game() {
-  int start_key;
   int game_status = PLAYING_STATUS;
 
-  while ((start_key = getch()) &&
-         (start_key != START_KEY && start_key != FINISH_KEY)) {
-    print_start_screen();
-  }
+  while (game_status != EXIT_STATUS) {
+    int start_key;
 
-  if (start_key == START_KEY) {
-    userInput(Start, false);
-  } else {
-    userInput(Terminate, false);
-    game_status = GAMEOVER_STATUS;
-  }
+    while ((start_key = getch()) &&
+           (start_key != START_KEY && start_key != FINISH_KEY)) {
+      print_start_screen();
+    }
 
-  GameInfo_t game_info = {0};
-  int delay = START_TIMEOUT;
+    if (start_key == START_KEY) {
+      userInput(Start, false);
+    } else {
+      userInput(Terminate, false);
+      game_status = EXIT_STATUS;
+    }
 
-  while (game_status != GAMEOVER_STATUS) {
-    timeout(delay);
+    GameInfo_t game_info = {0};
+    int delay = START_TIMEOUT;
 
-    game_info = UpdateCurrentState();
-    game_status = game_info.pause;
+    while (game_status != GAMEOVER_STATUS && game_status != EXIT_STATUS) {
+      timeout(delay);
 
-    if (game_status == PAUSE_STATUS) {
-      print_pause_screen(game_info);
+      game_info = UpdateCurrentState();
+      game_status = game_info.pause;
 
-      int command = getch();
-      UserAction_t action = get_action(command);
+      if (game_status == PAUSE_STATUS) {
+        print_pause_screen(game_info);
 
-      if (action == Pause || action == Terminate) {
+        int command = getch();
+        UserAction_t action = get_action(command);
+
+        if (action == Pause || action == Terminate) {
+          userInput(action, false);
+        }
+      } else if (game_status == PLAYING_STATUS) {
+        print_current_state(game_info);
+        delay = START_TIMEOUT - 45 * game_info.speed;
+
+        int command = getch();
+        UserAction_t action = get_action(command);
+
         userInput(action, false);
       }
-    } else if (game_status == PLAYING_STATUS) {
-      print_current_state(game_info);
-      delay = START_TIMEOUT - 45 * game_info.speed;
 
-      int command = getch();
-      UserAction_t action = get_action(command);
+      if (game_status == GAMEOVER_STATUS) {
+        int finish_key;
 
-      userInput(action, false);
-    }
+        while ((finish_key = getch()) &&
+               (finish_key != FINISH_KEY || finish_key != START_KEY)) {
+          print_final_screen(game_info);
+        }
 
-    if (game_status == GAMEOVER_STATUS) {
-      int finish_key;
-
-      while ((finish_key = getch()) && finish_key != FINISH_KEY) {
-        print_final_screen(game_info);
+        game_status = (finish_key == FINISH_KEY) ? EXIT_STATUS : PLAYING_STATUS;
       }
-    }
 
-    free_game_info(game_info);
+      free_game_info(game_info);
+    }
   }
 }
 
