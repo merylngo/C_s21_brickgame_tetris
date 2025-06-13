@@ -1,6 +1,5 @@
 #include "main.h"
 
-#include "../../brick_game/tetris/free_game.h"
 #include "../../brick_game/tetris/main_header.h"
 
 int main(void) {
@@ -68,10 +67,10 @@ void play_game() {
       }
 
       if (game_status == GAMEOVER_STATUS) {
-        int finish_key;
+        int finish_key = -1;
 
         while ((finish_key = getch()) &&
-               (finish_key != FINISH_KEY || finish_key != START_KEY)) {
+               (finish_key != START_KEY && finish_key != FINISH_KEY)) {
           print_final_screen(game_info);
         }
 
@@ -79,6 +78,10 @@ void play_game() {
       }
 
       free_game_info(game_info);
+    }
+
+    if (game_status == EXIT_STATUS) {
+      break;
     }
   }
 }
