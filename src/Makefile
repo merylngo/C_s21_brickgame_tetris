@@ -21,12 +21,11 @@ tetris_lib.a: $(C_LIB_OBJS)
 $(TETRIS_DIR_BACK)%.o: $(TETRIS_DIR_BACK)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Правило для компиляции объектных файлов из исходных файлов главного приложения
 $(TETRIS_DIR_MAIN)%.o: $(TETRIS_DIR_MAIN)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 tetris: $(C_MAIN_OBJS) $(C_LIB_OBJS)
-	$(CC) $(CFLAGS) -o tetris $(C_MAIN_OBJS) $(C_LIB_OBJS) -lncurses	
+	$(CC) $(CFLAGS) -o tetris $(C_MAIN_OBJS) $(C_LIB_OBJS) -lncurses
 
 #tetris: clean $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c
 #	$(CC) $(CFLAGS) -o tetris $(TETRIS_DIR_MAIN)*.c $(TETRIS_DIR_BACK)*.c -lncurses

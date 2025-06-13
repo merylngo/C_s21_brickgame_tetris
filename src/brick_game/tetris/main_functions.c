@@ -4,6 +4,24 @@
 #include "moving.h"
 #include "spawn.h"
 
+/**
+ * @brief Handles user input actions for the game.
+ *
+ * This function processes user actions such as starting, pausing, terminating
+ * the game, or moving a block based on the specified action. It updates the
+ * game state accordingly.
+ *
+ * @param action The action to be performed by the user. This should be one of
+ * the values from the UserAction_t enumeration, which includes:
+ *               - Start: Initializes the game and spawns a new block.
+ *               - Pause: Toggles the pause state of the game.
+ *               - Terminate: Sets the game state to GAME_OVER and frees game
+ * resources.
+ *               - Any other value: Moves the block according to the specified
+ * action.
+ * @param hold An integer parameter that is currently unused. It is included for
+ * future compatibility or extension of the function.
+ */
 void userInput(UserAction_t action, int hold) {
   (void)hold;
   BackGameInfo_t *game_state = get_game_state();
@@ -21,17 +39,58 @@ void userInput(UserAction_t action, int hold) {
   }
 }
 
+/**
+ * @brief Retrieves the current game state.
+ *
+ * This function returns a constant pointer to the current game state structure,
+ * which contains information about the game's status and settings. The returned
+ * pointer points to a static instance of the game state, ensuring that the same
+ * state is accessed throughout the game's lifecycle. It used in tests in order
+ * to see the user's action result on game_state
+ *
+ * @return A constant pointer to the current BackGameInfo_t structure
+ * representing the game state.
+ */
 const BackGameInfo_t *updateCurrentState() {
   const BackGameInfo_t *game_state = get_game_state();
   return game_state;
 }
 
+/**
+ * @brief Gets a pointer to the game state.
+ *
+ * This function initializes and returns a pointer to a static instance of the
+ * BackGameInfo_t structure. The static instance ensures that the game state
+ * persists across multiple calls to this function, allowing for consistent
+ * access to the game's state information.
+ *
+ * @return A pointer to the BackGameInfo_t structure representing the game
+ * state.
+ */
 BackGameInfo_t *get_game_state() {
   static BackGameInfo_t game_state = {0};
 
   return &game_state;
 }
 
+/**
+ * @brief Updates the current game state and returns a GameInfo_t structure.
+ *
+ * This function retrieves the current game state from the static game state
+ * instance, allocates memory for a new GameInfo_t structure, and populates it
+ * with the current game information, including level, speed, high score, score,
+ * and the game field. It also handles the creation of matrices for the game
+ * field and the next block.
+ *
+ * If the game is in the GAME_OVER state, the pause value is set to 2. The
+ * function checks the status of the matrices and updates the game field based
+ * on the current figure's position and color. If the matrix creation fails, the
+ * game state is set to GAME_OVER.
+ *
+ * @return A GameInfo_t structure containing the updated game information. The
+ * caller is responsible for freeing the allocated memory for the GameInfo_t
+ * structure.
+ */
 GameInfo_t UpdateCurrentState() {
   BackGameInfo_t *game_state = get_game_state();
   GameInfo_t *game_info = NULL;

@@ -4,6 +4,16 @@
 #include "main_header.h"
 #include "spawn.h"
 
+/**
+ * @brief Copies the top layers of the game field down by one layer.
+ *
+ * This function shifts all layers above the specified layer number down by one,
+ * effectively removing the specified layer and filling the top layer with
+ * zeros.
+ *
+ * @param layer_number The layer number to be removed. All layers above this
+ * layer will be shifted down.
+ */
 void copy_top_layers(int layer_number) {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -18,6 +28,14 @@ void copy_top_layers(int layer_number) {
   }
 }
 
+/**
+ * @brief Removes full layers from the game field and updates the score.
+ *
+ * This function checks each layer of the game field for completeness. If a
+ * layer is completely filled, it is removed, and all layers above it are
+ * shifted down. The score is updated based on the number of layers removed. If
+ * the score exceeds the high score, the high score is updated.
+ */
 void remove_full_layers() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -60,7 +78,13 @@ void remove_full_layers() {
       game_state->score += 1500;
       break;
     case 5:
-      game_state->score += 3100;
+      game_state->score += 1600;
+      break;
+    case 6:
+      game_state->score += 1700;
+      break;
+    case 7:
+      game_state->score += 1800;
       break;
 
     default:
@@ -75,6 +99,12 @@ void remove_full_layers() {
   }
 }
 
+/**
+ * @brief Updates the high score in the score file.
+ *
+ * This function writes the current high score to a specified text file. If the
+ * file is successfully opened, the high score is written to it.
+ */
 void update_high_score() {
   FILE *file_score = fopen("./brick_game/tetris/high_score.txt", "w");
   BackGameInfo_t *game_state = get_game_state();
@@ -86,6 +116,13 @@ void update_high_score() {
   }
 }
 
+/**
+ * @brief Updates the game level based on the current score.
+ *
+ * This function calculates the new level based on the current score. If the new
+ * level is greater than the current level, it updates the level and increases
+ * the game speed.
+ */
 void update_level() {
   BackGameInfo_t *game_state = get_game_state();
   int new_level = game_state->score / 600;
@@ -96,6 +133,16 @@ void update_level() {
   }
 }
 
+/**
+ * @brief Attaches the current block to the game field.
+ *
+ * This function places the current block onto the game field based on its
+ * position. It updates the game state to indicate that the block is being
+ * attached. After placing the block, it checks for any full layers in the game
+ * field and removes them. If the game is over after attaching the block, the
+ * game state is set to GAME_OVER and resources are freed. Otherwise, a new
+ * block is spawned.
+ */
 void attach_block() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -121,8 +168,25 @@ void attach_block() {
   }
 }
 
+/**
+ * @brief Checks if the game is over.
+ *
+ * This function determines if the game is over by checking if the top layer has
+ * been achieved or if the maximum level has been reached.
+ *
+ * @return 1 if the game is over, 0 otherwise.
+ */
 int game_is_over() { return achieved_top_layer() || achieved_max_level(); }
 
+/**
+ * @brief Checks if the top layer has been achieved.
+ *
+ * This function checks if any part of the current block has reached the top of
+ * the game field. It counts the number of empty rows at the top of the field
+ * and compares it to the position of the current block.
+ *
+ * @return 1 if the top layer has been achieved, 0 otherwise.
+ */
 int achieved_top_layer() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -160,6 +224,14 @@ int achieved_top_layer() {
   return cnt_empty_strings < last_i + 1;
 }
 
+/**
+ * @brief Checks if the maximum level has been reached.
+ *
+ * This function checks if the current game level is equal to the maximum level
+ * (level 10).
+ *
+ * @return 1 if the maximum level has been reached, 0 otherwise.
+ */
 int achieved_max_level() {
   BackGameInfo_t *game_state = get_game_state();
 

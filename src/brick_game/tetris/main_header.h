@@ -12,10 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * @brief Состояния конечного автомата
- */
-
 typedef enum {
   START,
   SPAWN,
@@ -40,13 +36,15 @@ enum block_codes {
 /**
  * @brief Current block struct
  */
-
 typedef struct {
   int **matrix;
   int x, y;
   color_codes color;
 } current_block_t;
 
+/**
+ * @brief all static game information in backend
+ */
 typedef struct {
   fsm_states fsm_state;
   current_block_t figure;
@@ -59,6 +57,9 @@ typedef struct {
   int pause;
 } BackGameInfo_t;
 
+/**
+ * @brief struct for frontend to show in interface
+ */
 typedef struct {
   int **field;
   int **next;

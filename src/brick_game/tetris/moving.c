@@ -3,6 +3,14 @@
 #include "attaching.h"
 #include "main_header.h"
 
+/**
+ * @brief Checks if the current figure can move left.
+ *
+ * This function checks if the current figure can move left without colliding
+ * with the walls or other blocks in the game field.
+ *
+ * @return 1 if the figure can move left, 0 otherwise.
+ */
 int able_to_move_left() {
   BackGameInfo_t *game_state = get_game_state();
   int res = 1;
@@ -29,6 +37,14 @@ int able_to_move_left() {
   return res;
 }
 
+/**
+ * @brief Checks if the current figure can move right.
+ *
+ * This function checks if the current figure can move right without colliding
+ * with the walls or other blocks in the game field.
+ *
+ * @return 1 if the figure can move right, 0 otherwise.
+ */
 int able_to_move_right() {
   BackGameInfo_t *game_state = get_game_state();
   int res = 1;
@@ -69,6 +85,14 @@ int able_to_move_right() {
   return res;
 }
 
+/**
+ * @brief Checks if the current figure can move down.
+ *
+ * This function checks if the current figure can move down without colliding
+ * with the bottom of the game field or other blocks.
+ *
+ * @return 1 if the figure can move down, 0 otherwise.
+ */
 int able_to_move_down() {
   BackGameInfo_t *game_state = get_game_state();
   int last_i;
@@ -107,6 +131,15 @@ int able_to_move_down() {
   return flag;
 }
 
+/**
+ * @brief Normalizes a matrix by removing empty rows and columns.
+ *
+ * This function checks the first row and column of the matrix and removes them
+ * if they are completely empty (sum of elements is zero). The remaining
+ * elements are shifted accordingly.
+ *
+ * @param matrix The matrix to normalize, a 2D array of integers.
+ */
 void normalize_matrix(int matrix[][BLOCK_SIZE]) {
   int first_row_sum = 0;
 
@@ -145,24 +178,29 @@ void normalize_matrix(int matrix[][BLOCK_SIZE]) {
   }
 }
 
+/**
+ * @brief Checks if the current figure can turn left.
+ *
+ * This function checks if the current figure can be rotated 90 degrees to the
+ * left without colliding with the walls or other blocks in the game field.
+ *
+ * @return 1 if the figure can turn left, 0 otherwise.
+ */
 int able_to_turn_left() {
   BackGameInfo_t *game_state = get_game_state();
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
   int result = 1;
 
-  // получили матрицу повернутую на 90 градусов влево
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       left_matrix[BLOCK_SIZE - j - 1][i] = game_state->figure.matrix[i][j];
     }
   }
 
-  // убрали в ней 1 пустую строку и один пустой столбец
   normalize_matrix(left_matrix);
   normalize_matrix(left_matrix);
   normalize_matrix(left_matrix);
 
-  // пытаемся проверить, встанет ли эта повернутая матрица на поле
   for (int i = 0; i < BLOCK_SIZE; i++) {
     for (int j = 0; j < BLOCK_SIZE; j++) {
       if (left_matrix[i][j] && (i + game_state->figure.y < FIELD_SIZE_Y) &&
@@ -178,6 +216,12 @@ int able_to_turn_left() {
   return result;
 }
 
+/**
+ * @brief Rotates the current figure's matrix 90 degrees to the left.
+ *
+ * This function rotates the current figure's matrix and normalizes it by
+ * removing empty rows and columns.
+ */
 void turn_left_matrix() {
   BackGameInfo_t *game_state = get_game_state();
   int left_matrix[BLOCK_SIZE][BLOCK_SIZE] = {0};
@@ -199,6 +243,12 @@ void turn_left_matrix() {
   }
 }
 
+/**
+ * @brief Moves the current figure left if possible.
+ *
+ * This function attempts to move the current figure left. If it cannot move
+ * down after moving left, it attaches the block to the game field.
+ */
 void move_down() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -210,6 +260,12 @@ void move_down() {
   }
 }
 
+/**
+ * @brief Moves the current figure left if possible.
+ *
+ * This function attempts to move the current figure left. If it cannot move
+ * down after moving left, it attaches the block to the game field.
+ */
 void move_left() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -227,6 +283,12 @@ void move_left() {
   }
 }
 
+/**
+ * @brief Moves the current figure right if possible.
+ *
+ * This function attempts to move the current figure right. If it cannot move
+ * down after moving right, it attaches the block to the game field.
+ */
 void move_right() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -244,6 +306,13 @@ void move_right() {
   }
 }
 
+/**
+ * @brief Turns the current figure left if possible.
+ *
+ * This function attempts to rotate the current figure's matrix 90 degrees to
+ * the left. If it cannot move down after turning, it attaches the block to the
+ * game field.
+ */
 void turn_left() {
   BackGameInfo_t *game_state = get_game_state();
 
@@ -259,6 +328,12 @@ void turn_left() {
   }
 }
 
+/**
+ * @brief Drops the current figure down to the lowest possible position.
+ *
+ * This function moves the current figure down until it can no longer move down,
+ * then attaches the block to the game field.
+ */
 void fall_down() {
   while (able_to_move_down()) {
     move_down();
@@ -267,6 +342,15 @@ void fall_down() {
   attach_block();
 }
 
+/**
+ * @brief Moves the current block based on user action.
+ *
+ * This function processes user actions (left, right, down, turn) and moves the
+ * current block accordingly. It checks the current state of the game before
+ * executing the action.
+ *
+ * @param action The user action to perform.
+ */
 void move_block(UserAction_t action) {
   BackGameInfo_t *game_state = get_game_state();
 
