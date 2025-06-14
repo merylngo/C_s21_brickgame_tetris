@@ -67,9 +67,6 @@ dvi: clean_dvi
 	@rm -rf ./dvi
 
 run_dvi: dvi
-	xdvi ./documentation/refman.dvi	
-
-run_dvi_ex:
 	xdvi ./documentation/refman.dvi		
 
 clean_dvi:

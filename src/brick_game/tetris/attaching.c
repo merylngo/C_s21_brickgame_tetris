@@ -145,7 +145,7 @@ void update_level() {
   int new_level = game_state->score / 600;
 
   if (new_level > game_state->level) {
-    game_state->level = new_level;
+    game_state->level += new_level;
     game_state->speed++;
   }
 }
