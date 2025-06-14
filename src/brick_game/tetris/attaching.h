@@ -12,6 +12,7 @@ void remove_full_layers();
 int able_to_attach_block();
 void attach_block();
 
+void update_score(int cnt_layers);
 void update_level();
 void update_high_score();
 int achieved_top_layer();

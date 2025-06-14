@@ -1,7 +1,5 @@
 #include "main.h"
 
-#include "../../brick_game/tetris/main_header.h"
-
 int main(void) {
   init_cli();
   play_game();
@@ -17,7 +15,7 @@ void init_cli() {
   curs_set(0);
   cbreak();
   init_colors();
-  // nodelay(stdscr, TRUE);
+  nodelay(stdscr, TRUE);
 }
 
 void play_game() {
@@ -93,10 +91,6 @@ void on_playing_state(GameInfo_t game_info, int *delay, clock_t *start_time) {
 
   double time = ((double)(clock() - *start_time)) / (CLOCKS_PER_SEC);
   time *= 100;
-
-  mvprintw(BORDER_UP + 15, BORDER_RIGHT * 2 + 1, "time: %lf", time);
-  mvprintw(BORDER_UP + 16, BORDER_RIGHT * 2 + 1, "delay: %lf",
-           ((double)(*delay)) / 1000);
 
   if (time > ((double)(*delay)) / 1000) {
     userInput(Empty, false);

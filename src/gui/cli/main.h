@@ -8,7 +8,7 @@
 #include "print_screen.h"
 
 #define START_TIMEOUT 300
-#define DELAY_MUL 15
+#define DELAY_MUL 20
 #define START_KEY '\n'
 #define FINISH_KEY 27
 #define PLAYING_STATUS 0

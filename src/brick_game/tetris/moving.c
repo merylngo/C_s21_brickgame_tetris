@@ -26,12 +26,11 @@ int able_to_move_left() {
   } else {
     for (int i = 0; i < BLOCK_SIZE; i++) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (game_state->figure.matrix[i][j] &&
-            game_state->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
-                             [(game_state->figure.x + j - 1) % FIELD_SIZE_X]) {
-          res = 0;
-          break;
-        }
+        res = (game_state->figure.matrix[i][j] &&
+               game_state->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                                [(game_state->figure.x + j - 1) % FIELD_SIZE_X])
+                  ? 0
+                  : res;
       }
 
       if (res == 0) {
@@ -74,12 +73,12 @@ int able_to_move_right() {
   } else {
     for (int j = BLOCK_SIZE - 1; j >= 0; j--) {
       for (int i = BLOCK_SIZE - 1; i >= 0; i--) {
-        if (game_state->figure.matrix[i][j] &&
-            game_state->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
-                             [(game_state->figure.x + j + 1) % FIELD_SIZE_X]) {
-          res = 0;
-          break;
-        }
+        res =
+            ((game_state->figure.matrix[i][j] &&
+              game_state->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                               [(game_state->figure.x + j + 1) % FIELD_SIZE_X]))
+                ? 0
+                : res;
       }
 
       if (res == 0) {
@@ -122,12 +121,15 @@ int able_to_move_down() {
   if (game_state->figure.y + last_i < FIELD_SIZE_Y - 1) {
     for (int i = last_i; i >= 0; i--) {
       for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (game_state->figure.matrix[i][j] &&
-            game_state->field[(game_state->figure.y + i + 1) % FIELD_SIZE_Y]
-                             [(game_state->figure.x + j) % FIELD_SIZE_X]) {
-          flag = 0;
-          break;
-        }
+        flag = (game_state->figure.matrix[i][j] &&
+                game_state->field[(game_state->figure.y + i + 1) % FIELD_SIZE_Y]
+                                 [(game_state->figure.x + j) % FIELD_SIZE_X])
+                   ? 0
+                   : flag;
+      }
+
+      if (flag == 0) {
+        break;
       }
     }
   } else {
@@ -283,9 +285,6 @@ void move_left() {
 
   if (!able_to_move_down()) {
     attach_block();
-  } else {
-    // game_state->fsm_state = SHIFTING;
-    // move_down();
   }
 }
 
@@ -306,9 +305,6 @@ void move_right() {
 
   if (!able_to_move_down()) {
     attach_block();
-  } else {
-    // game_state->fsm_state = SHIFTING;
-    // move_down();
   }
 }
 
@@ -328,9 +324,6 @@ void turn_left() {
 
   if (!able_to_move_down()) {
     attach_block();
-  } else {
-    // game_state->fsm_state = SHIFTING;
-    // move_down();
   }
 }
 
@@ -379,7 +372,7 @@ void move_block(UserAction_t action) {
         break;
 
       case Empty:
-        // game_state->fsm_state == SHIFTING;
+        game_state->fsm_state = SHIFTING;
         move_down();
         break;
 

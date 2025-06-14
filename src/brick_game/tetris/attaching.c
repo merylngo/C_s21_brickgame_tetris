@@ -70,6 +70,24 @@ void remove_full_layers() {
     }
   }
 
+  update_score(cnt_layers);
+
+  update_level();
+
+  if (game_state->score > game_state->high_score) {
+    game_state->high_score = game_state->score;
+    update_high_score();
+  }
+}
+
+/**
+ * @brief Updates the current score.
+ *
+ * This function writes the current score to a struct.
+ */
+void update_score(int cnt_layers) {
+  BackGameInfo_t *game_state = get_game_state();
+
   switch (cnt_layers) {
     case 1:
       game_state->score += 100;
@@ -95,13 +113,6 @@ void remove_full_layers() {
 
     default:
       break;
-  }
-
-  update_level();
-
-  if (game_state->score > game_state->high_score) {
-    game_state->high_score = game_state->score;
-    update_high_score();
   }
 }
 

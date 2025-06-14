@@ -48,7 +48,7 @@ void print_field(int color_flag, GameInfo_t game_state) {
 }
 
 void print_info_screen(GameInfo_t game_state) {
-  for (int i = 0; i < 12; i++) {
+  for (int i = 0; i < 15; i++) {
     mvaddch(BORDER_UP + i, BORDER_RIGHT * 2, '|');
   }
 
@@ -66,6 +66,11 @@ void print_info_screen(GameInfo_t game_state) {
            game_state.level);
   mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "speed: %d",
            game_state.speed);
+
+  k++;
+
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "PRESS 'p' to pause");
+  mvprintw(BORDER_UP + k++, BORDER_RIGHT * 2 + 1, "PRESS 'q' to finish game");
 
   k++;
 
