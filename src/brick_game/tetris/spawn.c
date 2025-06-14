@@ -139,7 +139,7 @@ void init_current_block() {
 
   copy_matrix_pt(game_state->next_block, &game_state->figure.matrix);
 
-  game_state->figure.x = FIELD_SIZE_X / 2 - 2;
+  game_state->figure.x = FIELD_SIZE_X / 2 - 1;
   game_state->figure.y = 0;
 
   game_state->figure.color = generate_color_code();
