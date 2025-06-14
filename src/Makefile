@@ -42,6 +42,9 @@ build_test_no_asan: clean tetris_lib.a $(TESTS_DIR)/*.c
 memcheck_back: clean build_test_no_asan
 	valgrind --tool=memcheck --leak-check=yes $(TESTS_DIR)/test
 
+memcheck_all: clean tetris
+	valgrind --tool=memcheck --leak-check=yes ./tetris
+
 gcov_report: clean
 	mkdir -p report
 	$(CC) $(СFLAGS) --coverage -fprofile-arcs -ftest-coverage $(TETRIS_DIR_BACK)*.c  $(TESTS_DIR)/*.c -o report/gcov_test -lcheck -lgcov -lsubunit -lm

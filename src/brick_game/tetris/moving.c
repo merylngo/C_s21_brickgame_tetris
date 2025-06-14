@@ -284,8 +284,8 @@ void move_left() {
   if (!able_to_move_down()) {
     attach_block();
   } else {
-    game_state->fsm_state = SHIFTING;
-    move_down();
+    //game_state->fsm_state = SHIFTING;
+    //move_down();
   }
 }
 
@@ -307,8 +307,8 @@ void move_right() {
   if (!able_to_move_down()) {
     attach_block();
   } else {
-    game_state->fsm_state = SHIFTING;
-    move_down();
+    //game_state->fsm_state = SHIFTING;
+    //move_down();
   }
 }
 
@@ -320,7 +320,7 @@ void move_right() {
  * game field.
  */
 void turn_left() {
-  BackGameInfo_t *game_state = get_game_state();
+  //BackGameInfo_t *game_state = get_game_state();
 
   if (able_to_turn_left()) {
     turn_left_matrix();
@@ -329,8 +329,8 @@ void turn_left() {
   if (!able_to_move_down()) {
     attach_block();
   } else {
-    game_state->fsm_state = SHIFTING;
-    move_down();
+    //game_state->fsm_state = SHIFTING;
+    //move_down();
   }
 }
 
@@ -379,6 +379,7 @@ void move_block(UserAction_t action) {
         break;
 
       case Empty:
+        //game_state->fsm_state == SHIFTING;
         move_down();
         break;
 
