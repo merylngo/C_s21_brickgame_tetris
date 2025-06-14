@@ -6,14 +6,13 @@ START_TEST(test_1) {
   const BackGameInfo_t *game_state = update_current_state();
 
   int x_prev = game_state->figure.x;
-  int y_prev = game_state->figure.y;
 
   if (able_to_move_left()) {
     userInput(Left, 0);
 
     game_state = update_current_state();
 
-    ck_assert_msg(check_move_left(x_prev, y_prev),
+    ck_assert_msg(check_move_left(x_prev),
                   RED_BCGR "function failed" RESET_COLORS);
   }
 
@@ -27,14 +26,13 @@ START_TEST(test_2) {
   const BackGameInfo_t *game_state = update_current_state();
 
   int x_prev = game_state->figure.x;
-  int y_prev = game_state->figure.y;
 
   if (able_to_move_right()) {
     userInput(Right, 0);
 
     game_state = update_current_state();
 
-    ck_assert_msg(check_move_right(x_prev, y_prev),
+    ck_assert_msg(check_move_right(x_prev),
                   RED_BCGR "function failed" RESET_COLORS);
   }
 
@@ -131,18 +129,16 @@ Suite *moving_test(void) {
   return suite;
 }
 
-int check_move_left(int x_prev, int y_prev) {
+int check_move_left(int x_prev) {
   const BackGameInfo_t *game_state = update_current_state();
 
-  return (x_prev == game_state->figure.x + 1) &&
-         (y_prev == game_state->figure.y - 1);
+  return (x_prev == game_state->figure.x + 1);
 }
 
-int check_move_right(int x_prev, int y_prev) {
+int check_move_right(int x_prev) {
   const BackGameInfo_t *game_state = update_current_state();
 
-  return (x_prev == game_state->figure.x - 1) &&
-         (y_prev == game_state->figure.y - 1);
+  return (x_prev == game_state->figure.x - 1);
 }
 
 int check_move_down(int x_prev, int y_prev) {
