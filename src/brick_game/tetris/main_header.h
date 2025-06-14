@@ -114,6 +114,11 @@ const BackGameInfo_t *update_current_state();
 GameInfo_t updateCurrentState();
 
 /**
+ * @brief Function copy_field_game_info(GameInfo_t *game_info);
+ */
+void copy_field_game_info(GameInfo_t *game_info);
+
+/**
  * @brief Function get_game_state()
 
  *

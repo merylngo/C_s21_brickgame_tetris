@@ -116,39 +116,36 @@ GameInfo_t updateCurrentState() {
   if (field_status == NORM && next_block_status == NORM) {
     if (game_state->fsm_state == GAME_OVER) {
       game_info.pause = 2;
-      return game_info;
     } else {
       game_info.pause = game_state->pause;
+      copy_field_game_info(&game_info);
+      copy_matrix_pt(game_state->next_block, &game_info.next);
     }
-
-    for (int i = 0; i < FIELD_SIZE_Y; i++) {
-      for (int j = 0; j < FIELD_SIZE_X; j++) {
-        game_info.field[i][j] = game_state->field[i][j];
-      }
-    }
-
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-      for (int j = 0; j < BLOCK_SIZE; j++) {
-        if (game_state->figure.matrix[i][j] &&
-            game_info.field[(game_state->figure.y + i) % FIELD_SIZE_Y]
-                           [(game_state->figure.x + j) % FIELD_SIZE_X] == 0) {
-          game_info.field[(game_state->figure.y + i) % FIELD_SIZE_Y]
-                         [(game_state->figure.x + j) % FIELD_SIZE_X] =
-              (int)game_state->figure.color;
-        }
-      }
-    }
-
-    copy_matrix_pt(game_state->next_block, &game_info.next);
   } else {
     game_state->fsm_state = GAME_OVER;
   }
 
-  if (game_state->fsm_state == GAME_OVER) {
-    game_info.pause = 2;
-  } else {
-    game_info.pause = game_state->pause;
+  return game_info;
+}
+
+void copy_field_game_info(GameInfo_t *game_info) {
+  BackGameInfo_t *game_state = get_game_state();
+
+  for (int i = 0; i < FIELD_SIZE_Y; i++) {
+    for (int j = 0; j < FIELD_SIZE_X; j++) {
+      game_info->field[i][j] = game_state->field[i][j];
+    }
   }
 
-  return game_info;
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    for (int j = 0; j < BLOCK_SIZE; j++) {
+      if (game_state->figure.matrix[i][j] &&
+          game_info->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                          [(game_state->figure.x + j) % FIELD_SIZE_X] == 0) {
+        game_info->field[(game_state->figure.y + i) % FIELD_SIZE_Y]
+                        [(game_state->figure.x + j) % FIELD_SIZE_X] =
+            (int)game_state->figure.color;
+      }
+    }
+  }
 }
