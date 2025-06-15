@@ -101,8 +101,8 @@ int get_high_score() {
 void init_game() {
   BackGameInfo_t *game_state = get_game_state();
 
-  game_state->speed = 1;
-  game_state->level = 1;
+  game_state->speed = 0;
+  game_state->level = 0;
   game_state->pause = 0;
   game_state->score = 0;
   game_state->high_score = get_high_score();
